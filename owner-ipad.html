@@ -621,7 +621,7 @@
     </section>
 
     <footer class="footer">
-      STEP TAKEOUT-8 LINKED / TAKEOUT-5-KITCHEN-IPAD-20260711
+      STEP TAKEOUT-8-R2 / TAKEOUT-8-R2-DATE-LINK-PHONE-COPY-LABEL-FIX-20260711
     </footer>
   </main>
 
@@ -643,7 +643,7 @@
       "use strict";
 
       const config = {
-        VERSION: "TAKEOUT-5-KITCHEN-IPAD-20260711",
+        VERSION: "TAKEOUT-8-R2-DATE-LINK-PHONE-COPY-LABEL-FIX-20260711",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         ADMIN_KEY: "1234",
@@ -780,6 +780,30 @@
         }).format(new Date());
       }
 
+      function isValidDateString(value) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ""))) return false;
+        const [year, month, day] = String(value).split("-").map(Number);
+        const date = new Date(Date.UTC(year, month - 1, day));
+        return (
+          date.getUTCFullYear() === year &&
+          date.getUTCMonth() === month - 1 &&
+          date.getUTCDate() === day
+        );
+      }
+
+      function getInitialDate() {
+        const requested = new URLSearchParams(location.search).get("date");
+        return isValidDateString(requested)
+          ? requested
+          : getTokyoDateString();
+      }
+
+      function activeOrderLabel() {
+        return state.date === getTokyoDateString()
+          ? "今日やる注文"
+          : "選択日の注文";
+      }
+
       function showToast(message, type = "normal") {
         el.toast.textContent = message;
         el.toast.className = `toast show${type === "error" ? " error" : ""}`;
@@ -792,7 +816,7 @@
 
       function renderSummary() {
         const cards = [
-          ["active", "今日やる注文", state.summary.active || 0, ""],
+          ["active", activeOrderLabel(), state.summary.active || 0, ""],
           ["received", "未確認", state.summary.received || 0, "received"],
           ["cooking_wait", "調理待ち", state.summary.cooking_wait || 0, "wait"],
           ["cooking", "調理中", state.summary.cooking || 0, "cooking"],
@@ -828,7 +852,7 @@
             <button type="button"
                     class="tab${state.view === view ? " active" : ""}"
                     data-view="${view}">
-              ${label} ${count}
+              ${view === "active" ? activeOrderLabel() : label} ${count}
             </button>
           `;
         }).join("");
@@ -872,7 +896,7 @@
         const orders = filteredOrders();
 
         const titleMap = {
-          active: ["今日やる注文", "未確認から受取待ちまでを表示します"],
+          active: [activeOrderLabel(), "未確認から受取待ちまでを表示します"],
           received: ["未確認", "新しい注文を確認してください"],
           confirmed: ["確認済み", "店舗確認済みの注文です"],
           cooking_wait: ["調理待ち", "調理開始を待っている注文です"],
@@ -1264,11 +1288,11 @@
       el.fullscreenButton.addEventListener("click", toggleFullscreen);
 
       el.receptionButton.addEventListener("click", () => {
-        window.open("./owner-reception.html?v=takeout-8", "_blank", "noopener");
+        window.open(`./owner-reception.html?date=${encodeURIComponent(state.date)}&v=takeout-8-r2`, "_blank", "noopener");
       });
 
       el.ownerPcButton.addEventListener("click", () => {
-        window.open("./owner.html?v=takeout-5-ipad-link", "_blank", "noopener");
+        window.open(`./owner.html?date=${encodeURIComponent(state.date)}&v=takeout-8-r2-ipad-link`, "_blank", "noopener");
       });
 
       el.logoutButton.addEventListener("click", () => {
@@ -1285,7 +1309,7 @@
       });
 
       async function initialize() {
-        state.date = getTokyoDateString();
+        state.date = getInitialDate();
         el.orderDate.value = state.date;
 
         updateClock();

@@ -566,7 +566,7 @@
     </div>
 
     <footer class="footer">
-      STEP TAKEOUT-8 LINKED / TAKEOUT-4-OWNER-PC-ORDER-MANAGEMENT-20260711
+      STEP TAKEOUT-8-R2 / TAKEOUT-8-R2-DATE-LINK-PHONE-COPY-LABEL-FIX-20260711
     </footer>
   </main>
 
@@ -578,7 +578,7 @@
       "use strict";
 
       const config = {
-        VERSION: "TAKEOUT-4-OWNER-PC-ORDER-MANAGEMENT-20260711",
+        VERSION: "TAKEOUT-8-R2-DATE-LINK-PHONE-COPY-LABEL-FIX-20260711",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         ADMIN_KEY: "1234",
@@ -704,6 +704,30 @@
         return `${year}年${month}月${day}日（${dayName}）`;
       }
 
+      function isValidDateString(value) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ""))) return false;
+        const [year, month, day] = String(value).split("-").map(Number);
+        const date = new Date(Date.UTC(year, month - 1, day));
+        return (
+          date.getUTCFullYear() === year &&
+          date.getUTCMonth() === month - 1 &&
+          date.getUTCDate() === day
+        );
+      }
+
+      function getInitialDate() {
+        const requested = new URLSearchParams(location.search).get("date");
+        return isValidDateString(requested)
+          ? requested
+          : getTokyoDateString();
+      }
+
+      function selectedDateOrderLabel() {
+        return state.date === getTokyoDateString()
+          ? "本日の注文"
+          : "選択日の注文";
+      }
+
       function showToast(message, type = "normal") {
         el.toast.textContent = message;
         el.toast.className = `toast show${type === "error" ? " error" : ""}`;
@@ -724,7 +748,7 @@
 
       function renderSummary() {
         const cards = [
-          ["total", "本日の注文", state.summary.total || 0, ""],
+          ["total", selectedDateOrderLabel(), state.summary.total || 0, ""],
           ["received", "未確認", state.summary.received || 0, "urgent"],
           ["cooking_wait", "調理待ち", state.summary.cooking_wait || 0, "cooking"],
           ["cooking", "調理中", state.summary.cooking || 0, "cooking"],
@@ -860,9 +884,11 @@
             <div class="order-main">
               <div class="customer-line">
                 <span class="customer-name">${escapeHtml(order.customer_name)}</span>
-                <a class="phone" href="tel:${escapeHtml(order.normalized_phone || order.phone)}">
-                  ${escapeHtml(order.phone || "")}
-                </a>
+                ${(order.phone || order.normalized_phone)
+                  ? `<a class="phone" href="tel:${escapeHtml(order.normalized_phone || order.phone)}">
+                      ${escapeHtml(order.phone || order.normalized_phone)}
+                    </a>`
+                  : ""}
               </div>
 
               <div class="items">${itemHtml}</div>
@@ -878,10 +904,12 @@
                           data-copy="${escapeHtml(order.order_number)}">
                     注文番号コピー
                   </button>
-                  <button type="button" class="link-button"
-                          data-copy="${escapeHtml(order.phone || "")}">
-                    電話番号コピー
-                  </button>
+                  ${(order.phone || order.normalized_phone)
+                    ? `<button type="button" class="link-button"
+                               data-copy="${escapeHtml(order.phone || order.normalized_phone)}">
+                         電話番号コピー
+                       </button>`
+                    : ""}
                 </div>
               </div>
             </div>
@@ -1152,7 +1180,7 @@
       });
 
       el.openReception.addEventListener("click", () => {
-        window.open("./owner-reception.html?v=takeout-8", "_blank", "noopener");
+        window.open(`./owner-reception.html?date=${encodeURIComponent(state.date)}&v=takeout-8-r2`, "_blank", "noopener");
       });
 
       el.openProducts.addEventListener("click", () => {
@@ -1164,7 +1192,7 @@
       });
 
       async function initialize() {
-        state.date = getTokyoDateString();
+        state.date = getInitialDate();
         el.orderDate.value = state.date;
 
         await loadShop().catch(() => {});
