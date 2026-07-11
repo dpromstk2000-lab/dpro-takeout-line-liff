@@ -666,6 +666,7 @@
           <span class="chip"><span class="dot"></span><span id="acceptStatus">受付状況を確認中</span></span>
           <span id="leadTimeChip" class="chip">最短受取時間を確認中</span>
           <button id="openReceiptLookup" class="hero-action" type="button">注文を確認</button>
+          <button id="openMemberPage" class="hero-action" type="button">マイページ</button>
         </div>
       </div>
     </header>
@@ -723,7 +724,7 @@
     </section>
 
     <footer class="footer">
-      STEP TAKEOUT-3 / TAKEOUT-3-STOCK-RECEIPT-20260711
+      STEP TAKEOUT-6 / TAKEOUT-6-MEMBER-CHANGE-CANCEL-REORDER-20260711
     </footer>
   </main>
 
@@ -887,7 +888,7 @@
       "use strict";
 
       const fallbackConfig = {
-        VERSION: "TAKEOUT-3-STOCK-RECEIPT-20260711",
+        VERSION: "TAKEOUT-6-MEMBER-CHANGE-CANCEL-REORDER-20260711",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         TIMEZONE: "Asia/Tokyo",
@@ -917,6 +918,7 @@
         acceptStatus: document.getElementById("acceptStatus"),
         leadTimeChip: document.getElementById("leadTimeChip"),
         openReceiptLookup: document.getElementById("openReceiptLookup"),
+        openMemberPage: document.getElementById("openMemberPage"),
         pickupDate: document.getElementById("pickupDate"),
         selectedDateCard: document.getElementById("selectedDateCard"),
         dateNotice: document.getElementById("dateNotice"),
@@ -1893,6 +1895,10 @@
 
       el.openReceiptLookup.addEventListener("click", () => {
         openReceiptSheet(state.lastOrder);
+      });
+      el.openMemberPage.addEventListener("click", () => {
+        const lineUserId = new URLSearchParams(location.search).get("line_user_id") || "";
+        location.href = `./member.html${lineUserId ? `?line_user_id=${encodeURIComponent(lineUserId)}` : ""}`;
       });
       el.lookupReceipt.addEventListener("click", lookupReceipt);
       el.receiptOrderNumber.addEventListener("keydown", (event) => {
