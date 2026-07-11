@@ -724,7 +724,7 @@
     </section>
 
     <footer class="footer">
-      STEP TAKEOUT-6 / TAKEOUT-6-MEMBER-CHANGE-CANCEL-REORDER-20260711
+      STEP TAKEOUT-6 / TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711
     </footer>
   </main>
 
@@ -806,7 +806,7 @@
           <label for="customerNote">ご要望・備考</label>
           <textarea id="customerNote" class="textarea" rows="3" maxlength="500" placeholder="アレルギーや受取時のご要望があれば入力してください"></textarea>
         </div>
-        <div class="notice green">お支払いは商品受取時の店頭支払いです。</div>
+        <div id="paymentNotice" class="notice green">お支払い方法を確認中です。</div>
       </div>
 
       <div class="button-stack">
@@ -888,7 +888,7 @@
       "use strict";
 
       const fallbackConfig = {
-        VERSION: "TAKEOUT-6-MEMBER-CHANGE-CANCEL-REORDER-20260711",
+        VERSION: "TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         TIMEZONE: "Asia/Tokyo",
@@ -917,6 +917,7 @@
         shopName: document.getElementById("shopName"),
         acceptStatus: document.getElementById("acceptStatus"),
         leadTimeChip: document.getElementById("leadTimeChip"),
+        paymentNotice: document.getElementById("paymentNotice"),
         openReceiptLookup: document.getElementById("openReceiptLookup"),
         openMemberPage: document.getElementById("openMemberPage"),
         pickupDate: document.getElementById("pickupDate"),
@@ -1732,6 +1733,10 @@
             ? "ただいま注文受付中"
             : "現在受付停止中";
           el.leadTimeChip.textContent = `受取${Number(state.settings.min_lead_minutes || 0)}分前まで受付`;
+          const paymentMethods = Array.isArray(state.settings.payment_methods) && state.settings.payment_methods.length
+            ? state.settings.payment_methods
+            : [state.settings.payment_method || "店頭支払い"];
+          el.paymentNotice.textContent = `お支払い：${paymentMethods.join("・")}`;
 
           buildDateOptions();
           await selectFirstAvailableDate();

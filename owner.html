@@ -532,6 +532,7 @@
         <span id="lastUpdated">未更新</span>
         <button id="openReception" class="top-button" type="button">電話・店頭受付</button>
         <button id="openProducts" class="top-button" type="button">商品管理</button>
+        <button id="openSettings" class="top-button" type="button">店舗設定</button>
         <button id="openCustomer" class="top-button" type="button">お客様画面</button>
         <button id="logoutButton" class="top-button" type="button">ログアウト</button>
       </div>
@@ -566,7 +567,7 @@
     </div>
 
     <footer class="footer">
-      STEP TAKEOUT-8-R2 / TAKEOUT-8-R2-DATE-LINK-PHONE-COPY-LABEL-FIX-20260711
+      STEP TAKEOUT-9 / TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711
     </footer>
   </main>
 
@@ -578,7 +579,7 @@
       "use strict";
 
       const config = {
-        VERSION: "TAKEOUT-8-R2-DATE-LINK-PHONE-COPY-LABEL-FIX-20260711",
+        VERSION: "TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         ADMIN_KEY: "1234",
@@ -624,6 +625,7 @@
         lastUpdated: document.getElementById("lastUpdated"),
         openReception: document.getElementById("openReception"),
         openProducts: document.getElementById("openProducts"),
+        openSettings: document.getElementById("openSettings"),
         openCustomer: document.getElementById("openCustomer"),
         logoutButton: document.getElementById("logoutButton"),
         orderDate: document.getElementById("orderDate"),
@@ -1184,7 +1186,11 @@
       });
 
       el.openProducts.addEventListener("click", () => {
-        window.open("./owner-products.html?v=takeout-7", "_blank", "noopener");
+        window.open("./owner-products.html?v=takeout-9-owner-link", "_blank", "noopener");
+      });
+
+      el.openSettings.addEventListener("click", () => {
+        location.href = `./owner-settings.html?date=${encodeURIComponent(state.date)}&v=takeout-9-owner-link`;
       });
 
       el.openCustomer.addEventListener("click", () => {

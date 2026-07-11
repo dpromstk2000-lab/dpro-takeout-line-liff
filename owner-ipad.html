@@ -590,6 +590,7 @@
         <button id="fullscreenButton" class="header-button" type="button">全画面</button>
         <button id="receptionButton" class="header-button" type="button">電話・店頭受付</button>
         <button id="ownerPcButton" class="header-button" type="button">PC管理</button>
+        <button id="settingsButton" class="header-button" type="button">店舗設定</button>
         <button id="logoutButton" class="header-button" type="button">終了</button>
       </div>
     </header>
@@ -621,7 +622,7 @@
     </section>
 
     <footer class="footer">
-      STEP TAKEOUT-8-R2 / TAKEOUT-8-R2-DATE-LINK-PHONE-COPY-LABEL-FIX-20260711
+      STEP TAKEOUT-9 / TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711
     </footer>
   </main>
 
@@ -643,7 +644,7 @@
       "use strict";
 
       const config = {
-        VERSION: "TAKEOUT-8-R2-DATE-LINK-PHONE-COPY-LABEL-FIX-20260711",
+        VERSION: "TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         ADMIN_KEY: "1234",
@@ -703,6 +704,7 @@
         fullscreenButton: document.getElementById("fullscreenButton"),
         receptionButton: document.getElementById("receptionButton"),
         ownerPcButton: document.getElementById("ownerPcButton"),
+        settingsButton: document.getElementById("settingsButton"),
         logoutButton: document.getElementById("logoutButton"),
         orderDate: document.getElementById("orderDate"),
         searchInput: document.getElementById("searchInput"),
@@ -1292,7 +1294,11 @@
       });
 
       el.ownerPcButton.addEventListener("click", () => {
-        window.open(`./owner.html?date=${encodeURIComponent(state.date)}&v=takeout-8-r2-ipad-link`, "_blank", "noopener");
+        window.open(`./owner.html?date=${encodeURIComponent(state.date)}&v=takeout-9-ipad-link`, "_blank", "noopener");
+      });
+
+      el.settingsButton.addEventListener("click", () => {
+        location.href = `./owner-settings.html?date=${encodeURIComponent(state.date)}&v=takeout-9-ipad-link`;
       });
 
       el.logoutButton.addEventListener("click", () => {

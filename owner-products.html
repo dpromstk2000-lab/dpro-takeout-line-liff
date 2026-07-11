@@ -70,6 +70,7 @@
       <div class="brand"><small>DPRO TAKEOUT LINE</small><h1 id="shopName">商品・写真管理</h1></div>
       <div class="top-actions">
         <button id="ownerButton" class="top-button" type="button">注文管理</button>
+        <button id="settingsButton" class="top-button" type="button">店舗設定</button>
         <button id="customerButton" class="top-button" type="button">お客様画面</button>
         <button id="logoutButton" class="top-button" type="button">ログアウト</button>
       </div>
@@ -95,7 +96,7 @@
       </section>
     </div>
 
-    <footer class="footer">STEP TAKEOUT-7-R1 / TAKEOUT-7-R1-PRODUCT-STOCK-NULL-FIX-20260711</footer>
+    <footer class="footer">STEP TAKEOUT-9 / TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711</footer>
   </main>
 
   <div id="toast" class="toast"></div>
@@ -106,7 +107,7 @@
       "use strict";
 
       const config = {
-        VERSION: "TAKEOUT-7-R1-PRODUCT-STOCK-NULL-FIX-20260711",
+        VERSION: "TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         ADMIN_KEY: "1234",
@@ -129,7 +130,7 @@
       const yen = new Intl.NumberFormat("ja-JP");
       const el = {
         loginOverlay:document.getElementById("loginOverlay"),loginForm:document.getElementById("loginForm"),adminKeyInput:document.getElementById("adminKeyInput"),
-        shopName:document.getElementById("shopName"),ownerButton:document.getElementById("ownerButton"),customerButton:document.getElementById("customerButton"),logoutButton:document.getElementById("logoutButton"),
+        shopName:document.getElementById("shopName"),ownerButton:document.getElementById("ownerButton"),settingsButton:document.getElementById("settingsButton"),customerButton:document.getElementById("customerButton"),logoutButton:document.getElementById("logoutButton"),
         summaryGrid:document.getElementById("summaryGrid"),searchInput:document.getElementById("searchInput"),refreshButton:document.getElementById("refreshButton"),newButton:document.getElementById("newButton"),
         productList:document.getElementById("productList"),listCount:document.getElementById("listCount"),editorTitle:document.getElementById("editorTitle"),updatedAt:document.getElementById("updatedAt"),editor:document.getElementById("editor"),toast:document.getElementById("toast")
       };
@@ -400,7 +401,8 @@
       el.searchInput.addEventListener("input",renderList);
       el.refreshButton.addEventListener("click",()=>loadProducts());
       el.newButton.addEventListener("click",newProduct);
-      el.ownerButton.addEventListener("click",()=>location.href="./owner.html?v=takeout-7-products-link");
+      el.ownerButton.addEventListener("click",()=>location.href="./owner.html?v=takeout-9-products-link");
+      el.settingsButton.addEventListener("click",()=>location.href="./owner-settings.html?v=takeout-9-products-link");
       el.customerButton.addEventListener("click",()=>window.open("./?v=takeout-7-products-link","_blank","noopener"));
       el.logoutButton.addEventListener("click",()=>{state.adminKey="";sessionStorage.removeItem("takeout_admin_key");el.adminKeyInput.value="";el.loginOverlay.classList.remove("hidden");el.adminKeyInput.focus()});
 
