@@ -146,14 +146,14 @@
         <section class="notice green"><strong>設定の反映先</strong><br>注文受付ON/OFF、受付締切、受付期間、定休日、臨時休業、受取枠は、お客様注文・電話受付・マイページの変更可否へ反映されます。</section>
       </aside>
     </div>
-    <div class="footer">STEP TAKEOUT-9-R1 / TAKEOUT-9-R1-SETTINGS-INDEX-COMPACT-20260711</div>
+    <div class="footer">STEP TAKEOUT-9-R2 / TAKEOUT-9-R2-INDEX-ACTIVE-STATE-FIX-20260711</div>
   </div>
   <div id="toast" class="toast" role="status"></div>
 
   <script src="./config.js"></script>
   <script>
   (()=>{"use strict";
-    const config={VERSION:"TAKEOUT-9-R1-SETTINGS-INDEX-COMPACT-20260711",SHOP_CODE:"takeout_demo",API_BASE_URL:"https://dpro-takeout-line-api.dpromstk2000.workers.dev",ADMIN_KEY:"1234",...(window.DPRO_TAKEOUT_CONFIG||{})};
+    const config={VERSION:"TAKEOUT-9-R2-INDEX-ACTIVE-STATE-FIX-20260711",SHOP_CODE:"takeout_demo",API_BASE_URL:"https://dpro-takeout-line-api.dpromstk2000.workers.dev",ADMIN_KEY:"1234",...(window.DPRO_TAKEOUT_CONFIG||{})};
     const weekdays=["日","月","火","水","木","金","土"];
     const paymentCandidates=["店頭支払い","現金","クレジットカード","QRコード決済","支払い済み"];
     const state={adminKey:sessionStorage.getItem("takeout_admin_key")||"",shop:null,settings:null,regularClosed:new Set(),specialClosed:[],slots:new Map(),activeWeekday:1,snapshot:"",dirty:false,loading:false};
@@ -169,6 +169,7 @@
     function toMinutes(t){const [h,m]=String(t).split(":").map(Number);return h*60+m}
     function timesBetween(start,end){const result=[];for(let m=toMinutes(start);m<=toMinutes(end);m+=30)result.push(`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`);return result}
     function slotKey(day,time){return `${day}|${time}`}
+    const sectionNavigation={lockedId:"",lockUntil:0,scrollRaf:0,releaseTimer:0};
     function sectionNode(id){return document.getElementById(id)}
     function setSectionCollapsed(id,collapsed){
       const section=sectionNode(id);if(!section)return;
@@ -176,24 +177,83 @@
       const button=section.querySelector(`[data-toggle-section="${id}"]`);
       if(button){button.textContent=collapsed?"開く":"閉じる";button.setAttribute("aria-expanded",String(!collapsed))}
     }
-    function activateSection(id){
+    function activateSection(id,{force=false}={}){
+      if(!id)return;
+      const lockActive=sectionNavigation.lockedId&&Date.now()<sectionNavigation.lockUntil;
+      if(!force&&lockActive&&id!==sectionNavigation.lockedId)return;
       document.querySelectorAll("[data-nav-section]").forEach(button=>button.classList.toggle("active",button.dataset.navSection===id));
-      if(el.mobileSectionSelect)el.mobileSectionSelect.value=id;
+      if(el.mobileSectionSelect&&el.mobileSectionSelect.value!==id)el.mobileSectionSelect.value=id;
+    }
+    function sectionIds(){return [...document.querySelectorAll("[data-section]")].map(section=>section.id)}
+    function currentSectionFromScroll(){
+      const sections=sectionIds().map(sectionNode).filter(Boolean);
+      if(!sections.length)return"section-status";
+      const anchor=Math.min(Math.max(window.innerHeight*.22,100),190);
+      let current=sections[0];
+      for(const section of sections){
+        const rect=section.getBoundingClientRect();
+        if(rect.top<=anchor)current=section;
+        else break;
+      }
+      const nearBottom=window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-24;
+      if(nearBottom)current=sections[sections.length-1];
+      return current.id;
+    }
+    function syncSectionFromScroll(){
+      if(sectionNavigation.scrollRaf)return;
+      sectionNavigation.scrollRaf=requestAnimationFrame(()=>{
+        sectionNavigation.scrollRaf=0;
+        if(sectionNavigation.lockedId&&Date.now()<sectionNavigation.lockUntil)return;
+        sectionNavigation.lockedId="";
+        activateSection(currentSectionFromScroll(),{force:true});
+      });
+    }
+    function releaseSectionLock(id){
+      clearTimeout(sectionNavigation.releaseTimer);
+      sectionNavigation.releaseTimer=setTimeout(()=>{
+        if(sectionNavigation.lockedId!==id)return;
+        sectionNavigation.lockedId="";
+        sectionNavigation.lockUntil=0;
+        activateSection(currentSectionFromScroll(),{force:true});
+      },1050);
     }
     function openAndScrollSection(id){
       const section=sectionNode(id);if(!section)return;
-      setSectionCollapsed(id,false);activateSection(id);
-      requestAnimationFrame(()=>section.scrollIntoView({behavior:"smooth",block:"start"}));
+      setSectionCollapsed(id,false);
+      sectionNavigation.lockedId=id;
+      sectionNavigation.lockUntil=Date.now()+1800;
+      activateSection(id,{force:true});
+      history.replaceState(null,"",`${location.pathname}${location.search}#${id}`);
+      requestAnimationFrame(()=>{
+        const targetTop=Math.max(0,section.getBoundingClientRect().top+window.scrollY-16);
+        window.scrollTo({top:targetTop,behavior:"smooth"});
+        releaseSectionLock(id);
+      });
     }
     function initializeSectionNavigation(){
-      document.querySelectorAll("[data-toggle-section]").forEach(button=>button.addEventListener("click",()=>{const id=button.dataset.toggleSection;const section=sectionNode(id);setSectionCollapsed(id,!section.classList.contains("collapsed"))}));
+      document.querySelectorAll("[data-toggle-section]").forEach(button=>button.addEventListener("click",()=>{
+        const id=button.dataset.toggleSection,section=sectionNode(id);
+        setSectionCollapsed(id,!section.classList.contains("collapsed"));
+        activateSection(id,{force:true});
+      }));
       document.querySelectorAll("[data-nav-section]").forEach(button=>button.addEventListener("click",()=>openAndScrollSection(button.dataset.navSection)));
       el.mobileSectionSelect?.addEventListener("change",()=>openAndScrollSection(el.mobileSectionSelect.value));
-      el.openAllSections?.addEventListener("click",()=>document.querySelectorAll("[data-section]").forEach(section=>setSectionCollapsed(section.id,false)));
-      el.closeLongSections?.addEventListener("click",()=>{setSectionCollapsed("section-holidays",true);setSectionCollapsed("section-slots",true);openAndScrollSection("section-status")});
-      if("IntersectionObserver" in window){
-        const observer=new IntersectionObserver(entries=>{const visible=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(visible)activateSection(visible.target.id)},{rootMargin:"-18% 0px -65% 0px",threshold:[0,.1,.25,.5]});
-        document.querySelectorAll("[data-section]").forEach(section=>observer.observe(section));
+      el.openAllSections?.addEventListener("click",()=>{
+        document.querySelectorAll("[data-section]").forEach(section=>setSectionCollapsed(section.id,false));
+        activateSection(currentSectionFromScroll(),{force:true});
+      });
+      el.closeLongSections?.addEventListener("click",()=>{
+        setSectionCollapsed("section-holidays",true);
+        setSectionCollapsed("section-slots",true);
+        openAndScrollSection("section-status");
+      });
+      window.addEventListener("scroll",syncSectionFromScroll,{passive:true});
+      window.addEventListener("resize",syncSectionFromScroll,{passive:true});
+      const requestedHash=location.hash.replace(/^#/,"");
+      if(sectionNode(requestedHash)){
+        setTimeout(()=>openAndScrollSection(requestedHash),80);
+      }else{
+        activateSection(currentSectionFromScroll(),{force:true});
       }
     }
     function renderStatus(){const active=el.isAcceptingOrders.checked;el.statusBox.classList.toggle("stopped",!active);el.statusTitle.textContent=active?"注文を受け付けています":"注文受付を停止しています";el.statusDesc.textContent=active?"お客様は受付可能な日付・時間を選択できます。":"お客様画面の受取枠はすべて受付停止になります。";el.summaryAccepting.textContent=active?"受付中":"停止中";el.summaryAccepting.className=`summary-value ${active?"green":"red"}`}
