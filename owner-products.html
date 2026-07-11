@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f3ee">
+  <title>DPRO テイクアウト 商品管理</title>
+  <style>
+    :root {
+      --bg:#f7f3ee;--card:#fff;--ink:#302923;--sub:#766b63;--line:#e8ddd4;
+      --accent:#ec572f;--accent-dark:#c9401f;--accent-soft:#fff0e8;
+      --green:#23865b;--green-soft:#e8f7ef;--red:#c9423b;--red-soft:#fff0ef;
+      --amber:#9b6417;--amber-soft:#fff4dc;--blue:#2e70bd;--blue-soft:#eaf2fc;
+      --shadow:0 12px 34px rgba(64,45,32,.09);--radius:20px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;color:var(--ink);background:radial-gradient(circle at top right,#ffe8da 0,transparent 31%),var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.55}
+    button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55}
+    .shell{width:min(1500px,100%);margin:0 auto;padding:16px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;color:#fff;background:linear-gradient(135deg,#ef643d,#c83e1d);border-radius:24px;box-shadow:var(--shadow)}
+    .brand small{display:block;font-size:11px;font-weight:900;letter-spacing:.12em;opacity:.86}.brand h1{margin:3px 0 0;font-size:clamp(23px,3vw,32px)}
+    .top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .top-button{min-height:44px;border:1px solid rgba(255,255,255,.35);border-radius:12px;color:#fff;background:rgba(255,255,255,.13);padding:9px 13px;font-weight:900}
+    .summary-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}
+    .summary{padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:0 7px 20px rgba(64,45,32,.06)}
+    .summary span{display:block;color:var(--sub);font-size:12px;font-weight:800}.summary strong{display:block;font-size:29px;line-height:1.1}
+    .toolbar{display:grid;grid-template-columns:minmax(220px,1fr) auto auto;gap:9px;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:var(--shadow)}
+    .input,.select,.textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:11px 12px;outline:none}.input:focus,.select:focus,.textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+    .primary,.secondary,.danger{min-height:45px;border-radius:12px;padding:10px 15px;font-weight:900}.primary{border:0;color:#fff;background:var(--accent)}.secondary{border:1px solid var(--line);color:var(--ink);background:#fff}.danger{border:1px solid #edc4c0;color:var(--red);background:var(--red-soft)}
+    .workspace{display:grid;grid-template-columns:minmax(360px,.86fr) minmax(540px,1.4fr);gap:14px;margin-top:14px;align-items:start}
+    .panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);overflow:hidden}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 16px;border-bottom:1px solid var(--line)}.panel-head h2{margin:0;font-size:19px}.panel-head span{color:var(--sub);font-size:12px}
+    .product-list{display:grid;gap:8px;padding:11px;max-height:calc(100vh - 280px);overflow:auto}
+    .product-card{display:grid;grid-template-columns:78px minmax(0,1fr) auto;gap:11px;align-items:center;border:1px solid var(--line);border-radius:15px;background:#fff;padding:9px;text-align:left}
+    .product-card.active{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}.product-card.hidden-product{opacity:.62}
+    .thumb{position:relative;width:78px;height:78px;border-radius:12px;overflow:hidden;background:linear-gradient(145deg,#fff0e4,#ffd6be);display:grid;place-items:center;font-size:34px}.thumb img{width:100%;height:100%;object-fit:cover}
+    .soldout{position:absolute;inset:auto 4px 4px;padding:4px 6px;border-radius:7px;color:#fff;background:rgba(55,43,36,.88);font-size:9px;font-weight:900}
+    .product-card h3{margin:0;font-size:15px}.meta{color:var(--sub);font-size:11px}.card-price{font-size:17px;font-weight:950;white-space:nowrap}
+    .badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}.badge{border-radius:999px;padding:4px 7px;font-size:9px;font-weight:900;background:#f1efed;color:var(--sub)}.badge.green{background:var(--green-soft);color:#176945}.badge.red{background:var(--red-soft);color:#9b312c}.badge.amber{background:var(--amber-soft);color:#85550f}
+    .editor{padding:16px}.editor.empty{display:grid;place-items:center;min-height:470px;color:var(--sub)}
+    .photo-section{display:grid;grid-template-columns:210px minmax(0,1fr);gap:15px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+    .photo-preview{position:relative;width:210px;height:158px;border-radius:16px;overflow:hidden;background:linear-gradient(145deg,#fff0e4,#ffd5bd);display:grid;place-items:center;font-size:60px}.photo-preview img{width:100%;height:100%;object-fit:cover}
+    .photo-help{color:var(--sub);font-size:12px}.photo-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.file-input{display:none}
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:15px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label,.label{font-size:12px;font-weight:900}.required{color:var(--red)}
+    .switch-row{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:49px;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.switch-row input{width:20px;height:20px}
+    .weekdays{display:flex;gap:7px;flex-wrap:wrap}.weekday{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff;font-size:12px;font-weight:800}.weekday input{margin:0}
+    .options-box{margin-top:17px;padding-top:15px;border-top:1px solid var(--line)}.options-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}.options-head h3{margin:0;font-size:17px}
+    .options{display:grid;gap:8px}.option-row{display:grid;grid-template-columns:1fr 1fr 120px 75px auto;gap:7px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:12px;background:#fffaf7}.option-row .input{padding:9px 10px}.icon-button{width:38px;height:38px;border:1px solid #edc7c3;border-radius:10px;color:var(--red);background:var(--red-soft);font-weight:950}
+    .save-bar{position:sticky;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px -16px -16px;padding:13px 16px;border-top:1px solid var(--line);background:rgba(255,255,255,.96);backdrop-filter:blur(8px)}.save-message{color:var(--sub);font-size:12px}
+    .loading,.empty-list{padding:40px 18px;text-align:center;color:var(--sub)}.spinner{width:29px;height:29px;margin:0 auto 8px;border:3px solid #f1d8cc;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .login-overlay{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:18px;background:rgba(42,32,27,.56);backdrop-filter:blur(8px)}.login-overlay.hidden{display:none}.login-card{width:min(420px,100%);padding:23px;border-radius:22px;background:#fff;box-shadow:0 22px 60px rgba(33,24,19,.28)}.login-card h2{margin:0}.login-card p{color:var(--sub);font-size:13px}.login-card .input{margin:9px 0}
+    .toast{position:fixed;z-index:130;left:50%;bottom:22px;transform:translate(-50%,18px);width:min(calc(100% - 30px),700px);padding:13px 15px;border-radius:13px;color:#fff;background:#302721;text-align:center;font-size:13px;font-weight:900;opacity:0;pointer-events:none;transition:.23s;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.error{background:var(--red)}
+    .footer{padding:17px 0 3px;color:#988b83;text-align:center;font-size:10px}
+    @media(max-width:1050px){.workspace{grid-template-columns:1fr}.product-list{max-height:420px}.summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:680px){.shell{padding:9px}.topbar{align-items:flex-start;flex-direction:column;border-radius:18px}.toolbar{grid-template-columns:1fr}.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.photo-section{grid-template-columns:1fr}.photo-preview{width:100%;height:210px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.option-row{grid-template-columns:1fr 1fr}.option-row .option-price,.option-row .option-order{grid-column:auto}.option-row .icon-button{grid-column:2;justify-self:end}.save-bar{flex-direction:column;align-items:stretch}}
+  </style>
+</head>
+<body>
+  <div id="loginOverlay" class="login-overlay">
+    <form id="loginForm" class="login-card">
+      <h2>商品管理</h2>
+      <p>管理コードを入力してください。デモ用管理コードは1234です。</p>
+      <input id="adminKeyInput" class="input" type="password" inputmode="numeric" autocomplete="current-password" placeholder="管理コード">
+      <button class="primary" type="submit" style="width:100%">商品管理を開く</button>
+    </form>
+  </div>
+
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><small>DPRO TAKEOUT LINE</small><h1 id="shopName">商品・写真管理</h1></div>
+      <div class="top-actions">
+        <button id="ownerButton" class="top-button" type="button">注文管理</button>
+        <button id="customerButton" class="top-button" type="button">お客様画面</button>
+        <button id="logoutButton" class="top-button" type="button">ログアウト</button>
+      </div>
+    </header>
+
+    <section id="summaryGrid" class="summary-grid"></section>
+
+    <section class="toolbar">
+      <input id="searchInput" class="input" type="search" placeholder="商品名・カテゴリーで検索">
+      <button id="refreshButton" class="secondary" type="button">更新</button>
+      <button id="newButton" class="primary" type="button">＋ 新しい商品</button>
+    </section>
+
+    <div class="workspace">
+      <section class="panel">
+        <div class="panel-head"><h2>商品一覧</h2><span id="listCount">0件</span></div>
+        <div id="productList" class="product-list"><div class="loading"><div class="spinner"></div>商品を読み込み中</div></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2 id="editorTitle">商品を選択してください</h2><span id="updatedAt"></span></div>
+        <div id="editor" class="editor empty">左の商品を選択するか、「新しい商品」を押してください。</div>
+      </section>
+    </div>
+
+    <footer class="footer">STEP TAKEOUT-7 / TAKEOUT-7-PRODUCT-PHOTO-MANAGEMENT-20260711</footer>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="./config.js"></script>
+  <script>
+    (() => {
+      "use strict";
+
+      const config = {
+        VERSION: "TAKEOUT-7-PRODUCT-PHOTO-MANAGEMENT-20260711",
+        SHOP_CODE: "takeout_demo",
+        API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
+        ADMIN_KEY: "1234",
+        PRODUCT_IMAGE_MAX_BYTES: 1048576,
+        ...(window.DPRO_TAKEOUT_CONFIG || {}),
+      };
+
+      const state = {
+        adminKey: sessionStorage.getItem("takeout_admin_key") || "",
+        products: [],
+        summary: {},
+        selectedId: "",
+        draft: null,
+        original: null,
+        loading: false,
+        saving: false,
+      };
+
+      const weekdays = [["0","日"],["1","月"],["2","火"],["3","水"],["4","木"],["5","金"],["6","土"]];
+      const yen = new Intl.NumberFormat("ja-JP");
+      const el = {
+        loginOverlay:document.getElementById("loginOverlay"),loginForm:document.getElementById("loginForm"),adminKeyInput:document.getElementById("adminKeyInput"),
+        shopName:document.getElementById("shopName"),ownerButton:document.getElementById("ownerButton"),customerButton:document.getElementById("customerButton"),logoutButton:document.getElementById("logoutButton"),
+        summaryGrid:document.getElementById("summaryGrid"),searchInput:document.getElementById("searchInput"),refreshButton:document.getElementById("refreshButton"),newButton:document.getElementById("newButton"),
+        productList:document.getElementById("productList"),listCount:document.getElementById("listCount"),editorTitle:document.getElementById("editorTitle"),updatedAt:document.getElementById("updatedAt"),editor:document.getElementById("editor"),toast:document.getElementById("toast")
+      };
+
+      function apiUrl(path, params={}) {
+        const url=new URL(String(config.API_BASE_URL).replace(/\/+$/,"")+path);
+        Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null&&v!=="")url.searchParams.set(k,String(v))});
+        return url.toString();
+      }
+
+      async function api(path, options={}, params={}) {
+        const isForm=options.body instanceof FormData;
+        const response=await fetch(apiUrl(path,params),{
+          ...options,
+          headers:{
+            "X-Admin-Key":state.adminKey,
+            ...(isForm?{}:{"Content-Type":"application/json"}),
+            ...(options.headers||{})
+          }
+        });
+        const data=await response.json().catch(()=>null);
+        if(!response.ok||!data?.ok){
+          const error=new Error(data?.message||`通信に失敗しました（${response.status}）`);
+          error.status=response.status;
+          throw error;
+        }
+        return data;
+      }
+
+      function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+      function money(v){return `${yen.format(Number(v||0))}円`}
+      function emoji(category=""){if(category.includes("カレー"))return"🍛";if(category.includes("丼"))return"🍚";if(category.includes("飲"))return"🥤";if(category.includes("惣菜"))return"🥗";return"🍱"}
+      function toast(message,type="normal"){el.toast.textContent=message;el.toast.className=`toast show${type==="error"?" error":""}`;clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.toast.className="toast",2800)}
+      function clone(v){return JSON.parse(JSON.stringify(v))}
+      function today(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())}
+      function formatTime(value){if(!value)return"";try{return new Intl.DateTimeFormat("ja-JP",{timeZone:"Asia/Tokyo",month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}).format(new Date(value))}catch{return""}}
+
+      function renderSummary(){
+        const cards=[
+          ["商品数",state.summary.total||0],["お客様に表示",state.summary.visible||0],["売り切れ",state.summary.sold_out||0],["日別在庫",state.summary.daily_stock||0],["写真登録済み",state.summary.with_image||0]
+        ];
+        el.summaryGrid.innerHTML=cards.map(([label,count])=>`<div class="summary"><span>${label}</span><strong>${count}</strong></div>`).join("");
+      }
+
+      function filteredProducts(){
+        const q=el.searchInput.value.trim().normalize("NFKC").toLowerCase();
+        if(!q)return state.products;
+        return state.products.filter(p=>`${p.product_name} ${p.category}`.normalize("NFKC").toLowerCase().includes(q));
+      }
+
+      function renderList(){
+        const products=filteredProducts();
+        el.listCount.textContent=`${products.length}件`;
+        if(!products.length){el.productList.innerHTML='<div class="empty-list">該当する商品はありません。</div>';return}
+        el.productList.innerHTML=products.map(p=>{
+          const stock=p.stock_type==="daily"?(p.stock_summary?.remaining_stock===null?`上限 ${p.daily_stock??0}個`:`残り ${p.stock_summary.remaining_stock}個`):"在庫上限なし";
+          return `<button type="button" class="product-card${state.selectedId===p.id?" active":""}${p.is_visible?"":" hidden-product"}" data-product-id="${p.id}">
+            <div class="thumb">${p.image_url?`<img src="${esc(p.image_url)}?v=${encodeURIComponent(p.image_updated_at||p.updated_at||"")}" alt="${esc(p.product_name)}">`:emoji(p.category)}${p.is_sold_out?'<span class="soldout">売り切れ</span>':""}</div>
+            <div><h3>${esc(p.product_name)}</h3><div class="meta">${esc(p.category)}・表示順 ${p.display_order}</div><div class="badges"><span class="badge ${p.is_visible?"green":""}">${p.is_visible?"表示中":"非表示"}</span>${p.is_sold_out?'<span class="badge red">売り切れ</span>':`<span class="badge amber">${esc(stock)}</span>`}</div></div>
+            <span class="card-price">${money(p.price)}</span>
+          </button>`;
+        }).join("");
+      }
+
+      function blankProduct(){
+        return {id:"",category:"おすすめ",product_name:"",description:"",price:0,image_url:null,image_path:null,display_order:(state.products.length+1)*10,is_visible:true,is_sold_out:false,stock_type:"unlimited",daily_stock:null,available_weekdays:[0,1,2,3,4,5,6],sale_start_date:null,sale_end_date:null,options:[]};
+      }
+
+      function selectProduct(id){
+        const product=state.products.find(p=>p.id===id);
+        if(!product)return;
+        state.selectedId=id;state.draft=clone(product);state.original=clone(product);renderList();renderEditor();
+      }
+
+      function newProduct(){
+        state.selectedId="";state.draft=blankProduct();state.original=clone(state.draft);renderList();renderEditor();setTimeout(()=>document.getElementById("productName")?.focus(),50);
+      }
+
+      function renderEditor(){
+        const p=state.draft;
+        if(!p){el.editorTitle.textContent="商品を選択してください";el.updatedAt.textContent="";el.editor.className="editor empty";el.editor.textContent="左の商品を選択するか、「新しい商品」を押してください。";return}
+        el.editor.className="editor";
+        el.editorTitle.textContent=p.id?`${p.product_name}を編集`:"新しい商品";
+        el.updatedAt.textContent=p.updated_at?`更新 ${formatTime(p.updated_at)}`:"";
+        el.editor.innerHTML=`
+          <div class="photo-section">
+            <div id="photoPreview" class="photo-preview">${p.image_url?`<img src="${esc(p.image_url)}?v=${encodeURIComponent(p.image_updated_at||p.updated_at||"")}" alt="${esc(p.product_name)}">`:emoji(p.category)}</div>
+            <div>
+              <strong>商品写真</strong>
+              <p class="photo-help">JPEG・PNG・WEBP。画面側で自動縮小し、1MB以内で保存します。写真がない場合はカテゴリー別アイコンを表示します。</p>
+              <div class="photo-actions">
+                <label class="primary" for="photoInput">${p.image_url?"写真を変更":"写真を登録"}</label>
+                <input id="photoInput" class="file-input" type="file" accept="image/jpeg,image/png,image/webp,image/*" ${p.id?"":"disabled"}>
+                <button id="deletePhotoButton" class="danger" type="button" ${p.image_url&&p.id?"":"disabled"}>写真を削除</button>
+              </div>
+              ${p.id?"":'<p class="photo-help">先に商品情報を保存すると写真を登録できます。</p>'}
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field"><label for="productName">商品名 <span class="required">必須</span></label><input id="productName" class="input" maxlength="120" value="${esc(p.product_name)}"></div>
+            <div class="field"><label for="category">カテゴリー <span class="required">必須</span></label><input id="category" class="input" maxlength="80" value="${esc(p.category)}" list="categoryList"><datalist id="categoryList">${[...new Set(state.products.map(x=>x.category))].map(x=>`<option value="${esc(x)}">`).join("")}</datalist></div>
+            <div class="field full"><label for="description">商品説明</label><textarea id="description" class="textarea" maxlength="1000" rows="3">${esc(p.description||"")}</textarea></div>
+            <div class="field"><label for="price">税込価格 <span class="required">必須</span></label><input id="price" class="input" type="number" min="0" max="1000000" step="1" value="${Number(p.price||0)}"></div>
+            <div class="field"><label for="displayOrder">表示順</label><input id="displayOrder" class="input" type="number" min="0" max="9999" step="1" value="${Number(p.display_order||0)}"></div>
+            <div class="field"><div class="switch-row"><span><strong>お客様画面に表示</strong><br><small>OFFで商品を非表示</small></span><input id="isVisible" type="checkbox" ${p.is_visible?"checked":""}></div></div>
+            <div class="field"><div class="switch-row"><span><strong>売り切れ</strong><br><small>ONですぐ注文停止</small></span><input id="isSoldOut" type="checkbox" ${p.is_sold_out?"checked":""}></div></div>
+            <div class="field"><label for="stockType">在庫管理</label><select id="stockType" class="select"><option value="unlimited" ${p.stock_type==="unlimited"?"selected":""}>在庫上限なし</option><option value="daily" ${p.stock_type==="daily"?"selected":""}>受取日ごとに上限設定</option></select></div>
+            <div class="field"><label for="dailyStock">1日の在庫上限</label><input id="dailyStock" class="input" type="number" min="0" max="99999" step="1" value="${p.daily_stock??""}" ${p.stock_type==="daily"?"":"disabled"} placeholder="例：30"></div>
+            <div class="field"><label for="saleStart">販売開始日</label><input id="saleStart" class="input" type="date" value="${esc(p.sale_start_date||"")}"></div>
+            <div class="field"><label for="saleEnd">販売終了日</label><input id="saleEnd" class="input" type="date" value="${esc(p.sale_end_date||"")}"></div>
+            <div class="field full"><span class="label">販売曜日</span><div class="weekdays">${weekdays.map(([v,l])=>`<label class="weekday"><input type="checkbox" data-weekday="${v}" ${p.available_weekdays?.includes(Number(v))?"checked":""}>${l}</label>`).join("")}</div></div>
+          </div>
+
+          <div class="options-box">
+            <div class="options-head"><div><h3>商品オプション</h3><span class="meta">例：ご飯の量／大盛り／＋100円</span></div><button id="addOptionButton" class="secondary" type="button">＋ 追加</button></div>
+            <div id="options" class="options"></div>
+          </div>
+
+          <div class="save-bar"><span id="saveMessage" class="save-message">${p.id?"変更内容を確認して保存してください。":"商品を保存後、写真を登録できます。"}</span><button id="saveButton" class="primary" type="button">商品を保存</button></div>
+        `;
+        renderOptions();
+        bindEditor();
+      }
+
+      function renderOptions(){
+        const box=document.getElementById("options");if(!box)return;
+        const options=state.draft.options||[];
+        if(!options.length){box.innerHTML='<div class="empty-list" style="padding:20px">商品オプションはありません。</div>';return}
+        box.innerHTML=options.map((o,i)=>`<div class="option-row" data-option-index="${i}">
+          <input class="input option-group" maxlength="80" placeholder="グループ例：ご飯の量" value="${esc(o.option_group||"")}">
+          <input class="input option-name" maxlength="120" placeholder="例：大盛り" value="${esc(o.option_name||"")}">
+          <input class="input option-price" type="number" min="0" max="100000" step="1" value="${Number(o.additional_price||0)}" aria-label="追加料金">
+          <input class="input option-order" type="number" min="0" max="9999" step="1" value="${Number(o.display_order??(i+1)*10)}" aria-label="表示順">
+          <button class="icon-button" type="button" data-remove-option="${i}" aria-label="削除">×</button>
+        </div>`).join("");
+      }
+
+      function syncDraft(){
+        const p=state.draft;if(!p)return;
+        p.product_name=document.getElementById("productName")?.value.trim()||"";
+        p.category=document.getElementById("category")?.value.trim()||"";
+        p.description=document.getElementById("description")?.value.trim()||"";
+        p.price=Number(document.getElementById("price")?.value||0);
+        p.display_order=Number(document.getElementById("displayOrder")?.value||0);
+        p.is_visible=Boolean(document.getElementById("isVisible")?.checked);
+        p.is_sold_out=Boolean(document.getElementById("isSoldOut")?.checked);
+        p.stock_type=document.getElementById("stockType")?.value||"unlimited";
+        p.daily_stock=p.stock_type==="daily"?Number(document.getElementById("dailyStock")?.value):null;
+        p.sale_start_date=document.getElementById("saleStart")?.value||null;
+        p.sale_end_date=document.getElementById("saleEnd")?.value||null;
+        p.available_weekdays=[...document.querySelectorAll("[data-weekday]:checked")].map(x=>Number(x.dataset.weekday));
+        p.options=[...document.querySelectorAll("[data-option-index]")].map((row,i)=>{const original=p.options?.[Number(row.dataset.optionIndex)]||{};return {id:original.id||null,option_group:row.querySelector(".option-group").value.trim(),option_name:row.querySelector(".option-name").value.trim(),additional_price:Number(row.querySelector(".option-price").value||0),display_order:Number(row.querySelector(".option-order").value||(i+1)*10),is_enabled:true}});
+      }
+
+      function bindEditor(){
+        document.getElementById("stockType")?.addEventListener("change",e=>{document.getElementById("dailyStock").disabled=e.target.value!=="daily"});
+        document.getElementById("addOptionButton")?.addEventListener("click",()=>{syncDraft();state.draft.options.push({id:null,option_group:"",option_name:"",additional_price:0,display_order:(state.draft.options.length+1)*10,is_enabled:true});renderOptions();document.querySelector(".option-row:last-child .option-group")?.focus()});
+        document.getElementById("options")?.addEventListener("click",e=>{const b=e.target.closest("[data-remove-option]");if(!b)return;syncDraft();state.draft.options.splice(Number(b.dataset.removeOption),1);renderOptions()});
+        document.getElementById("saveButton")?.addEventListener("click",saveProduct);
+        document.getElementById("photoInput")?.addEventListener("change",e=>uploadPhoto(e.target.files?.[0]));
+        document.getElementById("deletePhotoButton")?.addEventListener("click",deletePhoto);
+      }
+
+      function describeChanges(before,after){
+        if(!before?.id)return"新しい商品を登録しました。";
+        const changes=[];
+        if(before.product_name!==after.product_name)changes.push(`商品名「${before.product_name}」→「${after.product_name}」`);
+        if(Number(before.price)!==Number(after.price))changes.push(`価格 ${money(before.price)}→${money(after.price)}`);
+        if(before.is_visible!==after.is_visible)changes.push(after.is_visible?"表示をON":"表示をOFF");
+        if(before.is_sold_out!==after.is_sold_out)changes.push(after.is_sold_out?"売り切れをON":"売り切れを解除");
+        if(before.stock_type!==after.stock_type||Number(before.daily_stock)!==Number(after.daily_stock))changes.push(after.stock_type==="daily"?`在庫上限を${after.daily_stock}個に変更`:"在庫上限なしに変更");
+        return changes.length?`${changes.slice(0,3).join("、")}しました。`:"商品情報を保存しました。";
+      }
+
+      async function saveProduct(){
+        if(state.saving)return;syncDraft();
+        const p=state.draft;
+        if(!p.product_name){toast("商品名を入力してください。","error");return}
+        if(!p.category){toast("カテゴリーを入力してください。","error");return}
+        if(!p.available_weekdays.length){toast("販売曜日を1日以上選択してください。","error");return}
+        if(p.stock_type==="daily"&&(!Number.isInteger(p.daily_stock)||p.daily_stock<0)){toast("日別在庫数を入力してください。","error");return}
+        const button=document.getElementById("saveButton");state.saving=true;button.disabled=true;button.textContent="保存中...";
+        try{
+          const saved=await api("/api/admin/products",{method:"POST",body:JSON.stringify({shop_code:config.SHOP_CODE,product_id:p.id||null,category:p.category,product_name:p.product_name,description:p.description,price:p.price,display_order:p.display_order,is_visible:p.is_visible,is_sold_out:p.is_sold_out,stock_type:p.stock_type,daily_stock:p.daily_stock,available_weekdays:p.available_weekdays,sale_start_date:p.sale_start_date,sale_end_date:p.sale_end_date})});
+          const product=saved.product;
+          const options=await api("/api/admin/products/options",{method:"PUT",body:JSON.stringify({shop_code:config.SHOP_CODE,product_id:product.id,options:p.options})});
+          const message=describeChanges(state.original,{...product,options:options.options});
+          state.selectedId=product.id;
+          await loadProducts(false);
+          selectProduct(product.id);
+          toast(message);
+        }catch(error){toast(error.message,"error")}
+        finally{state.saving=false;if(button){button.disabled=false;button.textContent="商品を保存"}}
+      }
+
+      async function prepareImage(file){
+        if(!file)return null;
+        if(!file.type.startsWith("image/"))throw new Error("画像ファイルを選択してください。");
+        if(file.size>10*1024*1024)throw new Error("元画像は10MB以内にしてください。");
+        const bitmap=await createImageBitmap(file);
+        const max=1400;const scale=Math.min(1,max/Math.max(bitmap.width,bitmap.height));
+        const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+        canvas.getContext("2d").drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close?.();
+        let quality=.86;let blob=null;
+        while(quality>=.55){
+          blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/webp",quality));
+          if(blob&&blob.size<=config.PRODUCT_IMAGE_MAX_BYTES)break;
+          quality-=.08;
+        }
+        if(!blob||blob.size>config.PRODUCT_IMAGE_MAX_BYTES)throw new Error("画像を1MB以内に縮小できませんでした。別の写真を選択してください。");
+        return new File([blob],"product.webp",{type:"image/webp"});
+      }
+
+      async function uploadPhoto(file){
+        if(!file||!state.draft?.id)return;
+        try{
+          toast("商品写真を準備しています。");
+          const prepared=await prepareImage(file);
+          const form=new FormData();form.append("shop_code",config.SHOP_CODE);form.append("product_id",state.draft.id);form.append("image",prepared);
+          const data=await api("/api/admin/products/image",{method:"POST",body:form});
+          state.draft.image_url=data.image_url;state.draft.image_path=data.image_path;state.draft.image_updated_at=new Date().toISOString();
+          await loadProducts(false);selectProduct(state.draft.id);toast("商品写真を登録しました。");
+        }catch(error){toast(error.message,"error")}finally{const input=document.getElementById("photoInput");if(input)input.value=""}
+      }
+
+      async function deletePhoto(){
+        if(!state.draft?.id||!state.draft.image_url)return;
+        if(!confirm("この商品の写真を削除しますか？"))return;
+        try{
+          await api("/api/admin/products/image",{method:"DELETE",body:JSON.stringify({shop_code:config.SHOP_CODE,product_id:state.draft.id})});
+          await loadProducts(false);selectProduct(state.draft.id);toast("商品写真を削除しました。");
+        }catch(error){toast(error.message,"error")}
+      }
+
+      async function loadShop(){
+        const response=await fetch(apiUrl("/api/shop",{shop_code:config.SHOP_CODE}));const data=await response.json();
+        if(data?.ok)el.shopName.textContent=`${data.shop.shop_name}｜商品・写真管理`;
+      }
+
+      async function loadProducts(showLoading=true){
+        if(state.loading)return;state.loading=true;el.refreshButton.disabled=true;el.refreshButton.textContent="更新中...";
+        if(showLoading)el.productList.innerHTML='<div class="loading"><div class="spinner"></div>商品を読み込み中</div>';
+        try{
+          const data=await api("/api/admin/products",{}, {shop_code:config.SHOP_CODE,date:today()});
+          state.products=data.products||[];state.summary=data.summary||{};renderSummary();renderList();el.loginOverlay.classList.add("hidden");
+          if(state.selectedId&&!state.products.some(p=>p.id===state.selectedId)){state.selectedId="";state.draft=null;state.original=null;renderEditor()}
+        }catch(error){
+          if(error.status===401){state.adminKey="";sessionStorage.removeItem("takeout_admin_key");el.loginOverlay.classList.remove("hidden");toast("管理コードを確認してください。","error")}
+          else{el.productList.innerHTML=`<div class="empty-list">${esc(error.message)}</div>`;toast(error.message,"error")}
+        }finally{state.loading=false;el.refreshButton.disabled=false;el.refreshButton.textContent="更新"}
+      }
+
+      el.loginForm.addEventListener("submit",async e=>{e.preventDefault();const key=el.adminKeyInput.value.trim();if(!key){toast("管理コードを入力してください。","error");return}state.adminKey=key;sessionStorage.setItem("takeout_admin_key",key);await loadProducts()});
+      el.productList.addEventListener("click",e=>{const card=e.target.closest("[data-product-id]");if(card)selectProduct(card.dataset.productId)});
+      el.searchInput.addEventListener("input",renderList);
+      el.refreshButton.addEventListener("click",()=>loadProducts());
+      el.newButton.addEventListener("click",newProduct);
+      el.ownerButton.addEventListener("click",()=>location.href="./owner.html?v=takeout-7-products-link");
+      el.customerButton.addEventListener("click",()=>window.open("./?v=takeout-7-products-link","_blank","noopener"));
+      el.logoutButton.addEventListener("click",()=>{state.adminKey="";sessionStorage.removeItem("takeout_admin_key");el.adminKeyInput.value="";el.loginOverlay.classList.remove("hidden");el.adminKeyInput.focus()});
+
+      (async()=>{await loadShop().catch(()=>{});if(state.adminKey)await loadProducts();else{el.loginOverlay.classList.remove("hidden");el.adminKeyInput.focus()}})();
+    })();
+  </script>
+</body>
+</html>

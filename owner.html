@@ -530,6 +530,7 @@
       </div>
       <div class="top-actions">
         <span id="lastUpdated">未更新</span>
+        <button id="openProducts" class="top-button" type="button">商品管理</button>
         <button id="openCustomer" class="top-button" type="button">お客様画面</button>
         <button id="logoutButton" class="top-button" type="button">ログアウト</button>
       </div>
@@ -564,7 +565,7 @@
     </div>
 
     <footer class="footer">
-      STEP TAKEOUT-4 / TAKEOUT-4-OWNER-PC-ORDER-MANAGEMENT-20260711
+      STEP TAKEOUT-7 LINKED / TAKEOUT-4-OWNER-PC-ORDER-MANAGEMENT-20260711
     </footer>
   </main>
 
@@ -620,6 +621,7 @@
         loginButton: document.getElementById("loginButton"),
         shopName: document.getElementById("shopName"),
         lastUpdated: document.getElementById("lastUpdated"),
+        openProducts: document.getElementById("openProducts"),
         openCustomer: document.getElementById("openCustomer"),
         logoutButton: document.getElementById("logoutButton"),
         orderDate: document.getElementById("orderDate"),
@@ -1145,6 +1147,10 @@
         el.adminKeyInput.value = "";
         el.loginOverlay.classList.remove("hidden");
         el.adminKeyInput.focus();
+      });
+
+      el.openProducts.addEventListener("click", () => {
+        window.open("./owner-products.html?v=takeout-7", "_blank", "noopener");
       });
 
       el.openCustomer.addEventListener("click", () => {
