@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173f34">
+  <title>DPRO テイクアウト｜システムチェック</title>
+  <style>
+    :root{
+      --bg:#f4f0e9;
+      --paper:#fffdf9;
+      --ink:#25322e;
+      --sub:#69746f;
+      --line:#dfd7cd;
+      --brand:#173f34;
+      --brand2:#d86d2d;
+      --ok:#17764d;
+      --okbg:#eaf7f0;
+      --warn:#99600c;
+      --warnbg:#fff6df;
+      --bad:#b83d3d;
+      --badbg:#fff0ef;
+      --blue:#244f90;
+      --shadow:0 14px 34px rgba(39,50,46,.10);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%,rgba(216,109,45,.10),transparent 32%),
+        radial-gradient(circle at 100% 10%,rgba(23,63,52,.11),transparent 34%),
+        var(--bg);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;
+      line-height:1.55;
+    }
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .wrap{width:min(1180px,calc(100% - 28px));margin:0 auto;padding:22px 0 54px}
+    .hero{
+      position:relative;overflow:hidden;
+      padding:24px;border-radius:24px;color:#fff;
+      background:linear-gradient(135deg,#173f34,#285d4e 62%,#d86d2d 160%);
+      box-shadow:var(--shadow);
+    }
+    .hero:after{
+      content:"";position:absolute;right:-50px;top:-70px;width:230px;height:230px;
+      border-radius:50%;background:rgba(255,255,255,.08)
+    }
+    .eyebrow{font-size:12px;font-weight:900;letter-spacing:.12em;opacity:.82}
+    h1{margin:6px 0 8px;font-size:clamp(25px,4vw,42px);line-height:1.18}
+    .hero p{margin:0;max-width:760px;opacity:.9;font-weight:700}
+    .version{
+      display:inline-flex;margin-top:14px;padding:7px 10px;border-radius:999px;
+      background:rgba(255,255,255,.12);font-size:12px;font-weight:900
+    }
+    .top-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:16px}
+    .card{
+      background:rgba(255,253,249,.96);border:1px solid var(--line);
+      border-radius:20px;padding:18px;box-shadow:0 8px 22px rgba(39,50,46,.055)
+    }
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .section-title h2{margin:0;font-size:18px}
+    .section-title small{color:var(--sub);font-weight:800}
+    .overall{
+      display:flex;align-items:center;gap:14px;padding:14px;border-radius:16px;
+      border:1px solid var(--line);background:#f8f6f1
+    }
+    .overall-icon{
+      width:50px;height:50px;border-radius:50%;display:grid;place-items:center;
+      font-size:23px;font-weight:1000;background:#e7e3dc;color:#6d746f;flex:0 0 auto
+    }
+    .overall.ok{background:var(--okbg);border-color:#a9d8bf}
+    .overall.ok .overall-icon{background:var(--ok);color:#fff}
+    .overall.bad{background:var(--badbg);border-color:#efb6b2}
+    .overall.bad .overall-icon{background:var(--bad);color:#fff}
+    .overall.warn{background:var(--warnbg);border-color:#eed18e}
+    .overall.warn .overall-icon{background:#d48d22;color:#fff}
+    .overall strong{display:block;font-size:17px}
+    .overall span{display:block;color:var(--sub);font-size:13px;font-weight:750}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    label{display:block;font-size:12px;font-weight:900;color:var(--sub)}
+    input{
+      width:100%;margin-top:5px;min-height:44px;padding:10px 12px;
+      border:1px solid #cfc6bb;border-radius:12px;background:#fff;color:var(--ink)
+    }
+    .actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:13px}
+    .btn{
+      border:0;border-radius:13px;min-height:48px;padding:10px 13px;
+      font-weight:950;box-shadow:0 5px 12px rgba(39,50,46,.10)
+    }
+    .btn-primary{background:var(--brand);color:#fff}
+    .btn-orange{background:var(--brand2);color:#fff}
+    .btn-danger{background:#fff;color:var(--bad);border:1px solid #e4aaa6}
+    .btn:disabled{opacity:.5;cursor:wait}
+    .notice{
+      display:none;margin-top:12px;padding:11px 12px;border-radius:12px;font-size:13px;font-weight:850
+    }
+    .notice.show{display:block}
+    .notice.ok{background:var(--okbg);color:var(--ok);border:1px solid #a9d8bf}
+    .notice.bad{background:var(--badbg);color:var(--bad);border:1px solid #efb6b2}
+    .notice.warn{background:var(--warnbg);color:var(--warn);border:1px solid #eed18e}
+    .metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}
+    .metric{padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff}
+    .metric b{font-size:22px;display:block}
+    .metric span{font-size:11px;color:var(--sub);font-weight:850}
+    .checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+    .check{
+      display:flex;align-items:flex-start;gap:11px;padding:13px;border:1px solid var(--line);
+      border-radius:15px;background:#fff;min-height:84px
+    }
+    .check .mark{
+      width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+      background:#e9e5df;color:#777;font-weight:1000;flex:0 0 auto
+    }
+    .check.ok{border-color:#b7dec7;background:#f7fcf9}
+    .check.ok .mark{background:var(--ok);color:#fff}
+    .check.bad{border-color:#efbbb7;background:#fff9f8}
+    .check.bad .mark{background:var(--bad);color:#fff}
+    .check.pending .mark{animation:pulse 1.1s infinite}
+    @keyframes pulse{50%{opacity:.42}}
+    .check strong{display:block;font-size:14px}
+    .check small{display:block;margin-top:3px;color:var(--sub);font-weight:700;word-break:break-word}
+    .orders{display:grid;gap:8px}
+    .order{
+      display:grid;grid-template-columns:86px 1fr auto;gap:10px;align-items:center;
+      padding:11px;border:1px solid var(--line);border-radius:13px;background:#fff
+    }
+    .time{font-weight:1000;color:var(--brand)}
+    .order strong{display:block;font-size:13px}
+    .order small{color:var(--sub);font-weight:750}
+    .pill{
+      display:inline-flex;padding:5px 8px;border-radius:999px;background:#edf1ef;
+      font-size:11px;font-weight:950;white-space:nowrap
+    }
+    .url-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .url-card{
+      border:1px solid var(--line);border-radius:15px;padding:13px;background:#fff
+    }
+    .url-head{display:flex;align-items:center;justify-content:space-between;gap:9px}
+    .url-head strong{font-size:14px}
+    .step{font-size:10px;font-weight:950;color:var(--blue);background:#edf3ff;padding:4px 6px;border-radius:999px}
+    .url{
+      display:block;margin:7px 0 9px;color:var(--sub);font:700 11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;
+      word-break:break-all
+    }
+    .open{
+      display:inline-flex;text-decoration:none;background:#f2eee8;color:var(--ink);
+      border:1px solid #d9d0c6;border-radius:10px;padding:7px 9px;font-size:12px;font-weight:900
+    }
+    .manual-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+    .manual{
+      display:flex;gap:9px;align-items:flex-start;padding:11px;border:1px solid var(--line);
+      border-radius:13px;background:#fff;font-size:13px;font-weight:800
+    }
+    .manual input{width:19px;height:19px;min-height:auto;margin:1px 0 0;flex:0 0 auto}
+    .manual.done{background:var(--okbg);border-color:#a9d8bf}
+    .manual-summary{margin-top:10px;color:var(--sub);font-size:12px;font-weight:850}
+    .footer{text-align:center;color:#7a817d;font-size:11px;font-weight:800;padding-top:24px}
+    .spacer{height:16px}
+    @media(max-width:820px){
+      .top-grid,.checks,.url-grid,.manual-grid{grid-template-columns:1fr}
+      .actions{grid-template-columns:1fr}
+      .metric-grid{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:520px){
+      .wrap{width:min(100% - 18px,1180px);padding-top:10px}
+      .hero,.card{border-radius:17px}
+      .hero{padding:19px}
+      .form-row{grid-template-columns:1fr}
+      .metric-grid{grid-template-columns:1fr}
+      .order{grid-template-columns:62px 1fr}
+      .order .pill{grid-column:2}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">DPRO TAKEOUT LINE / SALES DEMO CONTROL</div>
+      <h1>システムチェック・営業前デモ準備</h1>
+      <p>API・DB・商品・受取枠・店舗設定・電話番号正規化を一括確認し、次の営業日にデモ注文6件を安全に準備します。</p>
+      <div class="version">STEP TAKEOUT-11 / TAKEOUT-11-SYSTEM-CHECK-DEMO-PREPARE-20260712</div>
+    </section>
+
+    <div class="top-grid">
+      <section class="card">
+        <div class="section-title">
+          <h2>総合判定</h2>
+          <small id="lastChecked">未確認</small>
+        </div>
+        <div id="overall" class="overall">
+          <div class="overall-icon">…</div>
+          <div>
+            <strong>「すべて確認」を押してください</strong>
+            <span>営業前の自動チェックを開始します。</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>
+            店舗コード
+            <input id="shopCode" value="takeout_demo" readonly>
+          </label>
+          <label>
+            管理コード
+            <input id="adminKey" value="1234" inputmode="numeric" autocomplete="off">
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="checkAll" class="btn btn-primary">すべて確認</button>
+          <button id="prepareDemo" class="btn btn-orange">営業デモ準備</button>
+          <button id="resetDemo" class="btn btn-danger">デモ初期化</button>
+        </div>
+        <div id="actionNotice" class="notice" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>営業デモ状態</h2>
+          <small id="demoDate">未準備</small>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><b id="demoOrders">0</b><span>デモ注文</span></div>
+          <div class="metric"><b id="demoCustomers">0</b><span>デモ顧客</span></div>
+          <div class="metric"><b id="demoItems">0</b><span>注文明細</span></div>
+        </div>
+        <div class="spacer"></div>
+        <div id="demoOrdersList" class="orders">
+          <div class="order">
+            <div class="time">--:--</div>
+            <div><strong>営業デモ準備を実行してください</strong><small>次の営業日に6件作成します。</small></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="spacer"></div>
+
+    <section class="card">
+      <div class="section-title">
+        <h2>自動チェック</h2>
+        <small id="autoCount">0 / 8</small>
+      </div>
+      <div id="automaticChecks" class="checks"></div>
+      <div id="warningNotice" class="notice warn"></div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <section class="card">
+      <div class="section-title">
+        <h2>全画面URL・採用STEP確認</h2>
+        <small id="pageCount">0 / 8</small>
+      </div>
+      <div id="pageChecks" class="url-grid"></div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <section class="card">
+      <div class="section-title">
+        <h2>営業前の手動確認</h2>
+        <small>このブラウザに保存</small>
+      </div>
+      <div id="manualChecks" class="manual-grid"></div>
+      <div id="manualSummary" class="manual-summary"></div>
+    </section>
+
+    <footer class="footer">
+      STEP TAKEOUT-11 / TAKEOUT-11-SYSTEM-CHECK-DEMO-PREPARE-20260712
+    </footer>
+  </main>
+
+  <script src="./config.js?v=takeout-11"></script>
+  <script>
+    (() => {
+      "use strict";
+
+      const FALLBACK = {
+        VERSION: "TAKEOUT-11-SYSTEM-CHECK-DEMO-PREPARE-20260712",
+        SHOP_CODE: "takeout_demo",
+        API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
+        GITHUB_PAGES_BASE_URL: "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff",
+        ADMIN_KEY: "1234"
+      };
+
+      const CONFIG = Object.assign({}, FALLBACK, window.DPRO_TAKEOUT_CONFIG || {});
+      const $ = (id) => document.getElementById(id);
+
+      const automaticLabels = {
+        database: "API・Supabase接続",
+        settings: "店舗設定・受付ON",
+        products: "商品・商品写真",
+        slots: "受取時間枠",
+        closed_dates: "定休日・臨時休業",
+        stock_rpc: "在庫・注文数RPC",
+        phone_normalize: "電話番号正規化",
+        demo_rpc: "営業デモ準備RPC"
+      };
+
+      const pages = [
+        {file:"index.html", name:"お客様注文画面", step:"STEP TAKEOUT-9-R4", token:"TAKEOUT-9-R4-CUSTOMER-STOP-COMPLETE-GUARD-20260712"},
+        {file:"member.html", name:"注文確認・マイページ", step:"STEP TAKEOUT-6-R2", token:"TAKEOUT-6-R2-CLOSED-DAY-SUBMIT-GUARD-20260711"},
+        {file:"owner.html", name:"PC注文管理", step:"STEP TAKEOUT-10-R1", token:"TAKEOUT-10-R1-COPY-ACTION-FEEDBACK-20260712"},
+        {file:"owner-ipad.html", name:"厨房・レジ", step:"STEP TAKEOUT-10-R1", token:"TAKEOUT-10-R1-COPY-ACTION-FEEDBACK-20260712"},
+        {file:"owner-reception.html", name:"電話・店頭受付", step:"STEP TAKEOUT-10-R1", token:"TAKEOUT-10-R1-COPY-ACTION-FEEDBACK-20260712"},
+        {file:"owner-products.html", name:"商品・写真管理", step:"STEP TAKEOUT-9", token:"TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711"},
+        {file:"owner-settings.html", name:"店舗設定", step:"STEP TAKEOUT-9-R3", token:"TAKEOUT-9-R3-USER-SCROLL-ACTIVE-FIX-20260711"},
+        {file:"system-check.html", name:"システムチェック", step:"STEP TAKEOUT-11", token:"TAKEOUT-11-SYSTEM-CHECK-DEMO-PREPARE-20260712"}
+      ];
+
+      const manualItems = [
+        "お客様画面で商品・日付・受取時間を選べる",
+        "注文完了後に注文番号と受取内容が表示される",
+        "マイページで電話番号から注文を確認できる",
+        "PC注文管理で状態変更とLINE文面コピーができる",
+        "厨房・レジ画面で調理中・準備完了を操作できる",
+        "電話・店頭受付で注文を登録できる",
+        "商品管理で価格・在庫・写真を確認できる",
+        "店舗設定で受付ON・予約期間・受取枠を確認した"
+      ];
+
+      const statusLabels = {
+        received:"受付済み",
+        confirmed:"店舗確認済み",
+        cooking_wait:"調理待ち",
+        cooking:"調理中",
+        ready:"準備完了",
+        picked_up:"受取済み",
+        cancelled:"キャンセル",
+        no_show:"未受取",
+        contact_required:"店舗から確認中"
+      };
+
+      const channelLabels = {
+        line:"LINE",
+        phone:"電話",
+        counter:"店頭",
+        admin:"管理"
+      };
+
+      function apiUrl(path, params = {}) {
+        const url = new URL(CONFIG.API_BASE_URL.replace(/\/+$/, "") + path);
+        url.searchParams.set("shop_code", $("shopCode").value.trim() || CONFIG.SHOP_CODE);
+        url.searchParams.set("admin_key", $("adminKey").value.trim() || CONFIG.ADMIN_KEY);
+        Object.entries(params).forEach(([key, value]) => {
+          if (value !== undefined && value !== null && value !== "") {
+            url.searchParams.set(key, value);
+          }
+        });
+        return url.toString();
+      }
+
+      async function fetchJson(url, options = {}) {
+        const response = await fetch(url, {
+          cache:"no-store",
+          ...options,
+          headers:{
+            "Content-Type":"application/json",
+            "X-Admin-Key":$("adminKey").value.trim() || CONFIG.ADMIN_KEY,
+            ...(options.headers || {})
+          }
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || data.ok === false) {
+          throw new Error(data.message || data.detail || `HTTP ${response.status}`);
+        }
+        return data;
+      }
+
+      function setBusy(value) {
+        ["checkAll","prepareDemo","resetDemo"].forEach((id) => {
+          $(id).disabled = value;
+        });
+      }
+
+      function showNotice(message, type = "ok") {
+        const el = $("actionNotice");
+        el.className = `notice show ${type}`;
+        el.textContent = message;
+      }
+
+      function setOverall(mode, title, detail) {
+        const el = $("overall");
+        el.className = `overall ${mode || ""}`;
+        el.innerHTML = `
+          <div class="overall-icon">${mode === "ok" ? "✓" : mode === "bad" ? "!" : mode === "warn" ? "△" : "…"}</div>
+          <div><strong>${escapeHtml(title)}</strong><span>${escapeHtml(detail)}</span></div>
+        `;
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&","&amp;")
+          .replaceAll("<","&lt;")
+          .replaceAll(">","&gt;")
+          .replaceAll('"',"&quot;")
+          .replaceAll("'","&#039;");
+      }
+
+      function detailText(key, check) {
+        if (!check) return "未確認";
+        if (!check.ok) return check.message || "確認できませんでした。";
+        switch (key) {
+          case "database":
+            return `${check.shop?.shop_name || "店舗"} / DB接続OK`;
+          case "settings":
+            return `受付${check.settings?.is_accepting_orders ? "ON" : "OFF"}・予約${check.settings?.max_reservation_days ?? "-"}日先`;
+          case "products":
+            return `商品${check.total ?? 0}件・販売中${check.sellable ?? 0}件・写真${check.with_image ?? 0}件`;
+          case "slots":
+            return `有効枠${check.enabled ?? 0}件・30分単位`;
+          case "closed_dates":
+            return `定休${check.regular ?? 0}件・臨時休業${check.special ?? 0}件`;
+          case "stock_rpc":
+            return `${check.rpc || "在庫RPC"} OK`;
+          case "phone_normalize":
+            return `表記違いを ${check.normalized || "-"} に統一`;
+          case "demo_rpc":
+            return check.prepared
+              ? `${check.target_date || "-"} に${check.order_count || 0}件準備済み`
+              : "デモ準備RPC利用可能・現在未準備";
+          default:
+            return "OK";
+        }
+      }
+
+      function renderAutomatic(checks = {}) {
+        const keys = Object.keys(automaticLabels);
+        $("automaticChecks").innerHTML = keys.map((key) => {
+          const check = checks[key];
+          const cls = check ? (check.ok ? "ok" : "bad") : "pending";
+          const mark = check ? (check.ok ? "✓" : "!") : "…";
+          return `
+            <div class="check ${cls}">
+              <div class="mark">${mark}</div>
+              <div>
+                <strong>${automaticLabels[key]}</strong>
+                <small>${escapeHtml(detailText(key, check))}</small>
+              </div>
+            </div>
+          `;
+        }).join("");
+        const okCount = keys.filter((key) => checks[key]?.ok).length;
+        $("autoCount").textContent = `${okCount} / ${keys.length}`;
+      }
+
+      function renderDemo(data = {}) {
+        $("demoDate").textContent = data.target_date ? `対象日 ${data.target_date}` : "未準備";
+        $("demoOrders").textContent = Number(data.order_count || 0);
+        $("demoCustomers").textContent = Number(data.customer_count || 0);
+        $("demoItems").textContent = Number(data.item_count || 0);
+
+        const orders = Array.isArray(data.orders) ? data.orders : [];
+        if (!orders.length) {
+          $("demoOrdersList").innerHTML = `
+            <div class="order">
+              <div class="time">--:--</div>
+              <div><strong>デモ注文は未準備です</strong><small>「営業デモ準備」を押すと6件作成します。</small></div>
+            </div>
+          `;
+          return;
+        }
+
+        $("demoOrdersList").innerHTML = orders.map((order) => `
+          <div class="order">
+            <div class="time">${escapeHtml(order.pickup_time || "--:--")}</div>
+            <div>
+              <strong>${escapeHtml(order.customer_name)} / ${escapeHtml(order.order_number)}</strong>
+              <small>${escapeHtml(channelLabels[order.order_channel] || order.order_channel)}・¥${Number(order.total_amount || 0).toLocaleString("ja-JP")}</small>
+            </div>
+            <span class="pill">${escapeHtml(statusLabels[order.status] || order.status)}</span>
+          </div>
+        `).join("");
+      }
+
+      async function loadDemoStatus() {
+        const data = await fetchJson(apiUrl("/api/admin/demo-status"));
+        renderDemo(data);
+        return data;
+      }
+
+      async function checkPages() {
+        $("pageChecks").innerHTML = pages.map((page) => {
+          const url = `${CONFIG.GITHUB_PAGES_BASE_URL}/${page.file}?v=takeout-11`;
+          return `
+            <article class="url-card" id="page-${page.file.replaceAll(".","-")}">
+              <div class="url-head">
+                <strong>${escapeHtml(page.name)}</strong>
+                <span class="step">${escapeHtml(page.step)}</span>
+              </div>
+              <code class="url">${escapeHtml(url)}</code>
+              <a class="open" href="${escapeHtml(url)}" target="_blank" rel="noopener">画面を開く</a>
+              <span class="pill" data-result>確認中...</span>
+            </article>
+          `;
+        }).join("");
+
+        let okCount = 0;
+        await Promise.all(pages.map(async (page) => {
+          const card = $(`page-${page.file.replaceAll(".","-")}`);
+          const result = card.querySelector("[data-result]");
+          const url = `${CONFIG.GITHUB_PAGES_BASE_URL}/${page.file}?v=takeout-11-check-${Date.now()}`;
+          try {
+            const response = await fetch(url, {cache:"no-store"});
+            const text = await response.text();
+            const ok = response.ok && text.includes(page.token);
+            result.textContent = ok ? "反映OK" : "STEP不一致";
+            result.style.background = ok ? "#eaf7f0" : "#fff0ef";
+            result.style.color = ok ? "#17764d" : "#b83d3d";
+            if (ok) okCount += 1;
+          } catch {
+            result.textContent = "確認失敗";
+            result.style.background = "#fff0ef";
+            result.style.color = "#b83d3d";
+          }
+          $("pageCount").textContent = `${okCount} / ${pages.length}`;
+        }));
+        return okCount;
+      }
+
+      function renderManual() {
+        let saved = {};
+        try {
+          saved = JSON.parse(localStorage.getItem("takeout11_manual_checks") || "{}");
+        } catch {}
+
+        $("manualChecks").innerHTML = manualItems.map((text, index) => {
+          const checked = Boolean(saved[index]);
+          return `
+            <label class="manual ${checked ? "done" : ""}">
+              <input type="checkbox" data-manual="${index}" ${checked ? "checked" : ""}>
+              <span>${escapeHtml(text)}</span>
+            </label>
+          `;
+        }).join("");
+
+        $("manualChecks").querySelectorAll("[data-manual]").forEach((input) => {
+          input.addEventListener("change", () => {
+            const index = input.dataset.manual;
+            saved[index] = input.checked;
+            localStorage.setItem("takeout11_manual_checks", JSON.stringify(saved));
+            input.closest(".manual").classList.toggle("done", input.checked);
+            updateManualSummary();
+          });
+        });
+        updateManualSummary();
+      }
+
+      function updateManualSummary() {
+        const inputs = [...$("manualChecks").querySelectorAll("[data-manual]")];
+        const done = inputs.filter((input) => input.checked).length;
+        $("manualSummary").textContent =
+          `手動確認 ${done} / ${inputs.length}` +
+          (done === inputs.length ? "　✓ 営業前の手動確認が完了しました。" : "");
+      }
+
+      async function runAllChecks() {
+        setBusy(true);
+        showNotice("システム全体を確認しています。", "warn");
+        setOverall("", "確認中です", "API・画面・デモ状態を順番に確認しています。");
+        renderAutomatic({});
+
+        try {
+          const [systemResult, demoResult, pageOk] = await Promise.all([
+            fetchJson(apiUrl("/api/admin/system-check")),
+            loadDemoStatus(),
+            checkPages()
+          ]);
+
+          renderAutomatic(systemResult.checks || {});
+          renderDemo(demoResult);
+
+          const warnings = Array.isArray(systemResult.warnings) ? systemResult.warnings : [];
+          const warningEl = $("warningNotice");
+          if (warnings.length) {
+            warningEl.className = "notice show warn";
+            warningEl.textContent = warnings.join(" ");
+          } else {
+            warningEl.className = "notice warn";
+            warningEl.textContent = "";
+          }
+
+          const allAutomatic = systemResult.summary?.automatic_ok_count === systemResult.summary?.automatic_check_count;
+          const allPages = pageOk === pages.length;
+          const accepting = systemResult.summary?.accepting_orders !== false;
+
+          if (allAutomatic && allPages && accepting) {
+            setOverall("ok", "営業デモ準備OK", "API・DB・各画面・店舗設定が正常です。");
+            showNotice("すべての自動確認が完了しました。", "ok");
+          } else if (allAutomatic && allPages && !accepting) {
+            setOverall("warn", "注文受付がOFFです", "店舗設定で注文受付をONに戻してください。");
+            showNotice("システムは正常ですが、注文受付がOFFです。", "warn");
+          } else {
+            setOverall("bad", "確認が必要な項目があります", "赤い項目またはSTEP不一致を確認してください。");
+            showNotice("一部の確認項目が完了していません。", "bad");
+          }
+
+          $("lastChecked").textContent = new Date().toLocaleString("ja-JP");
+        } catch (error) {
+          setOverall("bad", "自動確認に失敗しました", error.message);
+          showNotice(error.message, "bad");
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      async function prepareDemo() {
+        setBusy(true);
+        showNotice("次の営業日にデモ注文6件を準備しています。", "warn");
+        try {
+          const data = await fetchJson(apiUrl("/api/admin/demo-prepare"), {
+            method:"POST",
+            body:JSON.stringify({
+              shop_code:$("shopCode").value.trim()
+            })
+          });
+          renderDemo(data);
+          showNotice(`${data.target_date} に営業デモ注文${data.order_count}件を準備しました。`, "ok");
+          await runAllChecks();
+        } catch (error) {
+          showNotice(error.message, "bad");
+          setOverall("bad", "営業デモ準備に失敗しました", error.message);
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      async function resetDemo() {
+        const confirmed = window.confirm(
+          "STEP TAKEOUT-11で作成したデモ注文だけを初期化します。\n通常注文は削除されません。実行しますか？"
+        );
+        if (!confirmed) return;
+
+        setBusy(true);
+        showNotice("デモデータを初期化しています。", "warn");
+        try {
+          const data = await fetchJson(apiUrl("/api/admin/demo-reset"), {
+            method:"POST",
+            body:JSON.stringify({
+              shop_code:$("shopCode").value.trim()
+            })
+          });
+          renderDemo({});
+          showNotice(
+            `デモ注文${data.deleted_order_count || 0}件・デモ顧客${data.deleted_customer_count || 0}件を初期化しました。`,
+            "ok"
+          );
+          await runAllChecks();
+        } catch (error) {
+          showNotice(error.message, "bad");
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      $("checkAll").addEventListener("click", runAllChecks);
+      $("prepareDemo").addEventListener("click", prepareDemo);
+      $("resetDemo").addEventListener("click", resetDemo);
+
+      renderAutomatic({});
+      renderManual();
+      checkPages();
+      loadDemoStatus().catch(() => {});
+    })();
+  </script>
+</body>
+</html>
