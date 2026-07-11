@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f3ee">
+  <title>DPRO テイクアウト 店舗管理</title>
+  <style>
+    :root {
+      --bg: #f7f3ee;
+      --card: #ffffff;
+      --ink: #2f2925;
+      --sub: #756b64;
+      --line: #e9dfd7;
+      --accent: #ec572f;
+      --accent-dark: #c94220;
+      --accent-soft: #fff0e8;
+      --green: #23865b;
+      --green-soft: #e9f7f0;
+      --blue: #2d6fbd;
+      --blue-soft: #eaf2fc;
+      --amber: #a66512;
+      --amber-soft: #fff5df;
+      --purple: #7555aa;
+      --purple-soft: #f1ecfb;
+      --red: #c8443d;
+      --red-soft: #fff0ef;
+      --gray-soft: #f1efed;
+      --shadow: 0 12px 34px rgba(64, 45, 32, 0.09);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, #ffe7d7 0, transparent 29%),
+        var(--bg);
+      font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      line-height: 1.55;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+
+    .shell {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 20px;
+      color: #fff;
+      background: linear-gradient(135deg, #ef643d, #c83e1d);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand small {
+      display: block;
+      font-weight: 900;
+      letter-spacing: .1em;
+      opacity: .85;
+    }
+
+    .brand h1 {
+      margin: 2px 0 0;
+      font-size: clamp(22px, 3vw, 31px);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .top-button {
+      border: 1px solid rgba(255,255,255,.35);
+      color: #fff;
+      background: rgba(255,255,255,.13);
+      border-radius: 12px;
+      padding: 10px 13px;
+      font-weight: 900;
+    }
+
+    .content {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(170px, 220px) minmax(240px, 1fr) auto;
+      gap: 10px;
+      padding: 14px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .input, .select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      padding: 11px 12px;
+      outline: none;
+    }
+
+    .input:focus, .select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    .refresh-button {
+      border: 0;
+      border-radius: 12px;
+      color: #fff;
+      background: var(--accent);
+      padding: 11px 17px;
+      font-weight: 900;
+      min-width: 112px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .summary-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card);
+      padding: 14px;
+      box-shadow: 0 7px 20px rgba(64, 45, 32, .06);
+    }
+
+    .summary-card span {
+      color: var(--sub);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 28px;
+      line-height: 1.2;
+    }
+
+    .summary-card.urgent { background: var(--red-soft); border-color: #efc8c4; }
+    .summary-card.cooking { background: var(--amber-soft); border-color: #f0d69c; }
+    .summary-card.ready { background: var(--green-soft); border-color: #bfe3d0; }
+
+    .status-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 0;
+      scrollbar-width: none;
+    }
+
+    .status-tabs::-webkit-scrollbar { display: none; }
+
+    .tab {
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--sub);
+      padding: 9px 14px;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .tab.active {
+      color: #fff;
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .section-head h2 { margin: 0; font-size: 21px; }
+    .section-head p { margin: 0; color: var(--sub); font-size: 12px; }
+
+    .orders {
+      display: grid;
+      gap: 12px;
+    }
+
+    .order-card {
+      display: grid;
+      grid-template-columns: 152px minmax(0, 1fr) 230px;
+      gap: 16px;
+      padding: 16px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-left: 7px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 24px rgba(64, 45, 32, .07);
+    }
+
+    .order-card[data-status="received"] { border-left-color: var(--red); }
+    .order-card[data-status="confirmed"] { border-left-color: var(--blue); }
+    .order-card[data-status="cooking_wait"] { border-left-color: var(--amber); }
+    .order-card[data-status="cooking"] { border-left-color: #e08022; }
+    .order-card[data-status="ready"] { border-left-color: var(--green); }
+    .order-card[data-status="picked_up"] { border-left-color: #7c8a83; }
+    .order-card[data-status="contact_required"] { border-left-color: var(--purple); }
+    .order-card[data-status="cancelled"],
+    .order-card[data-status="no_show"] { opacity: .72; }
+
+    .time-column {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-right: 1px dashed var(--line);
+      padding-right: 14px;
+    }
+
+    .pickup-time {
+      font-size: 31px;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .order-number {
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--sub);
+    }
+
+    .status-badge, .channel-badge {
+      align-self: flex-start;
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .status-badge { background: var(--gray-soft); }
+    .status-received { color: #9c2f2a; background: var(--red-soft); }
+    .status-confirmed { color: #225d9d; background: var(--blue-soft); }
+    .status-cooking_wait, .status-cooking { color: #89530b; background: var(--amber-soft); }
+    .status-ready { color: #196a45; background: var(--green-soft); }
+    .status-contact_required { color: #624294; background: var(--purple-soft); }
+
+    .channel-badge {
+      color: var(--sub);
+      background: var(--gray-soft);
+    }
+
+    .order-main { min-width: 0; }
+
+    .customer-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 9px;
+    }
+
+    .customer-name {
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .phone {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .items {
+      display: grid;
+      gap: 7px;
+      margin: 10px 0;
+    }
+
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 7px;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .item-row:last-child { border-bottom: 0; padding-bottom: 0; }
+
+    .item-name { font-weight: 900; }
+    .item-option { color: var(--sub); font-size: 11px; }
+
+    .note {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 11px;
+      color: #6c4c14;
+      background: var(--amber-soft);
+      font-size: 12px;
+    }
+
+    .order-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 11px;
+    }
+
+    .total {
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .small-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .link-button {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--sub);
+      background: #fff;
+      padding: 7px 9px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .action-column {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      justify-content: center;
+    }
+
+    .next-button {
+      border: 0;
+      border-radius: 13px;
+      color: #fff;
+      background: var(--accent);
+      padding: 13px 12px;
+      font-weight: 950;
+      box-shadow: 0 7px 18px rgba(236, 87, 47, .19);
+    }
+
+    .next-button.ready-action { background: var(--green); }
+
+    .status-control {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 6px;
+    }
+
+    .apply-button {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--ink);
+      background: #fff;
+      padding: 8px 10px;
+      font-weight: 900;
+    }
+
+    .updated {
+      min-height: 18px;
+      color: var(--sub);
+      text-align: center;
+      font-size: 10px;
+    }
+
+    .empty, .loading {
+      padding: 46px 20px;
+      text-align: center;
+      color: var(--sub);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .spinner {
+      width: 30px;
+      height: 30px;
+      margin: 0 auto 9px;
+      border: 3px solid #f1d9cd;
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .login-overlay {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(41, 32, 27, .55);
+      backdrop-filter: blur(8px);
+    }
+
+    .login-overlay.hidden { display: none; }
+
+    .login-card {
+      width: min(420px, 100%);
+      padding: 24px;
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: 0 22px 60px rgba(33, 24, 19, .28);
+    }
+
+    .login-card h2 { margin: 0; }
+    .login-card p { color: var(--sub); font-size: 13px; }
+    .login-card .input { margin: 8px 0 11px; }
+
+    .login-button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      color: #fff;
+      background: var(--accent);
+      padding: 13px;
+      font-weight: 950;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 120;
+      left: 50%;
+      bottom: 24px;
+      transform: translate(-50%, 18px);
+      width: min(calc(100% - 32px), 620px);
+      padding: 13px 15px;
+      border-radius: 12px;
+      color: #fff;
+      background: #302721;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 900;
+      opacity: 0;
+      pointer-events: none;
+      transition: .23s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .toast.error { background: var(--red); }
+
+    .footer {
+      padding: 18px 0 4px;
+      color: #9b8f87;
+      text-align: center;
+      font-size: 10px;
+    }
+
+    @media (max-width: 1080px) {
+      .summary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .order-card { grid-template-columns: 130px minmax(0, 1fr); }
+      .action-column {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: minmax(180px, 1fr) minmax(260px, 1fr);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .shell { padding: 10px; }
+      .topbar { align-items: flex-start; flex-direction: column; border-radius: 18px; }
+      .toolbar { grid-template-columns: 1fr; }
+      .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .order-card { grid-template-columns: 1fr; }
+      .time-column {
+        border-right: 0;
+        border-bottom: 1px dashed var(--line);
+        padding-right: 0;
+        padding-bottom: 11px;
+      }
+      .action-column { grid-template-columns: 1fr; }
+      .pickup-time { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loginOverlay" class="login-overlay">
+    <form id="loginForm" class="login-card">
+      <h2>店舗管理画面</h2>
+      <p>管理コードを入力してください。デモ用管理コードは1234です。</p>
+      <input id="adminKeyInput" class="input" type="password"
+             inputmode="numeric" autocomplete="current-password"
+             placeholder="管理コード">
+      <button id="loginButton" class="login-button" type="submit">
+        管理画面を開く
+      </button>
+    </form>
+  </div>
+
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <small>DPRO TAKEOUT LINE</small>
+        <h1 id="shopName">店舗注文管理</h1>
+      </div>
+      <div class="top-actions">
+        <span id="lastUpdated">未更新</span>
+        <button id="openCustomer" class="top-button" type="button">お客様画面</button>
+        <button id="logoutButton" class="top-button" type="button">ログアウト</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="toolbar">
+        <input id="orderDate" class="input" type="date">
+        <input id="searchInput" class="input" type="search"
+               placeholder="注文番号・お名前・電話番号で検索">
+        <button id="refreshButton" class="refresh-button" type="button">更新</button>
+      </section>
+
+      <section id="summaryGrid" class="summary-grid"></section>
+
+      <nav id="statusTabs" class="status-tabs" aria-label="注文状態"></nav>
+
+      <div class="section-head">
+        <div>
+          <h2>注文一覧</h2>
+          <p id="listDescription">本日の注文を受取時間順に表示します</p>
+        </div>
+        <p id="visibleCount">0件</p>
+      </div>
+
+      <section id="orders" class="orders">
+        <div class="loading">
+          <div class="spinner"></div>
+          注文を読み込み中
+        </div>
+      </section>
+    </div>
+
+    <footer class="footer">
+      STEP TAKEOUT-4 / TAKEOUT-4-OWNER-PC-ORDER-MANAGEMENT-20260711
+    </footer>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="./config.js"></script>
+  <script>
+    (() => {
+      "use strict";
+
+      const config = {
+        VERSION: "TAKEOUT-4-OWNER-PC-ORDER-MANAGEMENT-20260711",
+        SHOP_CODE: "takeout_demo",
+        API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
+        ADMIN_KEY: "1234",
+        ...(window.DPRO_TAKEOUT_CONFIG || {}),
+      };
+
+      const statusDefinitions = [
+        ["all", "すべて"],
+        ["received", "未確認"],
+        ["confirmed", "確認済み"],
+        ["cooking_wait", "調理待ち"],
+        ["cooking", "調理中"],
+        ["ready", "受取待ち"],
+        ["picked_up", "受取済み"],
+        ["contact_required", "連絡待ち"],
+        ["cancelled", "キャンセル"],
+        ["no_show", "未受取"],
+      ];
+
+      const nextStatus = {
+        received: ["confirmed", "注文を確認済みにする"],
+        confirmed: ["cooking_wait", "調理待ちにする"],
+        cooking_wait: ["cooking", "調理を開始する"],
+        cooking: ["ready", "受取待ちにする"],
+        ready: ["picked_up", "受取済みにする"],
+      };
+
+      const state = {
+        adminKey: sessionStorage.getItem("takeout_admin_key") || "",
+        date: "",
+        selectedStatus: "all",
+        orders: [],
+        summary: {},
+        loading: false,
+      };
+
+      const el = {
+        loginOverlay: document.getElementById("loginOverlay"),
+        loginForm: document.getElementById("loginForm"),
+        adminKeyInput: document.getElementById("adminKeyInput"),
+        loginButton: document.getElementById("loginButton"),
+        shopName: document.getElementById("shopName"),
+        lastUpdated: document.getElementById("lastUpdated"),
+        openCustomer: document.getElementById("openCustomer"),
+        logoutButton: document.getElementById("logoutButton"),
+        orderDate: document.getElementById("orderDate"),
+        searchInput: document.getElementById("searchInput"),
+        refreshButton: document.getElementById("refreshButton"),
+        summaryGrid: document.getElementById("summaryGrid"),
+        statusTabs: document.getElementById("statusTabs"),
+        listDescription: document.getElementById("listDescription"),
+        visibleCount: document.getElementById("visibleCount"),
+        orders: document.getElementById("orders"),
+        toast: document.getElementById("toast"),
+      };
+
+      const yen = new Intl.NumberFormat("ja-JP");
+
+      function apiUrl(path, params = {}) {
+        const base = String(config.API_BASE_URL).replace(/\/+$/, "");
+        const url = new URL(`${base}${path}`);
+
+        Object.entries(params).forEach(([key, value]) => {
+          if (value !== undefined && value !== null && value !== "") {
+            url.searchParams.set(key, String(value));
+          }
+        });
+
+        return url.toString();
+      }
+
+      async function apiFetch(path, options = {}, params = {}) {
+        const response = await fetch(apiUrl(path, params), {
+          ...options,
+          headers: {
+            "Content-Type": "application/json",
+            "X-Admin-Key": state.adminKey,
+            ...(options.headers || {}),
+          },
+        });
+
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok || !data?.ok) {
+          const error = new Error(
+            data?.message || `通信に失敗しました（${response.status}）`,
+          );
+          error.status = response.status;
+          throw error;
+        }
+
+        return data;
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function formatYen(value) {
+        return `${yen.format(Number(value || 0))}円`;
+      }
+
+      function getTokyoDateString() {
+        return new Intl.DateTimeFormat("en-CA", {
+          timeZone: "Asia/Tokyo",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).format(new Date());
+      }
+
+      function formatDateLabel(dateString) {
+        const [year, month, day] = dateString.split("-").map(Number);
+        const date = new Date(Date.UTC(year, month - 1, day));
+        const dayName = ["日", "月", "火", "水", "木", "金", "土"][date.getUTCDay()];
+        return `${year}年${month}月${day}日（${dayName}）`;
+      }
+
+      function showToast(message, type = "normal") {
+        el.toast.textContent = message;
+        el.toast.className = `toast show${type === "error" ? " error" : ""}`;
+
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => {
+          el.toast.className = "toast";
+        }, 2500);
+      }
+
+      function statusLabel(status) {
+        return Object.fromEntries(statusDefinitions)[status] || status;
+      }
+
+      function statusClass(status) {
+        return `status-${status}`;
+      }
+
+      function renderSummary() {
+        const cards = [
+          ["total", "本日の注文", state.summary.total || 0, ""],
+          ["received", "未確認", state.summary.received || 0, "urgent"],
+          ["cooking_wait", "調理待ち", state.summary.cooking_wait || 0, "cooking"],
+          ["cooking", "調理中", state.summary.cooking || 0, "cooking"],
+          ["ready", "受取待ち", state.summary.ready || 0, "ready"],
+          ["picked_up", "受取済み", state.summary.picked_up || 0, ""],
+        ];
+
+        el.summaryGrid.innerHTML = cards
+          .map(([key, label, count, className]) => `
+            <button type="button"
+                    class="summary-card ${className}"
+                    data-summary-status="${key === "total" ? "all" : key}">
+              <span>${label}</span>
+              <strong>${count}</strong>
+            </button>
+          `)
+          .join("");
+      }
+
+      function renderTabs() {
+        el.statusTabs.innerHTML = statusDefinitions
+          .map(([status, label]) => {
+            const count =
+              status === "all"
+                ? state.summary.total || 0
+                : state.summary[status] || 0;
+
+            return `
+              <button type="button"
+                      class="tab${state.selectedStatus === status ? " active" : ""}"
+                      data-status-tab="${status}">
+                ${label} ${count}
+              </button>
+            `;
+          })
+          .join("");
+      }
+
+      function filteredOrders() {
+        const query = el.searchInput.value.trim().normalize("NFKC").toLowerCase();
+
+        return state.orders.filter((order) => {
+          const statusOk =
+            state.selectedStatus === "all" ||
+            order.status === state.selectedStatus;
+
+          if (!statusOk) return false;
+          if (!query) return true;
+
+          const haystack = [
+            order.order_number,
+            order.customer_name,
+            order.phone,
+            order.normalized_phone,
+          ]
+            .join(" ")
+            .normalize("NFKC")
+            .toLowerCase();
+
+          return haystack.includes(query);
+        });
+      }
+
+      function renderOrders() {
+        const orders = filteredOrders();
+        el.visibleCount.textContent = `${orders.length}件`;
+        el.listDescription.textContent =
+          `${formatDateLabel(state.date)}の注文を受取時間順に表示`;
+
+        if (orders.length === 0) {
+          el.orders.innerHTML = `
+            <div class="empty">
+              該当する注文はありません。
+            </div>
+          `;
+          return;
+        }
+
+        el.orders.innerHTML = orders.map(renderOrderCard).join("");
+      }
+
+      function renderOrderCard(order) {
+        const itemHtml = (order.items || [])
+          .map((item) => `
+            <div class="item-row">
+              <div>
+                <div class="item-name">
+                  ${escapeHtml(item.product_name)} ×${item.quantity}
+                </div>
+                ${item.option_summary
+                  ? `<div class="item-option">${escapeHtml(item.option_summary)}</div>`
+                  : ""}
+              </div>
+              <strong>${formatYen(item.line_total)}</strong>
+            </div>
+          `)
+          .join("");
+
+        const next = nextStatus[order.status];
+        const nextButton = next
+          ? `
+            <button type="button"
+                    class="next-button${next[0] === "picked_up" ? " ready-action" : ""}"
+                    data-quick-order="${order.id}"
+                    data-quick-status="${next[0]}">
+              ${next[1]}
+            </button>
+          `
+          : "";
+
+        const statusOptions = statusDefinitions
+          .filter(([status]) => status !== "all")
+          .map(([status, label]) => `
+            <option value="${status}"${order.status === status ? " selected" : ""}>
+              ${label}
+            </option>
+          `)
+          .join("");
+
+        return `
+          <article class="order-card" data-status="${order.status}">
+            <div class="time-column">
+              <div class="pickup-time">${escapeHtml(order.pickup_time)}</div>
+              <div class="order-number">${escapeHtml(order.order_number)}</div>
+              <span class="status-badge ${statusClass(order.status)}">
+                ${escapeHtml(order.status_label || statusLabel(order.status))}
+              </span>
+              <span class="channel-badge">
+                ${escapeHtml(order.channel_label || "LINE")}受付
+              </span>
+            </div>
+
+            <div class="order-main">
+              <div class="customer-line">
+                <span class="customer-name">${escapeHtml(order.customer_name)}</span>
+                <a class="phone" href="tel:${escapeHtml(order.normalized_phone || order.phone)}">
+                  ${escapeHtml(order.phone || "")}
+                </a>
+              </div>
+
+              <div class="items">${itemHtml}</div>
+
+              ${order.customer_note
+                ? `<div class="note"><strong>ご要望：</strong>${escapeHtml(order.customer_note)}</div>`
+                : ""}
+
+              <div class="order-bottom">
+                <span class="total">${formatYen(order.total_amount)}</span>
+                <div class="small-actions">
+                  <button type="button" class="link-button"
+                          data-copy="${escapeHtml(order.order_number)}">
+                    注文番号コピー
+                  </button>
+                  <button type="button" class="link-button"
+                          data-copy="${escapeHtml(order.phone || "")}">
+                    電話番号コピー
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-column">
+              ${nextButton}
+              <div class="status-control">
+                <select class="select" data-status-select="${order.id}">
+                  ${statusOptions}
+                </select>
+                <button type="button" class="apply-button"
+                        data-apply-order="${order.id}">
+                  更新
+                </button>
+              </div>
+              <div class="updated">
+                更新：${escapeHtml(formatUpdatedAt(order.updated_at))}
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      function formatUpdatedAt(value) {
+        if (!value) return "-";
+
+        try {
+          return new Intl.DateTimeFormat("ja-JP", {
+            timeZone: "Asia/Tokyo",
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(new Date(value));
+        } catch {
+          return "-";
+        }
+      }
+
+      async function loadShop() {
+        const response = await fetch(
+          apiUrl("/api/shop", { shop_code: config.SHOP_CODE }),
+        );
+        const data = await response.json();
+
+        if (data?.ok) {
+          el.shopName.textContent =
+            `${data.shop.shop_name}｜注文管理`;
+        }
+      }
+
+      async function loadOrders(showLoading = true) {
+        if (state.loading) return;
+
+        state.loading = true;
+        el.refreshButton.disabled = true;
+        el.refreshButton.textContent = "更新中...";
+
+        if (showLoading) {
+          el.orders.innerHTML = `
+            <div class="loading">
+              <div class="spinner"></div>
+              注文を読み込み中
+            </div>
+          `;
+        }
+
+        try {
+          const data = await apiFetch(
+            "/api/admin/orders",
+            {},
+            {
+              shop_code: config.SHOP_CODE,
+              date: state.date,
+            },
+          );
+
+          state.orders = data.orders || [];
+          state.summary = data.summary || {};
+
+          renderSummary();
+          renderTabs();
+          renderOrders();
+
+          el.lastUpdated.textContent =
+            `更新 ${new Intl.DateTimeFormat("ja-JP", {
+              timeZone: "Asia/Tokyo",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            }).format(new Date())}`;
+
+          el.loginOverlay.classList.add("hidden");
+        } catch (error) {
+          if (error.status === 401) {
+            state.adminKey = "";
+            sessionStorage.removeItem("takeout_admin_key");
+            el.loginOverlay.classList.remove("hidden");
+            el.adminKeyInput.focus();
+            showToast("管理コードを確認してください。", "error");
+          } else {
+            el.orders.innerHTML = `
+              <div class="empty">${escapeHtml(error.message)}</div>
+            `;
+            showToast(error.message, "error");
+          }
+        } finally {
+          state.loading = false;
+          el.refreshButton.disabled = false;
+          el.refreshButton.textContent = "更新";
+        }
+      }
+
+      async function updateStatus(orderId, newStatus) {
+        const order = state.orders.find((item) => item.id === orderId);
+        if (!order || order.status === newStatus) {
+          showToast("注文状態に変更はありません。");
+          return;
+        }
+
+        let note = "";
+
+        if (newStatus === "cancelled") {
+          const confirmed = window.confirm(
+            `${order.order_number}をキャンセルにしますか？`,
+          );
+          if (!confirmed) return;
+          note = window.prompt("キャンセル理由（任意）", "") || "";
+        }
+
+        if (newStatus === "no_show") {
+          const confirmed = window.confirm(
+            `${order.order_number}を未受取にしますか？`,
+          );
+          if (!confirmed) return;
+        }
+
+        const buttons = [
+          ...document.querySelectorAll(
+            `[data-quick-order="${orderId}"], [data-apply-order="${orderId}"]`,
+          ),
+        ];
+
+        buttons.forEach((button) => {
+          button.disabled = true;
+          button.dataset.originalText = button.textContent;
+          button.textContent = "更新中...";
+        });
+
+        try {
+          const data = await apiFetch(
+            "/api/admin/orders/status",
+            {
+              method: "PATCH",
+              body: JSON.stringify({
+                shop_code: config.SHOP_CODE,
+                order_id: orderId,
+                status: newStatus,
+                note,
+              }),
+            },
+          );
+
+          showToast(
+            `${data.order_number}を「${data.status_label}」に変更しました。`,
+          );
+          await loadOrders(false);
+        } catch (error) {
+          showToast(error.message, "error");
+        } finally {
+          buttons.forEach((button) => {
+            button.disabled = false;
+            button.textContent =
+              button.dataset.originalText || "更新";
+          });
+        }
+      }
+
+      async function copyText(value) {
+        try {
+          await navigator.clipboard.writeText(value);
+          showToast(`コピーしました：${value}`);
+        } catch {
+          const textarea = document.createElement("textarea");
+          textarea.value = value;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand("copy");
+          textarea.remove();
+          showToast(`コピーしました：${value}`);
+        }
+      }
+
+      el.loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const key = el.adminKeyInput.value.trim();
+        if (!key) {
+          showToast("管理コードを入力してください。", "error");
+          return;
+        }
+
+        state.adminKey = key;
+        sessionStorage.setItem("takeout_admin_key", key);
+        await loadOrders();
+      });
+
+      el.refreshButton.addEventListener("click", () => loadOrders());
+
+      el.orderDate.addEventListener("change", () => {
+        state.date = el.orderDate.value;
+        state.selectedStatus = "all";
+        loadOrders();
+      });
+
+      el.searchInput.addEventListener("input", renderOrders);
+
+      el.statusTabs.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-status-tab]");
+        if (!button) return;
+
+        state.selectedStatus = button.dataset.statusTab;
+        renderTabs();
+        renderOrders();
+      });
+
+      el.summaryGrid.addEventListener("click", (event) => {
+        const card = event.target.closest("[data-summary-status]");
+        if (!card) return;
+
+        state.selectedStatus = card.dataset.summaryStatus;
+        renderTabs();
+        renderOrders();
+      });
+
+      el.orders.addEventListener("click", (event) => {
+        const quick = event.target.closest("[data-quick-order]");
+        const apply = event.target.closest("[data-apply-order]");
+        const copy = event.target.closest("[data-copy]");
+
+        if (quick) {
+          updateStatus(
+            quick.dataset.quickOrder,
+            quick.dataset.quickStatus,
+          );
+          return;
+        }
+
+        if (apply) {
+          const select = document.querySelector(
+            `[data-status-select="${apply.dataset.applyOrder}"]`,
+          );
+          if (select) {
+            updateStatus(apply.dataset.applyOrder, select.value);
+          }
+          return;
+        }
+
+        if (copy) {
+          copyText(copy.dataset.copy);
+        }
+      });
+
+      el.logoutButton.addEventListener("click", () => {
+        state.adminKey = "";
+        sessionStorage.removeItem("takeout_admin_key");
+        el.adminKeyInput.value = "";
+        el.loginOverlay.classList.remove("hidden");
+        el.adminKeyInput.focus();
+      });
+
+      el.openCustomer.addEventListener("click", () => {
+        window.open("./?v=takeout-4-owner-link", "_blank", "noopener");
+      });
+
+      async function initialize() {
+        state.date = getTokyoDateString();
+        el.orderDate.value = state.date;
+
+        await loadShop().catch(() => {});
+
+        if (state.adminKey) {
+          await loadOrders();
+        } else {
+          el.loginOverlay.classList.remove("hidden");
+          el.adminKeyInput.focus();
+        }
+      }
+
+      initialize();
+
+      window.setInterval(() => {
+        if (state.adminKey && !state.loading) {
+          loadOrders(false);
+        }
+      }, 60_000);
+    })();
+  </script>
+</body>
+</html>
