@@ -37,7 +37,7 @@
     .note-save{display:flex;gap:8px;margin-top:7px}.note-save .textarea{min-height:76px}.note-save button{flex:0 0 auto}
     .loading,.empty{padding:28px 14px;text-align:center;color:var(--sub)}.spinner{width:29px;height:29px;margin:0 auto 8px;border:3px solid #f0d8cc;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
     .overlay{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:15px;background:rgba(42,32,27,.58);backdrop-filter:blur(7px)}.overlay.hidden{display:none}.modal{width:min(680px,100%);max-height:91vh;overflow:auto;border-radius:22px;background:#fff;box-shadow:0 22px 60px rgba(33,24,19,.28)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px;border-bottom:1px solid var(--line)}.modal-head h2{margin:0}.close{width:42px;height:42px;border:0;border-radius:50%;background:#f1eeeb;font-size:20px}.modal-body{padding:16px}.option-group{margin-bottom:12px}.option-group h3{margin:0 0 7px;font-size:14px}.option-choice{display:flex;align-items:center;justify-content:space-between;gap:9px;min-height:45px;margin-top:6px;padding:9px 11px;border:1px solid var(--line);border-radius:11px}.modal-qty{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding:11px;border:1px solid var(--line);border-radius:12px}.modal-qty-controls{display:flex;align-items:center;gap:12px}.modal-qty-controls button{width:39px;height:39px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:20px}.success-number{padding:15px;border:2px dashed #f0ac96;border-radius:15px;background:var(--accent-soft);color:var(--accent-dark);font-size:27px;font-weight:950;text-align:center}.success-summary{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:13px}.success-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-    .login-card{width:min(430px,100%);padding:22px;border-radius:22px;background:#fff}.login-card h2{margin:0}.login-card p{color:var(--sub);font-size:12px}.login-card .input{margin:10px 0}.toast{position:fixed;z-index:140;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,18px);width:min(calc(100% - 28px),720px);padding:13px 15px;border-radius:13px;color:#fff;background:#302721;text-align:center;font-size:13px;font-weight:900;opacity:0;pointer-events:none;transition:.23s;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.error{background:var(--red)}
+    .login-card{width:min(430px,100%);padding:22px;border-radius:22px;background:#fff}.login-card h2{margin:0}.login-card p{color:var(--sub);font-size:12px}.login-card .input{margin:10px 0}.toast{position:fixed;z-index:260;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,18px);width:min(calc(100% - 28px),720px);padding:13px 15px;border-radius:13px;color:#fff;background:#302721;text-align:center;font-size:13px;font-weight:900;opacity:0;pointer-events:none;transition:.23s;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.error{background:var(--red)}
     .footer{padding:16px 0 2px;color:#988b83;text-align:center;font-size:10px}
     @media(max-width:1120px){.workspace{grid-template-columns:1fr}.side{position:static}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.slots{grid-template-columns:repeat(4,minmax(0,1fr))}}
     @media(max-width:700px){.shell{padding:8px}.header{align-items:flex-start;flex-direction:column;border-radius:18px}.header-actions{justify-content:flex-start}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.products{grid-template-columns:1fr}.slots{grid-template-columns:repeat(3,minmax(0,1fr))}.phone-row{grid-template-columns:1fr}.success-actions{grid-template-columns:1fr}}
@@ -66,7 +66,15 @@
     .line-message-footer{display:grid;grid-template-columns:auto auto minmax(180px,1fr);gap:8px;padding:14px 20px 18px;border-top:1px solid var(--line,#eadfd8)}
     .line-message-footer button{min-height:46px;border-radius:12px;padding:10px 14px;font-weight:950}
     .line-message-secondary{border:1px solid var(--line,#eadfd8);background:#fff;color:var(--ink,#241f1b)}
-    .line-message-copy{border:0;background:#24459a;color:#fff}
+    .line-message-copy{border:0;background:#24459a;color:#fff;transition:.18s ease}
+    .line-message-copy.copied{background:#168654;box-shadow:0 8px 20px rgba(22,134,84,.22)}
+    .line-message-copy:disabled{cursor:default;opacity:1}
+    .line-message-copy-status{
+      display:none;margin:10px 0 0;padding:11px 13px;border:1px solid #a8ddc4;
+      border-radius:12px;color:#12653f;background:#eaf8f1;font-size:12px;
+      font-weight:900;line-height:1.5
+    }
+    .line-message-copy-status.show{display:block}
     .line-message-open{border:1px solid #d7c8be;border-radius:9px;background:#fff;color:#7a4b38;padding:7px 10px;font-size:11px;font-weight:950}
     @media(max-width:640px){
       .line-message-overlay{padding:0;align-items:end}.line-message-modal{max-height:96vh;border-radius:22px 22px 0 0}
@@ -163,7 +171,7 @@
       </aside>
     </div>
 
-    <footer class="footer">STEP TAKEOUT-10 / TAKEOUT-10-LINE-MESSAGE-EDITOR-20260712</footer>
+    <footer class="footer">STEP TAKEOUT-10-R1 / TAKEOUT-10-R1-COPY-ACTION-FEEDBACK-20260712</footer>
   </main>
 
   <div id="optionOverlay" class="overlay hidden">
@@ -210,6 +218,12 @@
         </div>
         <textarea id="lineMessageText" class="line-message-text" maxlength="4000"></textarea>
         <p class="line-message-help">この場で文面を直してからコピーできます。LINE公式チャットへ貼り付けて送信してください。</p>
+        <div id="lineMessageCopyStatus"
+             class="line-message-copy-status"
+             role="status"
+             aria-live="polite">
+          ✓ コピーしました。LINE公式チャットに貼り付けできます。
+        </div>
       </div>
       <div class="line-message-footer">
         <button id="lineMessageCancel" class="line-message-secondary" type="button">閉じる</button>
@@ -224,7 +238,7 @@
   <script>
     (() => {
       "use strict";
-      const config={VERSION:"TAKEOUT-10-LINE-MESSAGE-EDITOR-20260712",SHOP_CODE:"takeout_demo",API_BASE_URL:"https://dpro-takeout-line-api.dpromstk2000.workers.dev",ADMIN_KEY:"1234",...(window.DPRO_TAKEOUT_CONFIG||{})};
+      const config={VERSION:"TAKEOUT-10-R1-COPY-ACTION-FEEDBACK-20260712",SHOP_CODE:"takeout_demo",API_BASE_URL:"https://dpro-takeout-line-api.dpromstk2000.workers.dev",ADMIN_KEY:"1234",...(window.DPRO_TAKEOUT_CONFIG||{})};
       const state={adminKey:sessionStorage.getItem("takeout_admin_key")||"",shop:null,settings:null,channel:"phone",date:"",time:"",products:[],slots:[],cart:[],selectedProduct:null,optionQuantity:1,selectedCustomer:null,customerDetail:null,lastSuccess:null,loading:false};
       const yen=new Intl.NumberFormat("ja-JP");
       const el={loginOverlay:document.getElementById("loginOverlay"),loginForm:document.getElementById("loginForm"),adminKeyInput:document.getElementById("adminKeyInput"),shopName:document.getElementById("shopName"),ordersButton:document.getElementById("ordersButton"),ipadButton:document.getElementById("ipadButton"),productsButton:document.getElementById("productsButton"),settingsButton:document.getElementById("settingsButton"),logoutButton:document.getElementById("logoutButton"),resetButton:document.getElementById("resetButton"),newCustomerButton:document.getElementById("newCustomerButton"),customerName:document.getElementById("customerName"),customerPhone:document.getElementById("customerPhone"),normalizedPhone:document.getElementById("normalizedPhone"),phoneRequired:document.getElementById("phoneRequired"),phoneHelp:document.getElementById("phoneHelp"),pickupDate:document.getElementById("pickupDate"),selectedTimeDisplay:document.getElementById("selectedTimeDisplay"),closedMessage:document.getElementById("closedMessage"),slots:document.getElementById("slots"),products:document.getElementById("products"),productCount:document.getElementById("productCount"),cart:document.getElementById("cart"),cartCount:document.getElementById("cartCount"),totalAmount:document.getElementById("totalAmount"),paymentMethod:document.getElementById("paymentMethod"),customerNote:document.getElementById("customerNote"),shopNote:document.getElementById("shopNote"),createOrderButton:document.getElementById("createOrderButton"),customerSearch:document.getElementById("customerSearch"),searchButton:document.getElementById("searchButton"),searchResults:document.getElementById("searchResults"),customerDetail:document.getElementById("customerDetail"),optionOverlay:document.getElementById("optionOverlay"),optionTitle:document.getElementById("optionTitle"),optionClose:document.getElementById("optionClose"),optionGroups:document.getElementById("optionGroups"),optionMinus:document.getElementById("optionMinus"),optionPlus:document.getElementById("optionPlus"),optionQuantity:document.getElementById("optionQuantity"),optionTotal:document.getElementById("optionTotal"),optionAdd:document.getElementById("optionAdd"),successOverlay:document.getElementById("successOverlay"),successClose:document.getElementById("successClose"),successNumber:document.getElementById("successNumber"),successSummary:document.getElementById("successSummary"),copyMessageButton:document.getElementById("copyMessageButton"),openOrdersButton:document.getElementById("openOrdersButton"),nextOrderButton:document.getElementById("nextOrderButton"),toast:document.getElementById("toast")};
@@ -389,6 +403,7 @@
         cancel: document.getElementById("lineMessageCancel"),
         reset: document.getElementById("lineMessageReset"),
         copy: document.getElementById("lineMessageCopy"),
+        copyStatus: document.getElementById("lineMessageCopyStatus"),
         summary: document.getElementById("lineMessageSummary"),
         templates: document.getElementById("lineMessageTemplates"),
         tones: document.getElementById("lineMessageTones"),
@@ -530,6 +545,11 @@
           <span>${lineEscape(status || "")}</span>
         `;
         lineApplyGeneratedMessage();
+        clearTimeout(lineMessageEl.copy.resetTimer);
+        lineMessageEl.copy.disabled = false;
+        lineMessageEl.copy.classList.remove("copied");
+        lineMessageEl.copy.textContent = "編集後の文面をコピー";
+        lineMessageEl.copyStatus.classList.remove("show");
         lineMessageEl.overlay.classList.remove("hidden");
         lineMessageEl.overlay.setAttribute("aria-hidden", "false");
         setTimeout(() => lineMessageEl.text.focus(), 30);
@@ -576,10 +596,36 @@
         const text = lineMessageEl.text.value.trim();
         if (!text) {
           lineNotify("コピーする文面を入力してください。", "error");
+          lineMessageEl.text.focus();
           return;
         }
-        await lineCopyText(text);
-        lineNotify("編集後のLINE文面をコピーしました。");
+
+        const originalText = "編集後の文面をコピー";
+        lineMessageEl.copy.disabled = true;
+        lineMessageEl.copy.textContent = "コピー中...";
+
+        try {
+          await lineCopyText(text);
+
+          lineMessageEl.copy.classList.add("copied");
+          lineMessageEl.copy.textContent = "コピーしました ✓";
+          lineMessageEl.copyStatus.classList.add("show");
+          lineNotify("LINE文面をコピーしました。貼り付けできます。");
+
+          clearTimeout(lineMessageEl.copy.resetTimer);
+          lineMessageEl.copy.resetTimer = setTimeout(() => {
+            lineMessageEl.copy.disabled = false;
+            lineMessageEl.copy.classList.remove("copied");
+            lineMessageEl.copy.textContent = originalText;
+            lineMessageEl.copyStatus.classList.remove("show");
+          }, 3200);
+        } catch {
+          lineMessageEl.copy.disabled = false;
+          lineMessageEl.copy.classList.remove("copied");
+          lineMessageEl.copy.textContent = originalText;
+          lineMessageEl.copyStatus.classList.remove("show");
+          lineNotify("コピーできませんでした。文面を選択してコピーしてください。", "error");
+        }
       });
       lineMessageEl.close.addEventListener("click", closeLineMessageEditor);
       lineMessageEl.cancel.addEventListener("click", closeLineMessageEditor);

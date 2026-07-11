@@ -521,7 +521,7 @@
 
     .toast {
       position: fixed;
-      z-index: 130;
+      z-index: 260;
       left: 50%;
       bottom: calc(20px + env(safe-area-inset-bottom));
       transform: translate(-50%, 18px);
@@ -588,7 +588,15 @@
     .line-message-footer{display:grid;grid-template-columns:auto auto minmax(180px,1fr);gap:8px;padding:14px 20px 18px;border-top:1px solid var(--line,#eadfd8)}
     .line-message-footer button{min-height:46px;border-radius:12px;padding:10px 14px;font-weight:950}
     .line-message-secondary{border:1px solid var(--line,#eadfd8);background:#fff;color:var(--ink,#241f1b)}
-    .line-message-copy{border:0;background:#24459a;color:#fff}
+    .line-message-copy{border:0;background:#24459a;color:#fff;transition:.18s ease}
+    .line-message-copy.copied{background:#168654;box-shadow:0 8px 20px rgba(22,134,84,.22)}
+    .line-message-copy:disabled{cursor:default;opacity:1}
+    .line-message-copy-status{
+      display:none;margin:10px 0 0;padding:11px 13px;border:1px solid #a8ddc4;
+      border-radius:12px;color:#12653f;background:#eaf8f1;font-size:12px;
+      font-weight:900;line-height:1.5
+    }
+    .line-message-copy-status.show{display:block}
     .line-message-open{border:1px solid #d7c8be;border-radius:9px;background:#fff;color:#7a4b38;padding:7px 10px;font-size:11px;font-weight:950}
     @media(max-width:640px){
       .line-message-overlay{padding:0;align-items:end}.line-message-modal{max-height:96vh;border-radius:22px 22px 0 0}
@@ -657,7 +665,7 @@
     </section>
 
     <footer class="footer">
-      STEP TAKEOUT-10 / TAKEOUT-10-LINE-MESSAGE-EDITOR-20260712
+      STEP TAKEOUT-10-R1 / TAKEOUT-10-R1-COPY-ACTION-FEEDBACK-20260712
     </footer>
   </main>
 
@@ -691,6 +699,12 @@
         </div>
         <textarea id="lineMessageText" class="line-message-text" maxlength="4000"></textarea>
         <p class="line-message-help">この場で文面を直してからコピーできます。LINE公式チャットへ貼り付けて送信してください。</p>
+        <div id="lineMessageCopyStatus"
+             class="line-message-copy-status"
+             role="status"
+             aria-live="polite">
+          ✓ コピーしました。LINE公式チャットに貼り付けできます。
+        </div>
       </div>
       <div class="line-message-footer">
         <button id="lineMessageCancel" class="line-message-secondary" type="button">閉じる</button>
@@ -708,7 +722,7 @@
       "use strict";
 
       const config = {
-        VERSION: "TAKEOUT-10-LINE-MESSAGE-EDITOR-20260712",
+        VERSION: "TAKEOUT-10-R1-COPY-ACTION-FEEDBACK-20260712",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         ADMIN_KEY: "1234",
@@ -1301,6 +1315,7 @@
         cancel: document.getElementById("lineMessageCancel"),
         reset: document.getElementById("lineMessageReset"),
         copy: document.getElementById("lineMessageCopy"),
+        copyStatus: document.getElementById("lineMessageCopyStatus"),
         summary: document.getElementById("lineMessageSummary"),
         templates: document.getElementById("lineMessageTemplates"),
         tones: document.getElementById("lineMessageTones"),
@@ -1442,6 +1457,11 @@
           <span>${lineEscape(status || "")}</span>
         `;
         lineApplyGeneratedMessage();
+        clearTimeout(lineMessageEl.copy.resetTimer);
+        lineMessageEl.copy.disabled = false;
+        lineMessageEl.copy.classList.remove("copied");
+        lineMessageEl.copy.textContent = "編集後の文面をコピー";
+        lineMessageEl.copyStatus.classList.remove("show");
         lineMessageEl.overlay.classList.remove("hidden");
         lineMessageEl.overlay.setAttribute("aria-hidden", "false");
         setTimeout(() => lineMessageEl.text.focus(), 30);
@@ -1488,10 +1508,36 @@
         const text = lineMessageEl.text.value.trim();
         if (!text) {
           lineNotify("コピーする文面を入力してください。", "error");
+          lineMessageEl.text.focus();
           return;
         }
-        await lineCopyText(text);
-        lineNotify("編集後のLINE文面をコピーしました。");
+
+        const originalText = "編集後の文面をコピー";
+        lineMessageEl.copy.disabled = true;
+        lineMessageEl.copy.textContent = "コピー中...";
+
+        try {
+          await lineCopyText(text);
+
+          lineMessageEl.copy.classList.add("copied");
+          lineMessageEl.copy.textContent = "コピーしました ✓";
+          lineMessageEl.copyStatus.classList.add("show");
+          lineNotify("LINE文面をコピーしました。貼り付けできます。");
+
+          clearTimeout(lineMessageEl.copy.resetTimer);
+          lineMessageEl.copy.resetTimer = setTimeout(() => {
+            lineMessageEl.copy.disabled = false;
+            lineMessageEl.copy.classList.remove("copied");
+            lineMessageEl.copy.textContent = originalText;
+            lineMessageEl.copyStatus.classList.remove("show");
+          }, 3200);
+        } catch {
+          lineMessageEl.copy.disabled = false;
+          lineMessageEl.copy.classList.remove("copied");
+          lineMessageEl.copy.textContent = originalText;
+          lineMessageEl.copyStatus.classList.remove("show");
+          lineNotify("コピーできませんでした。文面を選択してコピーしてください。", "error");
+        }
       });
       lineMessageEl.close.addEventListener("click", closeLineMessageEditor);
       lineMessageEl.cancel.addEventListener("click", closeLineMessageEditor);
