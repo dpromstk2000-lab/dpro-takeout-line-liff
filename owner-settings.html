@@ -146,14 +146,14 @@
         <section class="notice green"><strong>設定の反映先</strong><br>注文受付ON/OFF、受付締切、受付期間、定休日、臨時休業、受取枠は、お客様注文・電話受付・マイページの変更可否へ反映されます。</section>
       </aside>
     </div>
-    <div class="footer">STEP TAKEOUT-9-R2 / TAKEOUT-9-R2-INDEX-ACTIVE-STATE-FIX-20260711</div>
+    <div class="footer">STEP TAKEOUT-9-R3 / TAKEOUT-9-R3-USER-SCROLL-ACTIVE-FIX-20260711</div>
   </div>
   <div id="toast" class="toast" role="status"></div>
 
   <script src="./config.js"></script>
   <script>
   (()=>{"use strict";
-    const config={VERSION:"TAKEOUT-9-R2-INDEX-ACTIVE-STATE-FIX-20260711",SHOP_CODE:"takeout_demo",API_BASE_URL:"https://dpro-takeout-line-api.dpromstk2000.workers.dev",ADMIN_KEY:"1234",...(window.DPRO_TAKEOUT_CONFIG||{})};
+    const config={VERSION:"TAKEOUT-9-R3-USER-SCROLL-ACTIVE-FIX-20260711",SHOP_CODE:"takeout_demo",API_BASE_URL:"https://dpro-takeout-line-api.dpromstk2000.workers.dev",ADMIN_KEY:"1234",...(window.DPRO_TAKEOUT_CONFIG||{})};
     const weekdays=["日","月","火","水","木","金","土"];
     const paymentCandidates=["店頭支払い","現金","クレジットカード","QRコード決済","支払い済み"];
     const state={adminKey:sessionStorage.getItem("takeout_admin_key")||"",shop:null,settings:null,regularClosed:new Set(),specialClosed:[],slots:new Map(),activeWeekday:1,snapshot:"",dirty:false,loading:false};
@@ -169,7 +169,14 @@
     function toMinutes(t){const [h,m]=String(t).split(":").map(Number);return h*60+m}
     function timesBetween(start,end){const result=[];for(let m=toMinutes(start);m<=toMinutes(end);m+=30)result.push(`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`);return result}
     function slotKey(day,time){return `${day}|${time}`}
-    const sectionNavigation={lockedId:"",lockUntil:0,scrollRaf:0,releaseTimer:0};
+    const sectionNavigation={
+      activeId:"section-status",
+      programmaticScroll:false,
+      userScrollIntent:false,
+      scrollRaf:0,
+      programmaticTimer:0,
+      intentTimer:0
+    };
     function sectionNode(id){return document.getElementById(id)}
     function setSectionCollapsed(id,collapsed){
       const section=sectionNode(id);if(!section)return;
@@ -177,10 +184,9 @@
       const button=section.querySelector(`[data-toggle-section="${id}"]`);
       if(button){button.textContent=collapsed?"開く":"閉じる";button.setAttribute("aria-expanded",String(!collapsed))}
     }
-    function activateSection(id,{force=false}={}){
+    function activateSection(id){
       if(!id)return;
-      const lockActive=sectionNavigation.lockedId&&Date.now()<sectionNavigation.lockUntil;
-      if(!force&&lockActive&&id!==sectionNavigation.lockedId)return;
+      sectionNavigation.activeId=id;
       document.querySelectorAll("[data-nav-section]").forEach(button=>button.classList.toggle("active",button.dataset.navSection===id));
       if(el.mobileSectionSelect&&el.mobileSectionSelect.value!==id)el.mobileSectionSelect.value=id;
     }
@@ -199,61 +205,83 @@
       if(nearBottom)current=sections[sections.length-1];
       return current.id;
     }
-    function syncSectionFromScroll(){
+    function syncSectionFromUserScroll(){
+      if(sectionNavigation.programmaticScroll||!sectionNavigation.userScrollIntent)return;
       if(sectionNavigation.scrollRaf)return;
       sectionNavigation.scrollRaf=requestAnimationFrame(()=>{
         sectionNavigation.scrollRaf=0;
-        if(sectionNavigation.lockedId&&Date.now()<sectionNavigation.lockUntil)return;
-        sectionNavigation.lockedId="";
-        activateSection(currentSectionFromScroll(),{force:true});
+        if(sectionNavigation.programmaticScroll||!sectionNavigation.userScrollIntent)return;
+        activateSection(currentSectionFromScroll());
       });
     }
-    function releaseSectionLock(id){
-      clearTimeout(sectionNavigation.releaseTimer);
-      sectionNavigation.releaseTimer=setTimeout(()=>{
-        if(sectionNavigation.lockedId!==id)return;
-        sectionNavigation.lockedId="";
-        sectionNavigation.lockUntil=0;
-        activateSection(currentSectionFromScroll(),{force:true});
-      },1050);
+    function markUserScrollIntent(){
+      if(sectionNavigation.programmaticScroll)return;
+      sectionNavigation.userScrollIntent=true;
+      clearTimeout(sectionNavigation.intentTimer);
+      sectionNavigation.intentTimer=setTimeout(()=>{
+        sectionNavigation.userScrollIntent=false;
+      },700);
+      syncSectionFromUserScroll();
+    }
+    function finishProgrammaticScroll(id){
+      clearTimeout(sectionNavigation.programmaticTimer);
+      sectionNavigation.programmaticTimer=setTimeout(()=>{
+        sectionNavigation.programmaticScroll=false;
+        sectionNavigation.userScrollIntent=false;
+        activateSection(id);
+      },1400);
     }
     function openAndScrollSection(id){
       const section=sectionNode(id);if(!section)return;
       setSectionCollapsed(id,false);
-      sectionNavigation.lockedId=id;
-      sectionNavigation.lockUntil=Date.now()+1800;
-      activateSection(id,{force:true});
+      sectionNavigation.programmaticScroll=true;
+      sectionNavigation.userScrollIntent=false;
+      activateSection(id);
       history.replaceState(null,"",`${location.pathname}${location.search}#${id}`);
       requestAnimationFrame(()=>{
         const targetTop=Math.max(0,section.getBoundingClientRect().top+window.scrollY-16);
         window.scrollTo({top:targetTop,behavior:"smooth"});
-        releaseSectionLock(id);
+        finishProgrammaticScroll(id);
       });
     }
     function initializeSectionNavigation(){
       document.querySelectorAll("[data-toggle-section]").forEach(button=>button.addEventListener("click",()=>{
         const id=button.dataset.toggleSection,section=sectionNode(id);
         setSectionCollapsed(id,!section.classList.contains("collapsed"));
-        activateSection(id,{force:true});
+        activateSection(id);
       }));
       document.querySelectorAll("[data-nav-section]").forEach(button=>button.addEventListener("click",()=>openAndScrollSection(button.dataset.navSection)));
       el.mobileSectionSelect?.addEventListener("change",()=>openAndScrollSection(el.mobileSectionSelect.value));
       el.openAllSections?.addEventListener("click",()=>{
         document.querySelectorAll("[data-section]").forEach(section=>setSectionCollapsed(section.id,false));
-        activateSection(currentSectionFromScroll(),{force:true});
+        activateSection(sectionNavigation.activeId||currentSectionFromScroll());
       });
       el.closeLongSections?.addEventListener("click",()=>{
         setSectionCollapsed("section-holidays",true);
         setSectionCollapsed("section-slots",true);
         openAndScrollSection("section-status");
       });
-      window.addEventListener("scroll",syncSectionFromScroll,{passive:true});
-      window.addEventListener("resize",syncSectionFromScroll,{passive:true});
+
+      window.addEventListener("scroll",syncSectionFromUserScroll,{passive:true});
+      window.addEventListener("wheel",markUserScrollIntent,{passive:true});
+      window.addEventListener("touchstart",markUserScrollIntent,{passive:true});
+      window.addEventListener("touchmove",markUserScrollIntent,{passive:true});
+      window.addEventListener("mousedown",event=>{
+        if(event.clientX>=document.documentElement.clientWidth-28)markUserScrollIntent();
+      },{passive:true});
+      window.addEventListener("keydown",event=>{
+        const scrollKeys=["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," ","Spacebar"];
+        if(scrollKeys.includes(event.key))markUserScrollIntent();
+      });
+      window.addEventListener("resize",()=>{
+        if(sectionNavigation.userScrollIntent)syncSectionFromUserScroll();
+      },{passive:true});
+
       const requestedHash=location.hash.replace(/^#/,"");
       if(sectionNode(requestedHash)){
         setTimeout(()=>openAndScrollSection(requestedHash),80);
       }else{
-        activateSection(currentSectionFromScroll(),{force:true});
+        activateSection(currentSectionFromScroll());
       }
     }
     function renderStatus(){const active=el.isAcceptingOrders.checked;el.statusBox.classList.toggle("stopped",!active);el.statusTitle.textContent=active?"注文を受け付けています":"注文受付を停止しています";el.statusDesc.textContent=active?"お客様は受付可能な日付・時間を選択できます。":"お客様画面の受取枠はすべて受付停止になります。";el.summaryAccepting.textContent=active?"受付中":"停止中";el.summaryAccepting.className=`summary-value ${active?"green":"red"}`}
