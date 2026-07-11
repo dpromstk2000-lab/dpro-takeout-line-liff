@@ -1,9 +1,9 @@
 /**
  * DPRO テイクアウト・弁当予約 LINE
- * STEP TAKEOUT-9-R4 共通設定
+ * STEP TAKEOUT-10 共通設定
  */
 window.DPRO_TAKEOUT_CONFIG = Object.freeze({
-  VERSION: "TAKEOUT-9-R4-CUSTOMER-STOP-COMPLETE-GUARD-20260712",
+  VERSION: "TAKEOUT-10-LINE-MESSAGE-EDITOR-20260712",
   SHOP_CODE: "takeout_demo",
   API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
   ADMIN_KEY: "1234",

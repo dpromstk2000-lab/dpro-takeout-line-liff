@@ -506,6 +506,39 @@
       .action-column { grid-template-columns: 1fr; }
       .pickup-time { font-size: 26px; }
     }
+  
+    /* STEP TAKEOUT-10 LINE文面編集 */
+    .line-message-overlay{
+      position:fixed;z-index:180;inset:0;display:grid;place-items:center;
+      padding:18px;background:rgba(44,34,28,.62);backdrop-filter:blur(8px)
+    }
+    .line-message-overlay.hidden{display:none}
+    .line-message-modal{width:min(780px,100%);max-height:92vh;overflow:auto;border-radius:24px;background:#fff;box-shadow:0 26px 80px rgba(28,20,16,.34)}
+    .line-message-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:18px 20px;border-bottom:1px solid var(--line,#eadfd8)}
+    .line-message-head small{display:block;color:var(--accent,#ef572f);font-size:10px;font-weight:950;letter-spacing:.08em}
+    .line-message-head h2{margin:3px 0 0;font-size:23px}
+    .line-message-close{width:43px;height:43px;flex:none;border:0;border-radius:50%;background:#f1eeeb;font-size:21px}
+    .line-message-body{padding:18px 20px}
+    .line-message-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:13px 14px;border:1px solid var(--line,#eadfd8);border-radius:14px;background:#fffaf7}
+    .line-message-summary strong{font-size:15px}.line-message-summary span{color:var(--sub,#756a64);font-size:11px;line-height:1.6}
+    .line-message-label{margin:15px 0 7px;font-size:12px;font-weight:950}
+    .line-message-chips{display:flex;gap:7px;flex-wrap:wrap}
+    .line-message-chip{border:1px solid var(--line,#eadfd8);border-radius:999px;background:#fff;padding:8px 11px;color:var(--sub,#655b55);font-size:11px;font-weight:900}
+    .line-message-chip.active{border-color:var(--accent,#ef572f);color:#fff;background:var(--accent,#ef572f)}
+    .line-message-text{width:100%;min-height:310px;margin-top:10px;padding:15px;border:2px solid #d9e3ff;border-radius:16px;background:#fff;color:var(--ink,#241f1b);font:inherit;font-size:14px;line-height:1.75;resize:vertical;outline:none}
+    .line-message-text:focus{border-color:#2d65d8;box-shadow:0 0 0 4px rgba(45,101,216,.11)}
+    .line-message-help{margin:8px 0 0;color:var(--sub,#756a64);font-size:11px}
+    .line-message-footer{display:grid;grid-template-columns:auto auto minmax(180px,1fr);gap:8px;padding:14px 20px 18px;border-top:1px solid var(--line,#eadfd8)}
+    .line-message-footer button{min-height:46px;border-radius:12px;padding:10px 14px;font-weight:950}
+    .line-message-secondary{border:1px solid var(--line,#eadfd8);background:#fff;color:var(--ink,#241f1b)}
+    .line-message-copy{border:0;background:#24459a;color:#fff}
+    .line-message-open{border:1px solid #d7c8be;border-radius:9px;background:#fff;color:#7a4b38;padding:7px 10px;font-size:11px;font-weight:950}
+    @media(max-width:640px){
+      .line-message-overlay{padding:0;align-items:end}.line-message-modal{max-height:96vh;border-radius:22px 22px 0 0}
+      .line-message-summary{grid-template-columns:1fr}.line-message-text{min-height:300px}
+      .line-message-footer{grid-template-columns:1fr 1fr}.line-message-copy{grid-column:1/-1}
+    }
+
   </style>
 </head>
 <body>
@@ -567,9 +600,38 @@
     </div>
 
     <footer class="footer">
-      STEP TAKEOUT-9 / TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711
+      STEP TAKEOUT-10 / TAKEOUT-10-LINE-MESSAGE-EDITOR-20260712
     </footer>
   </main>
+
+
+  <div id="lineMessageOverlay" class="line-message-overlay hidden" aria-hidden="true">
+    <div class="line-message-modal" role="dialog" aria-modal="true" aria-labelledby="lineMessageTitle">
+      <div class="line-message-head">
+        <div><small>DPRO TAKEOUT LINE</small><h2 id="lineMessageTitle">LINE文面を編集</h2></div>
+        <button id="lineMessageClose" class="line-message-close" type="button" aria-label="閉じる">×</button>
+      </div>
+      <div class="line-message-body">
+        <div id="lineMessageSummary" class="line-message-summary"></div>
+        <div class="line-message-label">文面の種類</div>
+        <div id="lineMessageTemplates" class="line-message-chips"></div>
+        <div class="line-message-label">文面を整える</div>
+        <div id="lineMessageTones" class="line-message-chips">
+          <button class="line-message-chip active" type="button" data-line-tone="normal">標準</button>
+          <button class="line-message-chip" type="button" data-line-tone="soft">やわらかめ</button>
+          <button class="line-message-chip" type="button" data-line-tone="short">短め</button>
+          <button class="line-message-chip" type="button" data-line-tone="polite">丁寧</button>
+        </div>
+        <textarea id="lineMessageText" class="line-message-text" maxlength="4000"></textarea>
+        <p class="line-message-help">この場で文面を直してからコピーできます。LINE公式チャットへ貼り付けて送信してください。</p>
+      </div>
+      <div class="line-message-footer">
+        <button id="lineMessageCancel" class="line-message-secondary" type="button">閉じる</button>
+        <button id="lineMessageReset" class="line-message-secondary" type="button">最初の文面に戻す</button>
+        <button id="lineMessageCopy" class="line-message-copy" type="button">編集後の文面をコピー</button>
+      </div>
+    </div>
+  </div>
 
   <div id="toast" class="toast"></div>
 
@@ -579,7 +641,7 @@
       "use strict";
 
       const config = {
-        VERSION: "TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711",
+        VERSION: "TAKEOUT-10-LINE-MESSAGE-EDITOR-20260712",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         ADMIN_KEY: "1234",
@@ -912,6 +974,10 @@
                          電話番号コピー
                        </button>`
                     : ""}
+                  <button type="button" class="line-message-open"
+                          data-line-message-order="${order.id}">
+                    LINE文面
+                  </button>
                 </div>
               </div>
             </div>
@@ -956,6 +1022,7 @@
         const data = await response.json();
 
         if (data?.ok) {
+          lineMessageState.shopName = data.shop.shop_name;
           el.shopName.textContent =
             `${data.shop.shop_name}｜注文管理`;
         }
@@ -1103,6 +1170,229 @@
         }
       }
 
+
+      const lineMessageState = {
+        order: null,
+        template: "reception",
+        tone: "normal",
+        shopName: "DPRO テイクアウト デモ店",
+      };
+
+      const lineMessageTemplates = [
+        ["reception", "注文受付"],
+        ["confirmed", "確認済み"],
+        ["cooking", "調理開始"],
+        ["ready", "準備完了"],
+        ["pickup_check", "受取確認"],
+        ["change", "時間変更"],
+        ["cancelled", "キャンセル"],
+        ["no_show", "未受取連絡"],
+      ];
+
+      const lineMessageEl = {
+        overlay: document.getElementById("lineMessageOverlay"),
+        close: document.getElementById("lineMessageClose"),
+        cancel: document.getElementById("lineMessageCancel"),
+        reset: document.getElementById("lineMessageReset"),
+        copy: document.getElementById("lineMessageCopy"),
+        summary: document.getElementById("lineMessageSummary"),
+        templates: document.getElementById("lineMessageTemplates"),
+        tones: document.getElementById("lineMessageTones"),
+        text: document.getElementById("lineMessageText"),
+      };
+
+      function lineNotify(message, type = "normal") {
+        if (typeof showToast === "function") showToast(message, type);
+        else if (typeof toast === "function") toast(message, type);
+      }
+
+      function lineEscape(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function lineDateLabel(value) {
+        if (!value) return "";
+        const [year, month, day] = String(value).split("-").map(Number);
+        if (!year || !month || !day) return String(value);
+        return new Intl.DateTimeFormat("ja-JP", {
+          timeZone: "Asia/Tokyo",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "short",
+        }).format(new Date(Date.UTC(year, month - 1, day, 12)));
+      }
+
+      function lineMoney(value) {
+        return `${new Intl.NumberFormat("ja-JP").format(Number(value || 0))}円`;
+      }
+
+      function lineOrderItems(order, compact = false) {
+        const items = Array.isArray(order?.items) ? order.items : [];
+        if (!items.length) return "商品情報なし";
+        const values = items.map((item) => {
+          const option = item.option_summary ? `（${item.option_summary}）` : "";
+          return `${item.product_name || "商品"} ×${Number(item.quantity || 1)}${option}`;
+        });
+        return compact ? values.join("、") : values.join("\n");
+      }
+
+      function lineDefaultTemplate(status) {
+        if (status === "confirmed") return "confirmed";
+        if (["cooking_wait", "cooking"].includes(status)) return "cooking";
+        if (status === "ready") return "ready";
+        if (status === "cancelled") return "cancelled";
+        if (["contact_required", "no_show"].includes(status)) return "no_show";
+        if (status === "picked_up") return "pickup_check";
+        return "reception";
+      }
+
+      function lineBuildMessage(order, template, tone = "normal") {
+        const customer = String(order?.customer_name || "お客様").trim();
+        const shop = String(
+          lineMessageState.shopName || state?.shop?.shop_name || "DPRO テイクアウト デモ店"
+        ).trim();
+        const number = String(order?.order_number || "-");
+        const pickup = `${lineDateLabel(order?.pickup_date)} ${order?.pickup_time || ""}`.trim();
+        const items = lineOrderItems(order, false);
+        const compactItems = lineOrderItems(order, true);
+        const total = lineMoney(order?.total_amount);
+        const payment = String(order?.payment_method || "店頭支払い");
+
+        if (tone === "short") {
+          const shortBodies = {
+            reception: `ご注文を承りました。\n注文番号：${number}\n受取：${pickup}\n商品：${compactItems}`,
+            confirmed: `ご注文内容を確認しました。\n注文番号：${number}\n受取：${pickup}\n商品：${compactItems}`,
+            cooking: `ご注文の商品を調理しています。\n注文番号：${number}\n受取予定：${pickup}`,
+            ready: `ご注文の商品が準備できました。\n注文番号：${number}\n受取予定：${pickup}`,
+            pickup_check: `本日の受取予定の確認です。\n注文番号：${number}\n受取予定：${pickup}`,
+            change: `受取日時についてご連絡です。\n現在の予定：${pickup}\n変更希望はご返信ください。`,
+            cancelled: `ご注文のキャンセルを承りました。\n注文番号：${number}\n受取予定：${pickup}`,
+            no_show: `ご注文の商品をお預かりしています。\n注文番号：${number}\n受取予定：${pickup}\nご来店予定をご返信ください。`,
+          };
+          return `${customer}様\n\n${shop}です。\n${shortBodies[template] || shortBodies.reception}`;
+        }
+
+        const intro = tone === "polite"
+          ? `${customer}様\n\nいつもご利用いただき、誠にありがとうございます。\n${shop}です。`
+          : tone === "soft"
+            ? `${customer}様\n\nご注文ありがとうございます。${shop}です。`
+            : `${customer}様\n\n${shop}です。`;
+
+        const details = `注文番号：${number}\n受取日時：${pickup}\n商品：\n${items}\n合計：${total}\nお支払い：${payment}`;
+        const bodies = {
+          reception: `テイクアウトのご注文を承りました。\n\n${details}\n\n変更やキャンセルがある場合は、お早めに店舗へご連絡ください。`,
+          confirmed: `ご注文内容を確認しました。\n\n${details}\n\n受取時間に合わせて商品をご用意いたします。`,
+          cooking: `ご注文の商品を調理しています。\n\n${details}\n\n受取予定時刻に合わせて仕上げております。`,
+          ready: `ご注文の商品が準備できました。\n\n${details}\n\nご来店をお待ちしております。`,
+          pickup_check: `本日のテイクアウト注文の受取予定について確認です。\n\n${details}\n\n予定時刻に変更がある場合は、店舗へご連絡ください。`,
+          change: `受取日時についてご連絡です。\n\n現在の受取予定：${pickup}\n注文番号：${number}\n商品：${compactItems}\n\n受取日時の変更をご希望の場合は、ご希望の日時をご返信ください。`,
+          cancelled: `ご注文のキャンセルを承りました。\n\n注文番号：${number}\n受取予定：${pickup}\n商品：${compactItems}\n合計：${total}\n\nまたのご利用をお待ちしております。`,
+          no_show: `ご注文の商品を店舗でお預かりしています。\n\n注文番号：${number}\n受取予定：${pickup}\n商品：${compactItems}\n\n受取予定時刻を過ぎています。ご来店予定を店舗へご連絡ください。`,
+        };
+
+        let ending = "";
+        if (tone === "soft") ending = "\n\nお気をつけてお越しください。";
+        if (tone === "polite") ending = "\n\nご確認のほど、何卒よろしくお願いいたします。";
+        return `${intro}\n${bodies[template] || bodies.reception}${ending}`;
+      }
+
+      function lineRenderTemplateButtons() {
+        lineMessageEl.templates.innerHTML = lineMessageTemplates
+          .map(([key, label]) => `
+            <button type="button"
+                    class="line-message-chip${lineMessageState.template === key ? " active" : ""}"
+                    data-line-template="${key}">${label}</button>
+          `).join("");
+        lineMessageEl.tones.querySelectorAll("[data-line-tone]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lineTone === lineMessageState.tone);
+        });
+      }
+
+      function lineApplyGeneratedMessage() {
+        if (!lineMessageState.order) return;
+        lineRenderTemplateButtons();
+        lineMessageEl.text.value = lineBuildMessage(
+          lineMessageState.order,
+          lineMessageState.template,
+          lineMessageState.tone,
+        );
+      }
+
+      function openLineMessageEditor(order) {
+        if (!order) return;
+        lineMessageState.order = order;
+        lineMessageState.template = lineDefaultTemplate(order.status);
+        lineMessageState.tone = "normal";
+        const status = order.status_label || (typeof statusLabel === "function" ? statusLabel(order.status) : order.status || "受付済み");
+        lineMessageEl.summary.innerHTML = `
+          <div><strong>${lineEscape(order.customer_name || "お客様")}様</strong><br>
+          <span>${lineEscape(order.order_number || "-")}・${lineEscape(lineDateLabel(order.pickup_date))} ${lineEscape(order.pickup_time || "")}</span></div>
+          <span>${lineEscape(status || "")}</span>
+        `;
+        lineApplyGeneratedMessage();
+        lineMessageEl.overlay.classList.remove("hidden");
+        lineMessageEl.overlay.setAttribute("aria-hidden", "false");
+        setTimeout(() => lineMessageEl.text.focus(), 30);
+      }
+
+      function closeLineMessageEditor() {
+        lineMessageEl.overlay.classList.add("hidden");
+        lineMessageEl.overlay.setAttribute("aria-hidden", "true");
+      }
+
+      async function lineCopyText(value) {
+        try {
+          await navigator.clipboard.writeText(value);
+        } catch {
+          const area = document.createElement("textarea");
+          area.value = value;
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          document.execCommand("copy");
+          area.remove();
+        }
+      }
+
+      lineMessageEl.templates.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-line-template]");
+        if (!button) return;
+        lineMessageState.template = button.dataset.lineTemplate;
+        lineMessageState.tone = "normal";
+        lineApplyGeneratedMessage();
+      });
+      lineMessageEl.tones.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-line-tone]");
+        if (!button) return;
+        lineMessageState.tone = button.dataset.lineTone;
+        lineApplyGeneratedMessage();
+      });
+      lineMessageEl.reset.addEventListener("click", () => {
+        lineMessageState.tone = "normal";
+        lineApplyGeneratedMessage();
+      });
+      lineMessageEl.copy.addEventListener("click", async () => {
+        const text = lineMessageEl.text.value.trim();
+        if (!text) {
+          lineNotify("コピーする文面を入力してください。", "error");
+          return;
+        }
+        await lineCopyText(text);
+        lineNotify("編集後のLINE文面をコピーしました。");
+      });
+      lineMessageEl.close.addEventListener("click", closeLineMessageEditor);
+      lineMessageEl.cancel.addEventListener("click", closeLineMessageEditor);
+      lineMessageEl.overlay.addEventListener("click", (event) => {
+        if (event.target === lineMessageEl.overlay) closeLineMessageEditor();
+      });
+
       el.loginForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
@@ -1149,6 +1439,7 @@
         const quick = event.target.closest("[data-quick-order]");
         const apply = event.target.closest("[data-apply-order]");
         const copy = event.target.closest("[data-copy]");
+        const lineMessage = event.target.closest("[data-line-message-order]");
 
         if (quick) {
           updateStatus(
@@ -1170,6 +1461,12 @@
 
         if (copy) {
           copyText(copy.dataset.copy);
+          return;
+        }
+
+        if (lineMessage) {
+          const order = state.orders.find((item) => item.id === lineMessage.dataset.lineMessageOrder);
+          openLineMessageEditor(order);
         }
       });
 
