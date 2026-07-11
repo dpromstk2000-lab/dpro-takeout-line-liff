@@ -330,6 +330,73 @@
       box-shadow: 0 7px 16px rgba(233, 87, 45, 0.22);
     }
 
+    .chip.stopped {
+      background: rgba(120, 35, 25, 0.34);
+    }
+    .chip.stopped .dot {
+      background: #ffd1c9;
+      box-shadow: 0 0 0 4px rgba(255, 209, 201, 0.2);
+    }
+    .order-stop-banner {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 12px;
+      padding: 13px 14px;
+      border: 1px solid #f2b9ad;
+      border-radius: 15px;
+      color: #9b3525;
+      background: #fff0ed;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.55;
+    }
+    .order-stop-banner[hidden] { display: none; }
+    .order-stop-icon {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      color: #fff;
+      background: #d94b32;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .product.order-stopped {
+      opacity: 0.58;
+      background: #f6f2ef;
+      box-shadow: none;
+    }
+    .product.order-stopped .visual {
+      filter: grayscale(0.35);
+    }
+    .stop-label {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      padding: 5px;
+      border-radius: 8px;
+      color: #fff;
+      background: rgba(141, 57, 41, 0.92);
+      text-align: center;
+      font-size: 10px;
+      font-weight: 900;
+    }
+    .add-button.order-stopped-button {
+      max-width: 156px;
+      color: #fff;
+      background: #a99e98;
+      box-shadow: none;
+      font-size: 11px;
+      line-height: 1.25;
+    }
+    .add-button.order-stopped-button:disabled {
+      opacity: 1;
+    }
+
     .loading, .empty {
       min-height: 120px;
       display: grid;
@@ -716,6 +783,11 @@
         <p>在庫は受取日ごとに更新</p>
       </div>
 
+      <div id="productStopNotice" class="order-stop-banner" hidden>
+        <span class="order-stop-icon">停止</span>
+        <span id="productStopMessage">現在は注文できません。</span>
+      </div>
+
       <div id="productList" class="products">
         <div class="panel loading">
           <div><div class="spinner"></div>商品を読み込み中</div>
@@ -724,7 +796,7 @@
     </section>
 
     <footer class="footer">
-      STEP TAKEOUT-6 / TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711
+      STEP TAKEOUT-9-R4 / TAKEOUT-9-R4-CUSTOMER-STOP-COMPLETE-GUARD-20260712
     </footer>
   </main>
 
@@ -888,7 +960,7 @@
       "use strict";
 
       const fallbackConfig = {
-        VERSION: "TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711",
+        VERSION: "TAKEOUT-9-R4-CUSTOMER-STOP-COMPLETE-GUARD-20260712",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         TIMEZONE: "Asia/Tokyo",
@@ -926,6 +998,8 @@
         slotArea: document.getElementById("slotArea"),
         categoryTabs: document.getElementById("categoryTabs"),
         productCount: document.getElementById("productCount"),
+        productStopNotice: document.getElementById("productStopNotice"),
+        productStopMessage: document.getElementById("productStopMessage"),
         productList: document.getElementById("productList"),
         cartBar: document.getElementById("cartBar"),
         cartCount: document.getElementById("cartCount"),
@@ -965,6 +1039,46 @@
       };
 
       const yen = new Intl.NumberFormat("ja-JP");
+
+      function isOrderAccepting() {
+        return Boolean(state.settings?.is_accepting_orders);
+      }
+
+      function orderStopMessage() {
+        return String(
+          state.settings?.stop_message ||
+          "現在、注文受付を停止しています。"
+        ).trim();
+      }
+
+      function ensureOrderAccepting() {
+        if (isOrderAccepting()) return true;
+        showToast(orderStopMessage(), "error");
+        return false;
+      }
+
+      function applyOrderAcceptanceUi() {
+        const accepting = isOrderAccepting();
+        const chip = el.acceptStatus.closest(".chip");
+
+        chip?.classList.toggle("stopped", !accepting);
+        el.pickupDate.disabled = !accepting;
+        el.productStopNotice.hidden = accepting;
+        el.productStopMessage.textContent = accepting
+          ? ""
+          : `${orderStopMessage()} 商品の選択・注文はできません。`;
+
+        if (!accepting) {
+          state.selectedTime = "";
+          state.optionProduct = null;
+          state.cart = [];
+          closeOverlay(el.optionOverlay);
+          closeOverlay(el.cartOverlay);
+          closeOverlay(el.confirmOverlay);
+        }
+
+        renderCartBar();
+      }
 
       function apiUrl(path, params = {}) {
         const base = String(config.API_BASE_URL || "").replace(/\/+$/, "");
@@ -1117,6 +1231,7 @@
       }
 
       function addToCart(product, quantity = 1, optionIds = []) {
+        if (!ensureOrderAccepting()) return false;
         if (!state.selectedDate || !state.selectedTime) {
           showToast("先に受取日と受取時間を選択してください。", "error");
           el.pickupDate.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1173,7 +1288,10 @@
         const totals = cartTotals();
         el.cartCount.textContent = totals.quantity;
         el.cartTotal.textContent = formatYen(totals.amount);
-        el.cartBar.classList.toggle("show", totals.quantity > 0);
+        el.cartBar.classList.toggle(
+          "show",
+          isOrderAccepting() && totals.quantity > 0,
+        );
       }
 
       function stockBadgeClass(product) {
@@ -1207,8 +1325,15 @@
         const products = state.category === "すべて"
           ? state.products
           : state.products.filter((product) => product.category === state.category);
+        const accepting = isOrderAccepting();
 
-        el.productCount.textContent = `${products.length}商品`;
+        el.productStopNotice.hidden = accepting;
+        el.productStopMessage.textContent = accepting
+          ? ""
+          : `${orderStopMessage()} 商品の選択・注文はできません。`;
+        el.productCount.textContent = accepting
+          ? `${products.length}商品`
+          : `${products.length}商品・現在は注文できません`;
 
         if (products.length === 0) {
           el.productList.innerHTML = `
@@ -1222,20 +1347,32 @@
         el.productList.innerHTML = products.map((product) => {
           const soldOut = Boolean(product.is_sold_out);
           const hasOptions = Array.isArray(product.options) && product.options.length > 0;
+          const orderStopped = !accepting;
 
           return `
-            <article class="product">
+            <article
+              class="product${orderStopped ? " order-stopped" : ""}"
+              aria-disabled="${orderStopped ? "true" : "false"}"
+            >
               <div class="visual">
                 ${product.image_url
                   ? `<img src="${escapeHtml(product.image_url)}" alt="${escapeHtml(product.product_name)}" loading="lazy">`
                   : productEmoji(product.category || "")}
-                ${soldOut ? `<span class="sold-label">${escapeHtml(product.stock_label || "本日売り切れ")}</span>` : ""}
+                ${orderStopped
+                  ? `<span class="stop-label">受付停止中</span>`
+                  : soldOut
+                    ? `<span class="sold-label">${escapeHtml(product.stock_label || "本日売り切れ")}</span>`
+                    : ""}
               </div>
 
               <div class="product-body">
                 <div class="product-meta">
                   <span class="category">${escapeHtml(product.category || "おすすめ")}</span>
-                  <span class="stock-badge ${stockBadgeClass(product)}">${escapeHtml(product.stock_label || "在庫あり")}</span>
+                  <span class="stock-badge ${orderStopped ? "sold" : stockBadgeClass(product)}">${
+                    orderStopped
+                      ? "現在は注文できません"
+                      : escapeHtml(product.stock_label || "在庫あり")
+                  }</span>
                 </div>
                 <h3>${escapeHtml(product.product_name)}</h3>
                 <p class="desc">${escapeHtml(product.description || "店舗で丁寧にご用意します。")}</p>
@@ -1243,10 +1380,18 @@
                   <span class="price">${formatYen(product.price)} <small>税込</small></span>
                   <button
                     type="button"
-                    class="add-button"
+                    class="add-button${orderStopped ? " order-stopped-button" : ""}"
                     data-add-product="${escapeHtml(product.id)}"
-                    ${soldOut ? "disabled" : ""}
-                  >${soldOut ? "売り切れ" : hasOptions ? "選択する" : "追加"}</button>
+                    ${soldOut || orderStopped ? "disabled" : ""}
+                  >${
+                    orderStopped
+                      ? "現在は注文できません"
+                      : soldOut
+                        ? "売り切れ"
+                        : hasOptions
+                          ? "選択する"
+                          : "追加"
+                  }</button>
                 </div>
               </div>
             </article>
@@ -1374,7 +1519,7 @@
         }
 
         el.pickupDate.innerHTML = options.join("");
-        el.pickupDate.disabled = false;
+        el.pickupDate.disabled = !isOrderAccepting();
         state.selectedDate = today;
         el.pickupDate.value = today;
         updateSelectedDateCard();
@@ -1402,6 +1547,7 @@
       }
 
       function openOptionSheet(product) {
+        if (!ensureOrderAccepting()) return;
         const available = availableToAdd(product);
         if (available <= 0) {
           showToast(`「${product.product_name}」は選択できる在庫がありません。`, "error");
@@ -1490,7 +1636,8 @@
 
         el.cartSummaryCount.textContent = `${totals.quantity}点`;
         el.cartSummaryTotal.textContent = formatYen(totals.amount);
-        el.openConfirm.disabled = state.cart.length === 0;
+        el.openConfirm.disabled =
+          !isOrderAccepting() || state.cart.length === 0;
         renderCartBar();
       }
 
@@ -1510,6 +1657,7 @@
       }
 
       function validateCheckout() {
+        if (!isOrderAccepting()) throw new Error(orderStopMessage());
         const name = el.customerName.value.trim();
         const phone = el.phone.value.trim();
 
@@ -1589,6 +1737,7 @@
 
       async function submitOrder() {
         if (state.submitting) return;
+        if (!ensureOrderAccepting()) return;
 
         try {
           const customer = validateCheckout();
@@ -1740,6 +1889,8 @@
 
           buildDateOptions();
           await selectFirstAvailableDate();
+          applyOrderAcceptanceUi();
+          renderProducts();
         } catch (error) {
           el.acceptStatus.textContent = "読み込みエラー";
           el.productList.innerHTML = `
@@ -1750,6 +1901,7 @@
       }
 
       el.pickupDate.addEventListener("change", async () => {
+        if (!ensureOrderAccepting()) return;
         if (state.cart.length > 0) {
           state.cart = [];
           renderCartBar();
@@ -1766,6 +1918,7 @@
       });
 
       el.slotArea.addEventListener("click", (event) => {
+        if (!ensureOrderAccepting()) return;
         const button = event.target.closest("[data-time]");
         if (!button || button.disabled) return;
 
@@ -1787,6 +1940,7 @@
       el.productList.addEventListener("click", (event) => {
         const button = event.target.closest("[data-add-product]");
         if (!button) return;
+        if (!ensureOrderAccepting()) return;
 
         const product = productById(button.dataset.addProduct);
         if (!product || product.is_sold_out) return;
@@ -1812,6 +1966,7 @@
         updateOptionTotal();
       });
       el.addConfiguredItem.addEventListener("click", () => {
+        if (!ensureOrderAccepting()) return;
         if (!state.optionProduct) return;
         const added = addToCart(
           state.optionProduct,
@@ -1822,6 +1977,7 @@
       });
 
       el.cartBar.addEventListener("click", () => {
+        if (!ensureOrderAccepting()) return;
         renderCartItems();
         openOverlay(el.cartOverlay);
       });
