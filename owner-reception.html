@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f3ee">
+  <title>DPRO テイクアウト 電話・店頭受付</title>
+  <style>
+    :root{
+      --bg:#f7f3ee;--card:#fff;--ink:#302923;--sub:#756a62;--line:#e7ddd5;
+      --accent:#ec572f;--accent-dark:#c94221;--accent-soft:#fff0e9;
+      --green:#23865b;--green-soft:#e8f7ef;--blue:#2e70bd;--blue-soft:#eaf2fc;
+      --amber:#9b6417;--amber-soft:#fff4dc;--red:#c9423b;--red-soft:#fff0ef;
+      --shadow:0 12px 34px rgba(65,45,31,.09);--radius:20px
+    }
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at top right,#ffe8da 0,transparent 30%),var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.55}
+    button,input,select,textarea{font:inherit}button{cursor:pointer;touch-action:manipulation}button:disabled{cursor:not-allowed;opacity:.52}
+    .shell{width:min(1580px,100%);margin:0 auto;padding:14px 14px calc(24px + env(safe-area-inset-bottom))}
+    .header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 19px;border-radius:24px;color:#fff;background:linear-gradient(135deg,#ef643d,#c83e1d);box-shadow:var(--shadow)}
+    .brand small{display:block;font-size:11px;font-weight:900;letter-spacing:.12em;opacity:.87}.brand h1{margin:3px 0 0;font-size:clamp(23px,3vw,34px);line-height:1.2}
+    .header-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.header-button{min-height:44px;border:1px solid rgba(255,255,255,.36);border-radius:12px;color:#fff;background:rgba(255,255,255,.13);padding:9px 13px;font-weight:900}
+    .workspace{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(350px,.72fr);gap:14px;margin-top:14px;align-items:start}
+    .panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);overflow:hidden}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}.panel-head h2{margin:0;font-size:20px}.panel-head p{margin:0;color:var(--sub);font-size:11px}
+    .panel-body{padding:15px}.section{padding:14px 0;border-bottom:1px solid var(--line)}.section:first-child{padding-top:0}.section:last-child{border-bottom:0;padding-bottom:0}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.section-title h3{margin:0;font-size:17px}.section-title span{color:var(--sub);font-size:11px}
+    .channel-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.channel-tab{min-height:54px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font-weight:900}.channel-tab.active{border-color:var(--accent);color:#fff;background:var(--accent);box-shadow:0 8px 20px rgba(236,87,47,.19)}
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:900}.required{color:var(--red)}.help{color:var(--sub);font-size:10px}
+    .input,.select,.textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:11px 12px;outline:none}.input:focus,.select:focus,.textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+    .phone-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.phone-normalized{display:grid;place-items:center;min-width:142px;border:1px solid var(--line);border-radius:12px;background:#faf8f6;color:var(--sub);padding:8px;font-size:11px;font-weight:800}
+    .slots{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}.slot{min-height:52px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-weight:900}.slot small{display:block;color:var(--sub);font-size:9px}.slot.active{border-color:var(--accent);color:#fff;background:var(--accent)}.slot:disabled{background:#f4f1ee;color:#b7aea8}
+    .products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.product{display:grid;grid-template-columns:64px minmax(0,1fr);gap:9px;min-height:102px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:8px;text-align:left}.product:hover{border-color:#edb5a3}.product.soldout{opacity:.58}.product-image{width:64px;height:64px;border-radius:11px;overflow:hidden;background:linear-gradient(145deg,#fff0e4,#ffd5bd);display:grid;place-items:center;font-size:29px}.product-image img{width:100%;height:100%;object-fit:cover}.product h4{margin:0;font-size:13px}.product-meta{color:var(--sub);font-size:10px}.product-price{margin-top:4px;font-size:15px;font-weight:950}.stock{display:inline-block;margin-top:4px;border-radius:999px;padding:3px 6px;color:#176945;background:var(--green-soft);font-size:9px;font-weight:900}.stock.red{color:#9d302a;background:var(--red-soft)}
+    .cart{display:grid;gap:8px}.cart-empty{padding:24px;border:1px dashed var(--line);border-radius:14px;color:var(--sub);text-align:center}.cart-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:9px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:13px;background:#fffaf7}.cart-name{font-weight:900}.cart-option{color:var(--sub);font-size:10px}.qty{display:flex;align-items:center;gap:7px}.qty button{width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:#fff;font-weight:950}.remove{width:36px;height:36px;border:1px solid #edc7c3;border-radius:9px;color:var(--red);background:var(--red-soft);font-weight:950}.cart-line-total{font-weight:950;white-space:nowrap}
+    .total-box{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;padding:13px;border-radius:13px;background:#302721;color:#fff}.total-box strong{font-size:25px}
+    .primary,.secondary,.danger{min-height:46px;border-radius:12px;padding:10px 15px;font-weight:900}.primary{border:0;color:#fff;background:var(--accent)}.primary.big{width:100%;min-height:58px;font-size:17px}.secondary{border:1px solid var(--line);color:var(--ink);background:#fff}.danger{border:1px solid #edc4c0;color:var(--red);background:var(--red-soft)}
+    .side{position:sticky;top:12px}.search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.results{display:grid;gap:8px;margin-top:10px;max-height:330px;overflow:auto}.result-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px;text-align:left}.result-card.active{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}.result-card h4{margin:0;font-size:14px}.result-meta{color:var(--sub);font-size:10px}.count-pill{align-self:start;border-radius:999px;padding:5px 8px;background:var(--blue-soft);color:#245f9d;font-size:10px;font-weight:900}
+    .customer-box{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fffaf7}.customer-box h3{margin:0}.customer-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:9px}.stat{padding:8px;border-radius:10px;background:#fff;text-align:center}.stat span{display:block;color:var(--sub);font-size:9px}.stat strong{font-size:17px}
+    .history{display:grid;gap:8px;margin-top:10px}.history-card{padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff}.history-head{display:flex;justify-content:space-between;gap:8px;font-size:11px}.history-items{margin-top:5px;color:var(--sub);font-size:10px}.reorder{width:100%;margin-top:8px;min-height:38px;border:1px solid #edb7a6;border-radius:10px;color:var(--accent-dark);background:var(--accent-soft);font-weight:900}
+    .note-save{display:flex;gap:8px;margin-top:7px}.note-save .textarea{min-height:76px}.note-save button{flex:0 0 auto}
+    .loading,.empty{padding:28px 14px;text-align:center;color:var(--sub)}.spinner{width:29px;height:29px;margin:0 auto 8px;border:3px solid #f0d8cc;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .overlay{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:15px;background:rgba(42,32,27,.58);backdrop-filter:blur(7px)}.overlay.hidden{display:none}.modal{width:min(680px,100%);max-height:91vh;overflow:auto;border-radius:22px;background:#fff;box-shadow:0 22px 60px rgba(33,24,19,.28)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px;border-bottom:1px solid var(--line)}.modal-head h2{margin:0}.close{width:42px;height:42px;border:0;border-radius:50%;background:#f1eeeb;font-size:20px}.modal-body{padding:16px}.option-group{margin-bottom:12px}.option-group h3{margin:0 0 7px;font-size:14px}.option-choice{display:flex;align-items:center;justify-content:space-between;gap:9px;min-height:45px;margin-top:6px;padding:9px 11px;border:1px solid var(--line);border-radius:11px}.modal-qty{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding:11px;border:1px solid var(--line);border-radius:12px}.modal-qty-controls{display:flex;align-items:center;gap:12px}.modal-qty-controls button{width:39px;height:39px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:20px}.success-number{padding:15px;border:2px dashed #f0ac96;border-radius:15px;background:var(--accent-soft);color:var(--accent-dark);font-size:27px;font-weight:950;text-align:center}.success-summary{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:13px}.success-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+    .login-card{width:min(430px,100%);padding:22px;border-radius:22px;background:#fff}.login-card h2{margin:0}.login-card p{color:var(--sub);font-size:12px}.login-card .input{margin:10px 0}.toast{position:fixed;z-index:140;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,18px);width:min(calc(100% - 28px),720px);padding:13px 15px;border-radius:13px;color:#fff;background:#302721;text-align:center;font-size:13px;font-weight:900;opacity:0;pointer-events:none;transition:.23s;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.error{background:var(--red)}
+    .footer{padding:16px 0 2px;color:#988b83;text-align:center;font-size:10px}
+    @media(max-width:1120px){.workspace{grid-template-columns:1fr}.side{position:static}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.slots{grid-template-columns:repeat(4,minmax(0,1fr))}}
+    @media(max-width:700px){.shell{padding:8px}.header{align-items:flex-start;flex-direction:column;border-radius:18px}.header-actions{justify-content:flex-start}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.products{grid-template-columns:1fr}.slots{grid-template-columns:repeat(3,minmax(0,1fr))}.phone-row{grid-template-columns:1fr}.success-actions{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div id="loginOverlay" class="overlay">
+    <form id="loginForm" class="login-card">
+      <h2>電話・店頭受付</h2>
+      <p>管理コードを入力してください。デモ用管理コードは1234です。</p>
+      <input id="adminKeyInput" class="input" type="password" inputmode="numeric" autocomplete="current-password" placeholder="管理コード">
+      <button class="primary" type="submit" style="width:100%">受付画面を開く</button>
+    </form>
+  </div>
+
+  <main class="shell">
+    <header class="header">
+      <div class="brand"><small>DPRO TAKEOUT LINE</small><h1 id="shopName">電話・店頭注文受付</h1></div>
+      <div class="header-actions">
+        <button id="ordersButton" class="header-button" type="button">注文管理</button>
+        <button id="ipadButton" class="header-button" type="button">厨房・レジ</button>
+        <button id="productsButton" class="header-button" type="button">商品管理</button>
+        <button id="logoutButton" class="header-button" type="button">ログアウト</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <section class="panel">
+        <div class="panel-head"><div><h2>注文を登録</h2><p>在庫・受取枠・売り切れを登録時に再確認します</p></div><button id="resetButton" class="secondary" type="button">入力をリセット</button></div>
+        <div class="panel-body">
+          <section class="section">
+            <div class="section-title"><h3>1. 受付方法</h3><span>電話または店頭</span></div>
+            <div class="channel-tabs">
+              <button class="channel-tab active" type="button" data-channel="phone">☎ 電話注文</button>
+              <button class="channel-tab" type="button" data-channel="counter">🏪 店頭注文</button>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-title"><h3>2. お客様情報</h3><button id="newCustomerButton" class="secondary" type="button">新規入力</button></div>
+            <div class="form-grid">
+              <div class="field"><label for="customerName">お名前 <span class="required">必須</span></label><input id="customerName" class="input" maxlength="80" placeholder="例：佐藤 太郎"></div>
+              <div class="field"><label for="customerPhone">電話番号 <span id="phoneRequired" class="required">必須</span></label><div class="phone-row"><input id="customerPhone" class="input" inputmode="tel" maxlength="30" placeholder="例：090-1111-2222"><span id="normalizedPhone" class="phone-normalized">正規化：未入力</span></div><span id="phoneHelp" class="help">表記が違っても同じ電話番号として検索します。</span></div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-title"><h3>3. 受取日時</h3><span id="closedMessage"></span></div>
+            <div class="form-grid">
+              <div class="field"><label for="pickupDate">受取日 <span class="required">必須</span></label><input id="pickupDate" class="input" type="date"></div>
+              <div class="field"><label>選択中の時間</label><div id="selectedTimeDisplay" class="phone-normalized" style="min-height:48px">未選択</div></div>
+              <div class="field full"><div id="slots" class="slots"><div class="loading" style="grid-column:1/-1">受取時間を読み込み中</div></div></div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-title"><h3>4. 商品を選ぶ</h3><span id="productCount">0商品</span></div>
+            <div id="products" class="products"><div class="loading" style="grid-column:1/-1"><div class="spinner"></div>商品を読み込み中</div></div>
+          </section>
+
+          <section class="section">
+            <div class="section-title"><h3>5. 注文内容</h3><span id="cartCount">0点</span></div>
+            <div id="cart" class="cart"><div class="cart-empty">商品を選択してください。</div></div>
+            <div class="total-box"><span>注文合計</span><strong id="totalAmount">0円</strong></div>
+          </section>
+
+          <section class="section">
+            <div class="section-title"><h3>6. 支払い・メモ</h3></div>
+            <div class="form-grid">
+              <div class="field"><label for="paymentMethod">支払い方法</label><select id="paymentMethod" class="select"><option>店頭支払い</option><option>現金</option><option>クレジットカード</option><option>QRコード決済</option><option>支払い済み</option></select></div>
+              <div class="field"><label for="customerNote">お客様からのご要望</label><input id="customerNote" class="input" maxlength="500" placeholder="例：袋を分けてください"></div>
+              <div class="field full"><label for="shopNote">店舗メモ</label><textarea id="shopNote" class="textarea" maxlength="1000" rows="2" placeholder="例：領収書必要、折り返し確認済み"></textarea></div>
+            </div>
+          </section>
+
+          <section class="section">
+            <button id="createOrderButton" class="primary big" type="button">電話注文を登録する</button>
+          </section>
+        </div>
+      </section>
+
+      <aside class="panel side">
+        <div class="panel-head"><div><h2>顧客検索</h2><p>名前・電話番号・注文番号</p></div></div>
+        <div class="panel-body">
+          <div class="search-row"><input id="customerSearch" class="input" type="search" placeholder="例：090-1111-2222"><button id="searchButton" class="primary" type="button">検索</button></div>
+          <div id="searchResults" class="results"><div class="empty">最近のお客様を読み込みます。</div></div>
+          <div id="customerDetail"></div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="footer">STEP TAKEOUT-8 / TAKEOUT-8-PHONE-COUNTER-CUSTOMER-SEARCH-20260711</footer>
+  </main>
+
+  <div id="optionOverlay" class="overlay hidden">
+    <div class="modal">
+      <div class="modal-head"><h2 id="optionTitle">商品を追加</h2><button id="optionClose" class="close" type="button">×</button></div>
+      <div class="modal-body">
+        <div id="optionGroups"></div>
+        <div class="modal-qty"><strong>数量</strong><div class="modal-qty-controls"><button id="optionMinus" type="button">−</button><strong id="optionQuantity">1</strong><button id="optionPlus" type="button">＋</button></div></div>
+        <div class="total-box"><span>追加金額</span><strong id="optionTotal">0円</strong></div>
+        <button id="optionAdd" class="primary big" type="button" style="margin-top:12px">カートに追加</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="successOverlay" class="overlay hidden">
+    <div class="modal">
+      <div class="modal-head"><h2>注文を登録しました</h2><button id="successClose" class="close" type="button">×</button></div>
+      <div class="modal-body">
+        <div id="successNumber" class="success-number"></div>
+        <div id="successSummary" class="success-summary"></div>
+        <div class="success-actions"><button id="copyMessageButton" class="primary" type="button">確認文面をコピー</button><button id="openOrdersButton" class="secondary" type="button">注文管理を開く</button></div>
+        <button id="nextOrderButton" class="secondary" type="button" style="width:100%;margin-top:8px">続けて新しい注文を登録</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="./config.js"></script>
+  <script>
+    (() => {
+      "use strict";
+      const config={VERSION:"TAKEOUT-8-PHONE-COUNTER-CUSTOMER-SEARCH-20260711",SHOP_CODE:"takeout_demo",API_BASE_URL:"https://dpro-takeout-line-api.dpromstk2000.workers.dev",ADMIN_KEY:"1234",...(window.DPRO_TAKEOUT_CONFIG||{})};
+      const state={adminKey:sessionStorage.getItem("takeout_admin_key")||"",shop:null,settings:null,channel:"phone",date:"",time:"",products:[],slots:[],cart:[],selectedProduct:null,optionQuantity:1,selectedCustomer:null,customerDetail:null,lastSuccess:null,loading:false};
+      const yen=new Intl.NumberFormat("ja-JP");
+      const el={loginOverlay:document.getElementById("loginOverlay"),loginForm:document.getElementById("loginForm"),adminKeyInput:document.getElementById("adminKeyInput"),shopName:document.getElementById("shopName"),ordersButton:document.getElementById("ordersButton"),ipadButton:document.getElementById("ipadButton"),productsButton:document.getElementById("productsButton"),logoutButton:document.getElementById("logoutButton"),resetButton:document.getElementById("resetButton"),newCustomerButton:document.getElementById("newCustomerButton"),customerName:document.getElementById("customerName"),customerPhone:document.getElementById("customerPhone"),normalizedPhone:document.getElementById("normalizedPhone"),phoneRequired:document.getElementById("phoneRequired"),phoneHelp:document.getElementById("phoneHelp"),pickupDate:document.getElementById("pickupDate"),selectedTimeDisplay:document.getElementById("selectedTimeDisplay"),closedMessage:document.getElementById("closedMessage"),slots:document.getElementById("slots"),products:document.getElementById("products"),productCount:document.getElementById("productCount"),cart:document.getElementById("cart"),cartCount:document.getElementById("cartCount"),totalAmount:document.getElementById("totalAmount"),paymentMethod:document.getElementById("paymentMethod"),customerNote:document.getElementById("customerNote"),shopNote:document.getElementById("shopNote"),createOrderButton:document.getElementById("createOrderButton"),customerSearch:document.getElementById("customerSearch"),searchButton:document.getElementById("searchButton"),searchResults:document.getElementById("searchResults"),customerDetail:document.getElementById("customerDetail"),optionOverlay:document.getElementById("optionOverlay"),optionTitle:document.getElementById("optionTitle"),optionClose:document.getElementById("optionClose"),optionGroups:document.getElementById("optionGroups"),optionMinus:document.getElementById("optionMinus"),optionPlus:document.getElementById("optionPlus"),optionQuantity:document.getElementById("optionQuantity"),optionTotal:document.getElementById("optionTotal"),optionAdd:document.getElementById("optionAdd"),successOverlay:document.getElementById("successOverlay"),successClose:document.getElementById("successClose"),successNumber:document.getElementById("successNumber"),successSummary:document.getElementById("successSummary"),copyMessageButton:document.getElementById("copyMessageButton"),openOrdersButton:document.getElementById("openOrdersButton"),nextOrderButton:document.getElementById("nextOrderButton"),toast:document.getElementById("toast")};
+
+      function apiUrl(path,params={}){const url=new URL(String(config.API_BASE_URL).replace(/\/+$/,"")+path);Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null&&v!=="")url.searchParams.set(k,String(v))});return url.toString()}
+      async function api(path,options={},params={}){const response=await fetch(apiUrl(path,params),{...options,headers:{"Content-Type":"application/json","X-Admin-Key":state.adminKey,...(options.headers||{})}});const data=await response.json().catch(()=>null);if(!response.ok||!data?.ok){const error=new Error(data?.message||`通信に失敗しました（${response.status}）`);error.status=response.status;throw error}return data}
+      async function publicApi(path,params={}){const response=await fetch(apiUrl(path,params));const data=await response.json().catch(()=>null);if(!response.ok||!data?.ok)throw new Error(data?.message||"情報を読み込めませんでした。");return data}
+      function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+      function money(v){return `${yen.format(Number(v||0))}円`}
+      function normalizePhone(value){let n=String(value||"").trim().normalize("NFKC").replace(/[^\d+]/g,"");if(n.startsWith("+81"))n=`0${n.slice(3)}`;else if(n.startsWith("0081"))n=`0${n.slice(4)}`;return n.replace(/\D/g,"")}
+      function today(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())}
+      function addDays(dateString,days){const [y,m,d]=dateString.split("-").map(Number);const dt=new Date(Date.UTC(y,m-1,d+days));return `${dt.getUTCFullYear()}-${String(dt.getUTCMonth()+1).padStart(2,"0")}-${String(dt.getUTCDate()).padStart(2,"0")}`}
+      function dateLabel(ds){const [y,m,d]=ds.split("-").map(Number);const wd=["日","月","火","水","木","金","土"][new Date(Date.UTC(y,m-1,d)).getUTCDay()];return `${y}年${m}月${d}日（${wd}）`}
+      function emoji(category=""){if(category.includes("カレー"))return"🍛";if(category.includes("丼"))return"🍚";if(category.includes("飲"))return"🥤";return"🍱"}
+      function toast(message,type="normal"){el.toast.textContent=message;el.toast.className=`toast show${type==="error"?" error":""}`;clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.toast.className="toast",2700)}
+      function statusLabel(status){return {received:"受付済み",confirmed:"確認済み",cooking_wait:"調理待ち",cooking:"調理中",ready:"受取待ち",picked_up:"受取済み",cancelled:"キャンセル",contact_required:"連絡待ち",no_show:"未受取"}[status]||status}
+      function channelLabel(channel){return {line:"LINE",phone:"電話",counter:"店頭",admin:"店舗"}[channel]||"店舗"}
+      function open(node){node.classList.remove("hidden")}function close(node){node.classList.add("hidden")}
+
+      async function initializeData(){
+        const [shopData,settingsData]=await Promise.all([publicApi("/api/shop",{shop_code:config.SHOP_CODE}),publicApi("/api/settings",{shop_code:config.SHOP_CODE})]);
+        state.shop=shopData.shop;state.settings=settingsData.settings;el.shopName.textContent=`${state.shop.shop_name}｜電話・店頭受付`;
+        state.date=today();el.pickupDate.min=state.date;el.pickupDate.max=addDays(state.date,Number(state.settings.max_reservation_days||14));el.pickupDate.value=state.date;
+        await Promise.all([loadSchedule(),searchCustomers("")]);el.loginOverlay.classList.add("hidden")
+      }
+
+      async function loadSchedule(){
+        state.time="";el.selectedTimeDisplay.textContent="未選択";el.closedMessage.textContent="";el.slots.innerHTML='<div class="loading" style="grid-column:1/-1"><div class="spinner"></div>受取時間を読み込み中</div>';el.products.innerHTML='<div class="loading" style="grid-column:1/-1"><div class="spinner"></div>商品を読み込み中</div>';
+        try{
+          const [slotData,productData]=await Promise.all([publicApi("/api/time-slots",{shop_code:config.SHOP_CODE,date:state.date}),publicApi("/api/products",{shop_code:config.SHOP_CODE,date:state.date})]);
+          state.slots=slotData.slots||[];state.products=productData.products||[];
+          if(slotData.is_closed){el.closedMessage.textContent=slotData.closed_reason||"休業日";el.slots.innerHTML=`<div class="empty" style="grid-column:1/-1">${esc(dateLabel(state.date))}は${esc(slotData.closed_reason||"休業日")}です。</div>`}
+          else if(!state.slots.length){el.slots.innerHTML='<div class="empty" style="grid-column:1/-1">受付可能な時間がありません。</div>'}
+          else el.slots.innerHTML=state.slots.map(s=>`<button class="slot" type="button" data-time="${esc(s.pickup_time)}" ${s.available?"":"disabled"}>${esc(s.pickup_time)}<small>${s.available?(s.remaining<=3?`残り${s.remaining}枠`:"受付中"):esc(s.reason||"受付不可")}</small></button>`).join("");
+          renderProducts();removeUnavailableCartItems();
+        }catch(error){el.slots.innerHTML=`<div class="empty" style="grid-column:1/-1">${esc(error.message)}</div>`;el.products.innerHTML=`<div class="empty" style="grid-column:1/-1">${esc(error.message)}</div>`;toast(error.message,"error")}
+      }
+
+      function renderProducts(){
+        el.productCount.textContent=`${state.products.length}商品`;
+        if(!state.products.length){el.products.innerHTML='<div class="empty" style="grid-column:1/-1">この日に販売する商品はありません。</div>';return}
+        el.products.innerHTML=state.products.map(p=>`<button class="product${p.is_sold_out?" soldout":""}" type="button" data-product-id="${p.id}" ${p.is_sold_out?"disabled":""}>
+          <div class="product-image">${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.product_name)}">`:emoji(p.category)}</div>
+          <div><h4>${esc(p.product_name)}</h4><div class="product-meta">${esc(p.description||"")}</div><div class="product-price">${money(p.price)}</div><span class="stock${p.is_sold_out?" red":""}">${esc(p.stock_label||"在庫あり")}</span></div>
+        </button>`).join("")
+      }
+
+      function removeUnavailableCartItems(){
+        const ids=new Set(state.products.filter(p=>!p.is_sold_out).map(p=>p.id));const before=state.cart.length;state.cart=state.cart.filter(line=>ids.has(line.product_id));if(before!==state.cart.length)toast("販売できない商品をカートから外しました。");renderCart()
+      }
+
+      function openProduct(product){
+        state.selectedProduct=product;state.optionQuantity=1;el.optionTitle.textContent=product.product_name;
+        const groups=new Map();for(const option of product.options||[]){const list=groups.get(option.option_group)||[];list.push(option);groups.set(option.option_group,list)}
+        el.optionGroups.innerHTML=[...groups.entries()].map(([group,options])=>`<div class="option-group"><h3>${esc(group)}</h3><label class="option-choice"><span><input type="radio" name="option-${esc(group)}" value="" checked> 選択なし</span><strong>＋0円</strong></label>${options.map(o=>`<label class="option-choice"><span><input type="radio" name="option-${esc(group)}" value="${o.id}"> ${esc(o.option_name)}</span><strong>＋${money(o.additional_price)}</strong></label>`).join("")}</div>`).join("")||'<div class="empty">オプションはありません。</div>';
+        el.optionQuantity.textContent="1";updateOptionTotal();open(el.optionOverlay)
+      }
+
+      function selectedOptionIds(){return [...el.optionGroups.querySelectorAll('input[type="radio"]:checked')].map(x=>x.value).filter(Boolean)}
+      function updateOptionTotal(){if(!state.selectedProduct)return;const selected=new Set(selectedOptionIds());const optionTotal=(state.selectedProduct.options||[]).filter(o=>selected.has(o.id)).reduce((sum,o)=>sum+Number(o.additional_price||0),0);el.optionQuantity.textContent=String(state.optionQuantity);el.optionTotal.textContent=money((Number(state.selectedProduct.price)+optionTotal)*state.optionQuantity)}
+      function addSelectedProduct(){
+        const p=state.selectedProduct;if(!p)return;const optionIds=selectedOptionIds().sort();const selectedOptions=(p.options||[]).filter(o=>optionIds.includes(o.id));const key=`${p.id}|${optionIds.join(",")}`;const existing=state.cart.find(line=>line.key===key);
+        if(existing)existing.quantity=Math.min(50,existing.quantity+state.optionQuantity);else state.cart.push({key,product_id:p.id,product_name:p.product_name,unit_price:Number(p.price),quantity:state.optionQuantity,option_ids:optionIds,option_summary:selectedOptions.map(o=>o.option_name).join("、"),option_price:selectedOptions.reduce((sum,o)=>sum+Number(o.additional_price||0),0)});
+        close(el.optionOverlay);renderCart();toast(`${p.product_name}を追加しました。`)
+      }
+
+      function renderCart(){
+        const count=state.cart.reduce((s,x)=>s+x.quantity,0);el.cartCount.textContent=`${count}点`;
+        if(!state.cart.length)el.cart.innerHTML='<div class="cart-empty">商品を選択してください。</div>';
+        else el.cart.innerHTML=state.cart.map((line,i)=>`<div class="cart-row" data-cart-index="${i}"><div><div class="cart-name">${esc(line.product_name)}</div><div class="cart-option">${esc(line.option_summary||"オプションなし")}</div></div><div><div class="qty"><button type="button" data-qty="-1">−</button><strong>${line.quantity}</strong><button type="button" data-qty="1">＋</button></div><div class="cart-line-total">${money((line.unit_price+line.option_price)*line.quantity)}</div></div><button class="remove" type="button" data-remove="1">×</button></div>`).join("");
+        el.totalAmount.textContent=money(state.cart.reduce((sum,line)=>sum+(line.unit_price+line.option_price)*line.quantity,0))
+      }
+
+      function setChannel(channel){
+        state.channel=channel;document.querySelectorAll("[data-channel]").forEach(b=>b.classList.toggle("active",b.dataset.channel===channel));const phoneRequired=channel==="phone";el.phoneRequired.style.display=phoneRequired?"inline":"none";el.phoneHelp.textContent=phoneRequired?"電話注文では電話番号が必須です。表記違いも同じ番号として検索します。":"店頭注文は電話番号なしでも登録できます。";el.createOrderButton.textContent=channel==="phone"?"電話注文を登録する":"店頭注文を登録する"
+      }
+
+      function updateNormalizedPhone(){const normalized=normalizePhone(el.customerPhone.value);el.normalizedPhone.textContent=normalized?`正規化：${normalized}`:"正規化：未入力"}
+      function clearCustomer(){state.selectedCustomer=null;state.customerDetail=null;el.customerName.value="";el.customerPhone.value="";updateNormalizedPhone();el.customerDetail.innerHTML="";document.querySelectorAll(".result-card").forEach(x=>x.classList.remove("active"))}
+
+      async function searchCustomers(query){
+        el.searchResults.innerHTML='<div class="loading"><div class="spinner"></div>顧客を検索中</div>';
+        try{const data=await api("/api/admin/customers",{}, {shop_code:config.SHOP_CODE,query,limit:30});const customers=data.customers||[];if(!customers.length){el.searchResults.innerHTML='<div class="empty">該当するお客様はいません。</div>';return}
+          el.searchResults.innerHTML=customers.map(c=>`<button class="result-card${state.selectedCustomer?.id===c.id?" active":""}" type="button" data-customer-id="${c.id}"><div><h4>${esc(c.customer_name)}</h4><div class="result-meta">${esc(c.phone||"電話番号なし")}・最終 ${c.last_order?.pickup_date?esc(c.last_order.pickup_date):"注文なし"}</div></div><span class="count-pill">${Number(c.order_count||0)}回</span></button>`).join("")
+        }catch(error){el.searchResults.innerHTML=`<div class="empty">${esc(error.message)}</div>`;toast(error.message,"error");if(error.status===401){state.adminKey="";sessionStorage.removeItem("takeout_admin_key");el.loginOverlay.classList.remove("hidden");throw error}}
+      }
+
+      async function selectCustomer(id){
+        try{const data=await api("/api/admin/customers/detail",{}, {shop_code:config.SHOP_CODE,customer_id:id,limit:20});state.selectedCustomer=data.customer;state.customerDetail=data;el.customerName.value=data.customer.customer_name||"";el.customerPhone.value=data.customer.phone||"";updateNormalizedPhone();renderCustomerDetail();document.querySelectorAll(".result-card").forEach(x=>x.classList.toggle("active",x.dataset.customerId===id))}
+        catch(error){toast(error.message,"error")}
+      }
+
+      function renderCustomerDetail(){
+        const d=state.customerDetail;if(!d){el.customerDetail.innerHTML="";return}
+        const c=d.customer;el.customerDetail.innerHTML=`<div class="customer-box"><h3>${esc(c.customer_name)}</h3><div class="result-meta">${esc(c.phone||"電話番号なし")}</div><div class="customer-stats"><div class="stat"><span>注文回数</span><strong>${Number(c.order_count||0)}回</strong></div><div class="stat"><span>累計</span><strong>${money(c.total_spent)}</strong></div></div><div class="note-save"><textarea id="customerMemo" class="textarea" maxlength="2000" placeholder="顧客メモ">${esc(c.note||"")}</textarea><button id="saveCustomerMemo" class="secondary" type="button">保存</button></div><div class="section-title" style="margin-top:12px"><h3>最近の注文</h3><span>${(d.orders||[]).length}件</span></div><div class="history">${(d.orders||[]).slice(0,8).map(o=>`<div class="history-card"><div class="history-head"><strong>${esc(o.order_number)}</strong><span>${esc(statusLabel(o.status))}</span></div><div class="result-meta">${esc(o.pickup_date)} ${esc(o.pickup_time)}・${esc(channelLabel(o.order_channel))}・${money(o.total_amount)}</div><div class="history-items">${(o.items||[]).map(i=>`${esc(i.product_name)} ×${i.quantity}${i.option_summary?`（${esc(i.option_summary)}）`:""}`).join("<br>")}</div><button class="reorder" type="button" data-reorder-id="${o.id}">この内容を注文へセット</button></div>`).join("")||'<div class="empty">注文履歴はありません。</div>'}</div></div>`;
+      }
+
+      function setPreviousOrder(orderId){
+        const order=state.customerDetail?.orders?.find(o=>o.id===orderId);if(!order)return;
+        const newCart=[];let skipped=0;for(const item of order.items||[]){const p=state.products.find(x=>x.id===item.product_id&&!x.is_sold_out);if(!p){skipped++;continue}const validOptions=(item.option_ids||[]).filter(id=>(p.options||[]).some(o=>o.id===id));const selectedOptions=(p.options||[]).filter(o=>validOptions.includes(o.id));const key=`${p.id}|${[...validOptions].sort().join(",")}`;newCart.push({key,product_id:p.id,product_name:p.product_name,unit_price:Number(p.price),quantity:Number(item.quantity||1),option_ids:validOptions,option_summary:selectedOptions.map(o=>o.option_name).join("、"),option_price:selectedOptions.reduce((s,o)=>s+Number(o.additional_price||0),0)})}
+        state.cart=newCart;renderCart();el.customerNote.value=order.customer_note||"";toast(skipped?`${newCart.length}商品をセットし、販売できない${skipped}商品を除外しました。`:`${newCart.length}商品を前回内容からセットしました。`)
+      }
+
+      async function saveCustomerMemo(){
+        if(!state.selectedCustomer)return;const note=document.getElementById("customerMemo")?.value.trim()||"";
+        try{await api("/api/admin/customers/note",{method:"PATCH",body:JSON.stringify({shop_code:config.SHOP_CODE,customer_id:state.selectedCustomer.id,note})});state.selectedCustomer.note=note;toast("顧客メモを保存しました。")}
+        catch(error){toast(error.message,"error")}
+      }
+
+      async function createOrder(){
+        const name=el.customerName.value.trim();const phone=el.customerPhone.value.trim();const normalized=normalizePhone(phone);
+        if(!name){toast("お名前を入力してください。","error");el.customerName.focus();return}
+        if(state.channel==="phone"&&!/^\d{10,11}$/.test(normalized)){toast("電話番号を正しく入力してください。","error");el.customerPhone.focus();return}
+        if(state.channel==="counter"&&normalized&&!/^\d{10,11}$/.test(normalized)){toast("電話番号を入力する場合は正しく入力してください。","error");return}
+        if(!state.time){toast("受取時間を選択してください。","error");return}
+        if(!state.cart.length){toast("商品を1点以上選択してください。","error");return}
+        const button=el.createOrderButton;button.disabled=true;button.textContent="登録中...";
+        try{
+          const data=await api("/api/admin/manual-orders",{method:"POST",body:JSON.stringify({shop_code:config.SHOP_CODE,order_channel:state.channel,customer_name:name,phone,pickup_date:state.date,pickup_time:state.time,payment_method:el.paymentMethod.value,customer_note:el.customerNote.value.trim(),shop_note:el.shopNote.value.trim(),items:state.cart.map(x=>({product_id:x.product_id,quantity:x.quantity,option_ids:x.option_ids}))})});
+          state.lastSuccess=data;renderSuccess();open(el.successOverlay);state.cart=[];renderCart();await Promise.all([loadSchedule(),searchCustomers(phone||name)]);
+        }catch(error){toast(error.message,"error")}
+        finally{button.disabled=false;button.textContent=state.channel==="phone"?"電話注文を登録する":"店頭注文を登録する"}
+      }
+
+      function renderSuccess(){
+        const d=state.lastSuccess;el.successNumber.textContent=d.order_number;el.successSummary.innerHTML=`<strong>${esc(d.customer_name)}</strong><br>受取：${esc(dateLabel(d.pickup_date))} ${esc(d.pickup_time)}<br>${(d.items||[]).map(i=>`${esc(i.product_name)} ×${i.quantity}${i.option_summary?`（${esc(i.option_summary)}）`:""}`).join("<br>")}<br><strong>合計 ${money(d.total_amount)}</strong><br>受付：${esc(d.order_channel_label)}／${esc(d.payment_method)}`
+      }
+
+      async function copyText(text){
+        try{await navigator.clipboard.writeText(text)}catch{const area=document.createElement("textarea");area.value=text;document.body.appendChild(area);area.select();document.execCommand("copy");area.remove()}
+      }
+
+      function resetOrderForm(keepCustomer=false){
+        state.time="";state.cart=[];el.selectedTimeDisplay.textContent="未選択";el.customerNote.value="";el.shopNote.value="";el.paymentMethod.value="店頭支払い";document.querySelectorAll(".slot").forEach(x=>x.classList.remove("active"));renderCart();if(!keepCustomer)clearCustomer()
+      }
+
+      el.loginForm.addEventListener("submit",async e=>{e.preventDefault();const key=el.adminKeyInput.value.trim();if(!key){toast("管理コードを入力してください。","error");return}state.adminKey=key;sessionStorage.setItem("takeout_admin_key",key);try{await initializeData()}catch(error){toast(error.message,"error")}});
+      document.querySelectorAll("[data-channel]").forEach(b=>b.addEventListener("click",()=>setChannel(b.dataset.channel)));
+      el.customerPhone.addEventListener("input",updateNormalizedPhone);
+      el.pickupDate.addEventListener("change",()=>{state.date=el.pickupDate.value;loadSchedule()});
+      el.slots.addEventListener("click",e=>{const b=e.target.closest("[data-time]");if(!b||b.disabled)return;state.time=b.dataset.time;el.selectedTimeDisplay.textContent=state.time;el.slots.querySelectorAll(".slot").forEach(x=>x.classList.toggle("active",x===b))});
+      el.products.addEventListener("click",e=>{const b=e.target.closest("[data-product-id]");if(!b)return;const p=state.products.find(x=>x.id===b.dataset.productId);if(p&&!p.is_sold_out)openProduct(p)});
+      el.optionGroups.addEventListener("change",updateOptionTotal);el.optionMinus.addEventListener("click",()=>{state.optionQuantity=Math.max(1,state.optionQuantity-1);updateOptionTotal()});el.optionPlus.addEventListener("click",()=>{state.optionQuantity=Math.min(50,state.optionQuantity+1);updateOptionTotal()});el.optionAdd.addEventListener("click",addSelectedProduct);el.optionClose.addEventListener("click",()=>close(el.optionOverlay));el.optionOverlay.addEventListener("click",e=>{if(e.target===el.optionOverlay)close(el.optionOverlay)});
+      el.cart.addEventListener("click",e=>{const row=e.target.closest("[data-cart-index]");if(!row)return;const i=Number(row.dataset.cartIndex);if(e.target.closest("[data-remove]"))state.cart.splice(i,1);else{const q=e.target.closest("[data-qty]");if(q){state.cart[i].quantity=Math.max(1,Math.min(50,state.cart[i].quantity+Number(q.dataset.qty)))}}renderCart()});
+      el.searchButton.addEventListener("click",()=>searchCustomers(el.customerSearch.value.trim()));el.customerSearch.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();searchCustomers(el.customerSearch.value.trim())}});
+      el.searchResults.addEventListener("click",e=>{const b=e.target.closest("[data-customer-id]");if(b)selectCustomer(b.dataset.customerId)});
+      el.customerDetail.addEventListener("click",e=>{const reorder=e.target.closest("[data-reorder-id]");if(reorder)setPreviousOrder(reorder.dataset.reorderId);if(e.target.closest("#saveCustomerMemo"))saveCustomerMemo()});
+      el.newCustomerButton.addEventListener("click",clearCustomer);el.resetButton.addEventListener("click",()=>resetOrderForm(false));el.createOrderButton.addEventListener("click",createOrder);
+      el.copyMessageButton.addEventListener("click",async()=>{if(state.lastSuccess){await copyText(state.lastSuccess.confirmation_text||"");toast("確認文面をコピーしました。")}});el.openOrdersButton.addEventListener("click",()=>location.href="./owner.html?v=takeout-8-manual-order");el.nextOrderButton.addEventListener("click",()=>{close(el.successOverlay);resetOrderForm(true)});el.successClose.addEventListener("click",()=>close(el.successOverlay));el.successOverlay.addEventListener("click",e=>{if(e.target===el.successOverlay)close(el.successOverlay)});
+      el.ordersButton.addEventListener("click",()=>location.href="./owner.html?v=takeout-8-reception-link");el.ipadButton.addEventListener("click",()=>location.href="./owner-ipad.html?v=takeout-8-reception-link");el.productsButton.addEventListener("click",()=>location.href="./owner-products.html?v=takeout-8-reception-link");el.logoutButton.addEventListener("click",()=>{state.adminKey="";sessionStorage.removeItem("takeout_admin_key");el.adminKeyInput.value="";el.loginOverlay.classList.remove("hidden")});
+
+      setChannel("phone");renderCart();if(state.adminKey)initializeData().catch(error=>{toast(error.message,"error");el.loginOverlay.classList.remove("hidden")});else{el.loginOverlay.classList.remove("hidden");el.adminKeyInput.focus()}
+    })();
+  </script>
+</body>
+</html>

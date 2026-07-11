@@ -588,6 +588,7 @@
         <span id="clock" class="header-chip">--:--</span>
         <span id="lastUpdated" class="header-chip">未更新</span>
         <button id="fullscreenButton" class="header-button" type="button">全画面</button>
+        <button id="receptionButton" class="header-button" type="button">電話・店頭受付</button>
         <button id="ownerPcButton" class="header-button" type="button">PC管理</button>
         <button id="logoutButton" class="header-button" type="button">終了</button>
       </div>
@@ -620,7 +621,7 @@
     </section>
 
     <footer class="footer">
-      STEP TAKEOUT-5 / TAKEOUT-5-KITCHEN-IPAD-20260711
+      STEP TAKEOUT-8 LINKED / TAKEOUT-5-KITCHEN-IPAD-20260711
     </footer>
   </main>
 
@@ -700,6 +701,7 @@
         clock: document.getElementById("clock"),
         lastUpdated: document.getElementById("lastUpdated"),
         fullscreenButton: document.getElementById("fullscreenButton"),
+        receptionButton: document.getElementById("receptionButton"),
         ownerPcButton: document.getElementById("ownerPcButton"),
         logoutButton: document.getElementById("logoutButton"),
         orderDate: document.getElementById("orderDate"),
@@ -1260,6 +1262,10 @@
       });
 
       el.fullscreenButton.addEventListener("click", toggleFullscreen);
+
+      el.receptionButton.addEventListener("click", () => {
+        window.open("./owner-reception.html?v=takeout-8", "_blank", "noopener");
+      });
 
       el.ownerPcButton.addEventListener("click", () => {
         window.open("./owner.html?v=takeout-5-ipad-link", "_blank", "noopener");
