@@ -95,7 +95,7 @@
       </section>
     </div>
 
-    <footer class="footer">STEP TAKEOUT-7 / TAKEOUT-7-PRODUCT-PHOTO-MANAGEMENT-20260711</footer>
+    <footer class="footer">STEP TAKEOUT-7-R1 / TAKEOUT-7-R1-PRODUCT-STOCK-NULL-FIX-20260711</footer>
   </main>
 
   <div id="toast" class="toast"></div>
@@ -106,7 +106,7 @@
       "use strict";
 
       const config = {
-        VERSION: "TAKEOUT-7-PRODUCT-PHOTO-MANAGEMENT-20260711",
+        VERSION: "TAKEOUT-7-R1-PRODUCT-STOCK-NULL-FIX-20260711",
         SHOP_CODE: "takeout_demo",
         API_BASE_URL: "https://dpro-takeout-line-api.dpromstk2000.workers.dev",
         ADMIN_KEY: "1234",
@@ -174,6 +174,18 @@
         el.summaryGrid.innerHTML=cards.map(([label,count])=>`<div class="summary"><span>${label}</span><strong>${count}</strong></div>`).join("");
       }
 
+      function getStockLabel(product){
+        if(product.stock_type!=="daily")return "在庫上限なし";
+        const dailyStock=Math.max(0,Number(product.daily_stock||0));
+        const summary=product.stock_summary||{};
+        const reserved=Math.max(0,Number(summary.reserved_quantity||0));
+        const apiRemaining=Number(summary.remaining_stock);
+        const remaining=Number.isFinite(apiRemaining)
+          ? Math.max(0,apiRemaining)
+          : Math.max(0,dailyStock-reserved);
+        return `残り ${remaining}個`;
+      }
+
       function filteredProducts(){
         const q=el.searchInput.value.trim().normalize("NFKC").toLowerCase();
         if(!q)return state.products;
@@ -185,7 +197,7 @@
         el.listCount.textContent=`${products.length}件`;
         if(!products.length){el.productList.innerHTML='<div class="empty-list">該当する商品はありません。</div>';return}
         el.productList.innerHTML=products.map(p=>{
-          const stock=p.stock_type==="daily"?(p.stock_summary?.remaining_stock===null?`上限 ${p.daily_stock??0}個`:`残り ${p.stock_summary.remaining_stock}個`):"在庫上限なし";
+          const stock=getStockLabel(p);
           return `<button type="button" class="product-card${state.selectedId===p.id?" active":""}${p.is_visible?"":" hidden-product"}" data-product-id="${p.id}">
             <div class="thumb">${p.image_url?`<img src="${esc(p.image_url)}?v=${encodeURIComponent(p.image_updated_at||p.updated_at||"")}" alt="${esc(p.product_name)}">`:emoji(p.category)}${p.is_sold_out?'<span class="soldout">売り切れ</span>':""}</div>
             <div><h3>${esc(p.product_name)}</h3><div class="meta">${esc(p.category)}・表示順 ${p.display_order}</div><div class="badges"><span class="badge ${p.is_visible?"green":""}">${p.is_visible?"表示中":"非表示"}</span>${p.is_sold_out?'<span class="badge red">売り切れ</span>':`<span class="badge amber">${esc(stock)}</span>`}</div></div>
