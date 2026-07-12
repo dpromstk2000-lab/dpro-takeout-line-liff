@@ -56,6 +56,53 @@
   </style>
 </head>
 <body>
+  <div id="dpro-product-demo-banner" style="display:none;position:sticky;top:0;z-index:99999;padding:10px 14px;text-align:center;background:#fff2e9;border-bottom:1px solid #f2b99f;color:#9a3412;font-size:12px;font-weight:900;">
+    製品紹介用デモです。画面は確認できますが、注文・変更・更新・削除は実行されません。
+  </div>
+  <script>
+  (() => {
+    const params = new URLSearchParams(location.search);
+    const isEmbedDemo = params.get("embed_demo") === "1";
+    window.DPRO_TAKEOUT_EMBED_DEMO = isEmbedDemo;
+
+    if (!isEmbedDemo) return;
+
+      sessionStorage.setItem("takeout_admin_key", "1234");
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const banner = document.getElementById("dpro-product-demo-banner");
+      if (banner) banner.style.display = "block";
+
+      const possibleInputs = [
+        document.getElementById("adminKeyInput"),
+        document.querySelector('input[name="admin_key"]'),
+        document.querySelector('input[type="password"]')
+      ].filter(Boolean);
+
+      possibleInputs.forEach(input => {
+        if (!input.value) input.value = "1234";
+      });
+    });
+
+    const originalFetch = window.fetch.bind(window);
+    window.fetch = async function(resource, options = {}) {
+      const method = String(options.method || "GET").toUpperCase();
+
+      if (window.DPRO_TAKEOUT_EMBED_DEMO && !["GET", "HEAD"].includes(method)) {
+        return new Response(JSON.stringify({
+          ok: false,
+          error: "製品紹介用デモでは更新操作は実行されません。"
+        }), {
+          status: 403,
+          headers: { "Content-Type": "application/json" }
+        });
+      }
+
+      return originalFetch(resource, options);
+    };
+  })();
+  </script>
+
   <div id="loginOverlay" class="login-overlay">
     <form id="loginForm" class="login-card">
       <h2>商品管理</h2>
