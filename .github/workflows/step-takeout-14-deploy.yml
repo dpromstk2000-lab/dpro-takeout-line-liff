@@ -1,6 +1,11 @@
 name: STEP TAKEOUT-14 Deploy
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/step-takeout-14-deploy.yml
   workflow_dispatch:
 
 permissions:
@@ -361,7 +366,7 @@ jobs:
           grep -Fq "/api/products" index.html
           grep -Fq "/api/time-slots" index.html
           grep -Fq "/api/orders" index.html
-          grep -Fq "preview=1" index.html
+          grep -Fq 'params.get("preview")' index.html
           grep -Fq "window.DPRO_TAKEOUT_CONFIG" config.js
 
           python3 - <<'PY'
@@ -430,5 +435,5 @@ jobs:
             echo "- config.js updated"
             echo "- Worker change: none"
             echo "- Supabase change: none"
-            echo "- Preview: https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/?preview=1&v=takeout-14-r2"
+            echo "- Preview: https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/?preview=1&v=takeout-14-r3"
           } >> "$GITHUB_STEP_SUMMARY"
