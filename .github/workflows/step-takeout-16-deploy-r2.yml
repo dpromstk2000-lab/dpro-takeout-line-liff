@@ -1,0 +1,221 @@
+name: STEP TAKEOUT-16 Deploy R2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/step-takeout-16-deploy-r2.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: step-takeout-16-deploy-r2
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Unify owner screens
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Confirm repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = "dpromstk2000-lab/dpro-takeout-line-liff"
+
+      - name: Write STEP TAKEOUT-16 resources
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat <<'DPRO_CSS_GZIP_BASE64' | tr -d '\n\r ' | base64 --decode | gzip -d > takeout-owner-next.css
+          H4sIAAAAAAAC/71ZWY/jNhJ+71+hTWOAdiB5RB3W9bILZBYIAmSC7AR5piTKFlqWBIpud8fo/75VlGRTh2XPYJKHPkSRxTq+
+          +lhFffxR++m33z9rX/7zy6fPf3zR/vfl02/9g0E22uc/f/30u/bHrz//9+dPP2k/fnwIeVWJ04OmGUZa88qIt+FjZrOUbaJu
+          JKE8hbEsS7OgH8vL5/DR8i1C0n6oOcTho+du6IZEF3FFXrLwMc1SK3H7mSnluNolMfHUMSt8dDwrtSxlPU0SVgqQ4Lmudd6r
+          HTWaKhNSM5P5ypq4OMCeNvEcejYCx7r5jGZOFivzt5yxEhTyPOqwSB3sV3iZyxJVq33MePhInc3G9CN18KKTnbrKCs7Ah7Hv
+          mPZ5PgypFjBldrOjaXU0mn1oal79qhEffvFtTJ9cV7c93fL0temtJitgOnFhqmNO5xNn9fD+sBP74tQkvCoKI2Y7+pJXPGz2
+          gIHd+0NcpW8IhaQqYPSF8qdLuFf/yvd1xQUtBW4b0+R5y6tDmYbwpGmcpjktwGvwF0LzlOQ8KZhGheb7HzSDmB90qY9FNjoh
+          nu4R0ChY6YLTsqkphzWa5X9Y6VKasnW8He2cVRj5/C8Wkk39OnxnHFn8nAujnSOtysttCG9BuZw2LAUXrJsdKwp9Tev6dMxT
+          sQv3eflENj44TSem+UHdcE/5Ni/Br/QgKmW8pmmKooml6gDCRVXHlOvrHaMp4+jNumpykVdlyFlBRf7CFDHVC+NZAYHb5WnK
+          yqE1bRgQHVd9j+lF+cXtxDJTtu1c7euWqYOv14G/aoc8R3dMHV6sA3c1jmjFQWEDJR2a0PLHvo2r1x5lSnjakVlRoXkZfTh7
+          JqSZYGf/tE8t5kqBmf7DD9HZYTRuquIgWMTz7U6EhgvYjkBMaAT4Xxs8awNxi3ZMTmkfLirYmDggJE/bdLAgH/qftblZRUOr
+          gyCA5XWVgy7cYC+gUBOWVclQ/xigmmrNnhbFqQsNC6jlE8V4BZzmwIHyxbFVMnAVz0QFE7gZJEGCgFqTDdsPENXuuyOni/Ck
+          oPv6yXIAsPbLUbchEdQQICqMziNkbY3xacQHIaqyj0H3iEGAROjXOfZA/x7vAbKRNcbGLFIVmE59T8x5zJCFeFm2umYYualO
+          Siis66EwRyCVoC7ZqzBK+oIuSfOmLuhbmBXsNQIS2ZZGLti+CfEEYjza0joEij5nsvEaIlWgBh13IBI0UzNVH47SWLHV1i0n
+          gPx0emwqLlHyDkO8mqYtQVWWMhVYcRW1/A/JaLQp1CN8YHwY9mx6nn7qnYELxvO1C4zQV3JOpAIKM7N3gd/BKJo7baCSWKno
+          QVx9izPabB7iYBz96LiDcMrsY6DykdP64Ypla5oge58GeFf1VDTCcuZMLhMD5dur29Q8B+S83bVPWwhd36l7f3WvlJbbln9b
+          sBoFg4JEAngiC+qV1RU1+lJmpAjwYxzHXkv+lUSQeh42Ik+e35TM/AsKjRSgY6v8iHxvXj0AZzLHnT/YJvZI1CydgZhMIz5L
+          OdBnlheQ+SGUlPyJOEPqvXFQYvoNCScv64PQ1w0rWAJ/BQQIqiE6ZuPhcXyrQBslzw2mXfDJLZI9l0Hm9FyoDkJW/0gEMzaH
+          WZUcmt7y/qm3v30+LYSvg/ZV35vIuRqER5ssarE61KnLOn3NWcZZszsfkkWFeXEht1tn3aKK08poBnbWfZWDLGUZ1E2p1BvK
+          2eLtojUgYqL0Pw8Ycv/JW9OSQVXeHPYYB9l1np/0dQcCOQjhORSiewCUiGqPVUz1ChVNDk/d6tOQKRSl8e2M0vcxxNckd2/M
+          lufpCSuFYNQtzFp7UhLfd4YctEBQI3EanGnlWaZ8Os0etfPl652Rm2wqeFVulW3ls1K6DhsLXC6oODSGgGL/1BVTw4KVxmMy
+          NGdLU1lT2POl6XWT/ybky9rjexSkYH5feHwF88gK4w6Ej+bBfpdEO02ZaaYplO+xauhqSe/qETFAssx4OP4PtSHyPVMAYo87
+          6nOGl3QwkYyRhHW5nASsQLlQ5s/RJyyQ1VBHkiq+gsm5fz+3z7P4cDNgMJq+GRhW2Hlevrx/GoamhW914AnrahC9HYOf9JCI
+          bvDermWz2LVgo3dpWYh8WuwbBorNNA+zut7bZAyEa/0hNyPwVhdie0oXIq/WwLRovgUZnh93diFzLcgw+c1pF/KwZGeX/kvm
+          /l2tSb9ZwyhPdii+DTzekg16O8jty1WZqfmKk4OlVg/LkO/R6skN1ILzigldWXmjpoy+poyEjY4Vf5YdpDzAJpnfqXD6il5k
+          ZJ2zcBlnanjji1MmN8TupMZtfQGV7pZ1d5/ekNO7gI5Gb1BbJ1fbOSo9D5R+P28OhXYyoPHNvLT2DFpyxGhunwT3NwyTMNv3
+          dAu47a4SCC32krPj6VZRRl+YgcS23LZuhlu0bQfyM3DhZKlNYBVe7649a3WzRzUHPepZ+IyDLXcUd8VBNvZ4wfnLgmXpeJdv
+          62vbnTmnkgIvpmkKLHEXbxjY5/tzXCzvHa7W8uOrB4U2uuuHmZ5kjn+zqsLD8+oNbkesQeDH/uBKFb+aKLcr1bEEXlbrKKz+
+          DTh94VQTDHF52JeIZcxbcMaevj6ZOsn4SrNscwiekWzOElZj0aCpnDMr/iJ47aLo7tnGC3JEDYzdt1HPXvPbIFEMjVA/nlwi
+          TciyZd0uzd2G2Z40xLcV41w5RtbOyLh/71ma0yeY0hUuhFiYEy0jf1v0UMA1w9+vym1Lvk5KK7r9PyQfDfVDQl8E4RRl+Ioy
+          GdfgZ1GBOejo3xyE0W4zLvbM3sPq9zal8lLPhtFHsxEnjZADEvvbROUqkYo8UUUuXXeqd53m+7eDIPheGLjt3/8DsHTei9gf
+          AAA=
+          DPRO_CSS_GZIP_BASE64
+
+          cat <<'DPRO_JS_GZIP_BASE64' | tr -d '\n\r ' | base64 --decode | gzip -d > takeout-owner-next.js
+          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
+          DPRO_JS_GZIP_BASE64
+
+          cat <<'DPRO_PATCH_GZIP_BASE64' | tr -d '\n\r ' | base64 --decode | gzip -d > _step_takeout_16_patch.py
+          H4sIAAAAAAAC/7VU3U7bMBS+z1NY5yZJR1LCtm5iTdE0glSBStWW7YJAlSZOG0jiyHbpECDtZi/BE+xmk/ZQSNtbzPlr0wLt
+          NGm+Sc7fd+zP37FPSYQSh0/CYISCKCGUo64wpeKfYkn6aPX67eMOMhEM3h9axycDzWhox586Vk876bQP2ta+trO909h+s2OA
+          dNA+svoi9xTILMZUn/AohC2UWxrFLk54QOIVf0KJN3U5y91nknTU7hwKFLkZBvGl2EZoAuPXIWYTjDmgCcW+CXqdO5eYTLmW
+          o8T4M9ddxvauzDJgNKAlS/0PvXZ3kOExlwYJR4y6z9RfrJY363mNwJF8QpEfhDh2IoyCGGWn3ZWQWCmLokPKnlKmqFmEC1gR
+          SRN0ih1vmDoUHLvEC+KxCVPua29BlarJFOtsOlIyV7qobLPaWjLsp05jp3ScnsNZDVoCQN6aA4Idw8JKu+aWunkXVQqf6XpR
+          Np2T97fdq+3Tj2AsCR0XLzYhuyRmHAXMikbY28cRycilTsT0MeYK4NQ/9EQAVGSaQrcGvKs0/ycAdHu7lJNQfBXg2eMOa44A
+          zfpE3H9L6N4HhG5Skd/Z8cJrqOtqR8S7ntfmks6qS7+xSUKKGzqMmeATwjGF0/PWWa2lKnptT1WadWVv1wuubvOg2lIrjFFf
+          to3+wOqixQuA6uimeBru7JfyU7eZLpdMY24aC4cfOmNmis31l/jKpmNGA47z8chQ0OqQbKEYz8QUYDNVkCgVV+kH43LuIDeF
+          /EQs/x8WbBSRdfO3XFClj8rFSXeFjCGV9gsoTuzPQwjmfJTBCmLpKNh4envDx4oHVEPLzL9GD19//v5y/+vb94cf98UYPU5r
+          rKapm4Bf/S9g43ksWFBRvf0qcRtF8Ad97FQQxQYAAA==
+          DPRO_PATCH_GZIP_BASE64
+
+      - name: Patch existing owner screens
+        shell: bash
+        run: |
+          set -euo pipefail
+          python _step_takeout_16_patch.py
+          rm _step_takeout_16_patch.py
+
+      - name: Validate files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for file in owner.html owner-reception.html owner-products.html config.js takeout-owner-next.css takeout-owner-next.js; do
+            test -s "$file"
+          done
+
+          grep -Fq "TAKEOUT-16-OWNER-UNIFIED-20260721" config.js
+          grep -Fq "takeout-owner-next.css" owner.html
+          grep -Fq "takeout-owner-next.js" owner.html
+          grep -Fq "takeout-owner-next.css" owner-reception.html
+          grep -Fq "takeout-owner-next.js" owner-reception.html
+          grep -Fq "takeout-owner-next.css" owner-products.html
+          grep -Fq "takeout-owner-next.js" owner-products.html
+
+          grep -Fq "/api/admin/orders" owner.html
+          grep -Fq "/api/admin/orders/status" owner.html
+          grep -Fq "/api/admin/manual-orders" owner-reception.html
+          grep -Fq "/api/admin/customers" owner-reception.html
+          grep -Fq "/api/admin/products/options" owner-products.html
+          grep -Fq "/api/admin/products/image" owner-products.html
+
+          grep -Fq 'params.get("preview")' owner.html
+          grep -Fq 'params.get("preview")' owner-reception.html
+          grep -Fq 'params.get("preview")' owner-products.html
+
+          node --check takeout-owner-next.js
+
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import sys
+
+          class Inspector(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.ids = []
+              def handle_starttag(self, tag, attrs):
+                  for key, value in attrs:
+                      if key == "id" and value:
+                          self.ids.append(value)
+
+          for filename in ["owner.html", "owner-reception.html", "owner-products.html"]:
+              html = Path(filename).read_text(encoding="utf-8")
+              parser = Inspector()
+              parser.feed(html)
+              duplicates = sorted(set(
+                  value for value in parser.ids
+                  if parser.ids.count(value) > 1
+              ))
+              if duplicates:
+                  print(filename, "Duplicate IDs:", duplicates)
+                  sys.exit(1)
+              if not html.lstrip().lower().startswith("<!doctype html>"):
+                  print(filename, "DOCTYPE missing")
+                  sys.exit(1)
+              if not html.rstrip().lower().endswith("</html>"):
+                  print(filename, "HTML closing tag missing")
+                  sys.exit(1)
+
+          print("STEP TAKEOUT-16 validation: OK")
+          PY
+
+      - name: Commit and push
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- owner.html owner-reception.html owner-products.html config.js takeout-owner-next.css takeout-owner-next.js; then
+            echo "Already up to date."
+            exit 0
+          fi
+
+          git config user.name "DPRO GitHub Actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add owner.html owner-reception.html owner-products.html config.js takeout-owner-next.css takeout-owner-next.js
+          git commit -m "STEP TAKEOUT-16: unify owner screens"
+          git push origin HEAD:main
+
+      - name: Deployment summary
+        shell: bash
+        run: |
+          {
+            echo "## STEP TAKEOUT-16 Complete"
+            echo "- PC order management unified"
+            echo "- Phone and counter reception unified"
+            echo "- Product management unified"
+            echo "- Shared navigation and styling added"
+            echo "- Worker change: none"
+            echo "- Supabase change: none"
+          } >> "$GITHUB_STEP_SUMMARY"
