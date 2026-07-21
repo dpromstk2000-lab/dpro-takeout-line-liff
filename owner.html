@@ -548,6 +548,7 @@
     }
 
   </style>
+  <link rel="stylesheet" href="./takeout-owner-next.css?v=takeout-16">
 </head>
 <body>
   <div id="dpro-product-demo-banner" style="display:none;position:sticky;top:0;z-index:99999;padding:10px 14px;text-align:center;background:#fff2e9;border-bottom:1px solid #f2b99f;color:#9a3412;font-size:12px;font-weight:900;">
@@ -556,7 +557,7 @@
   <script>
   (() => {
     const params = new URLSearchParams(location.search);
-    const isEmbedDemo = params.get("embed_demo") === "1";
+    const isEmbedDemo = params.get("embed_demo") === "1" || params.get("preview") === "1";
     window.DPRO_TAKEOUT_EMBED_DEMO = isEmbedDemo;
 
     if (!isEmbedDemo) return;
@@ -654,9 +655,7 @@
       </section>
     </div>
 
-    <footer class="footer">
-      STEP TAKEOUT-10-R1 / TAKEOUT-10-R1-COPY-ACTION-FEEDBACK-20260712
-    </footer>
+    <footer class="footer">STEP TAKEOUT-16 / TAKEOUT-16-OWNER-UNIFIED-20260721</footer>
   </main>
 
 
@@ -1610,5 +1609,6 @@
       }, 60_000);
     })();
   </script>
+  <script src="./takeout-owner-next.js?v=takeout-16"></script>
 </body>
 </html>

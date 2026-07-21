@@ -54,6 +54,7 @@
     @media(max-width:1050px){.workspace{grid-template-columns:1fr}.product-list{max-height:420px}.summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media(max-width:680px){.shell{padding:9px}.topbar{align-items:flex-start;flex-direction:column;border-radius:18px}.toolbar{grid-template-columns:1fr}.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.photo-section{grid-template-columns:1fr}.photo-preview{width:100%;height:210px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.option-row{grid-template-columns:1fr 1fr}.option-row .option-price,.option-row .option-order{grid-column:auto}.option-row .icon-button{grid-column:2;justify-self:end}.save-bar{flex-direction:column;align-items:stretch}}
   </style>
+  <link rel="stylesheet" href="./takeout-owner-next.css?v=takeout-16">
 </head>
 <body>
   <div id="dpro-product-demo-banner" style="display:none;position:sticky;top:0;z-index:99999;padding:10px 14px;text-align:center;background:#fff2e9;border-bottom:1px solid #f2b99f;color:#9a3412;font-size:12px;font-weight:900;">
@@ -62,7 +63,7 @@
   <script>
   (() => {
     const params = new URLSearchParams(location.search);
-    const isEmbedDemo = params.get("embed_demo") === "1";
+    const isEmbedDemo = params.get("embed_demo") === "1" || params.get("preview") === "1";
     window.DPRO_TAKEOUT_EMBED_DEMO = isEmbedDemo;
 
     if (!isEmbedDemo) return;
@@ -143,7 +144,7 @@
       </section>
     </div>
 
-    <footer class="footer">STEP TAKEOUT-9 / TAKEOUT-9-STORE-SETTINGS-ORDER-RULES-20260711</footer>
+    <footer class="footer">STEP TAKEOUT-16 / TAKEOUT-16-OWNER-UNIFIED-20260721</footer>
   </main>
 
   <div id="toast" class="toast"></div>
@@ -456,5 +457,6 @@
       (async()=>{await loadShop().catch(()=>{});if(state.adminKey)await loadProducts();else{el.loginOverlay.classList.remove("hidden");el.adminKeyInput.focus()}})();
     })();
   </script>
+  <script src="./takeout-owner-next.js?v=takeout-16"></script>
 </body>
 </html>
