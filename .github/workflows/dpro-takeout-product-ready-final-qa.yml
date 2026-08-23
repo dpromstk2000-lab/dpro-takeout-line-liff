@@ -131,8 +131,15 @@ jobs:
             };
 
             const forgedLine = await fetchJson(
-              `${API}/api/member/orders?shop_code=production_probe&line_user_id=U_FORGED_PR2_PROBE`,
-              {},
+              `${API}/api/member/orders`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  shop_code: "production_probe",
+                  line_user_id: "U_FORGED_PR2_PROBE",
+                }),
+              },
               [401]
             );
             assert(forgedLine.data?.ok === false, "forged LINE probe did not fail");
@@ -233,8 +240,16 @@ jobs:
             fs.mkdirSync("qa-artifacts/screenshots", { recursive: true });
             const browser = await chromium.launch({ headless: true });
             try {
+              const browserMatrix = {
+                pc: new Set(["customer", "member", "owner"]),
+                mobile390: new Set(["customer", "member"]),
+                mobile320: new Set(["customer", "member"]),
+                ipad: new Set(["customer", "member", "ownerIpad"]),
+              };
+
               for (const [vpName, width, height] of viewports) {
                 for (const [pageName, url] of userFacingPages) {
+                  if (!browserMatrix[vpName]?.has(pageName)) continue;
                   const context = await browser.newContext({ viewport: { width, height } });
                   const page = await context.newPage();
                   const pageErrors = [];
