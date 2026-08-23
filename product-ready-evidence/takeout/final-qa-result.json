@@ -1,7 +1,7 @@
 {
   "ok": false,
-  "sourceSha": "e10bac233090a1ffddc8ae5500108c9cac0622bd",
-  "startedAt": "2026-08-23T03:25:03.124Z",
+  "sourceSha": "a2520343c7927d1935461895674b909314c72189",
+  "startedAt": "2026-08-23T03:33:46.335Z",
   "api": {
     "health": {
       "ok": true,
@@ -22,9 +22,9 @@
       "lineIdentityVerificationReady": true,
       "lineIdentityMode": "server_verified_id_token",
       "lineCustomerBinding": "deferred_until_contract",
-      "time": "2026-08-23T03:25:04.583Z",
-      "elapsed_ms": 1342,
-      "request_id": "99d9c04a-1b51-467d-81ae-c1d572102b48"
+      "time": "2026-08-23T03:33:47.633Z",
+      "elapsed_ms": 1176,
+      "request_id": "71205228-d2d7-434b-a59c-a4a261578d1d"
     },
     "production1234Guard": {
       "status": 503,
@@ -125,22 +125,11 @@
         "demo_rpc": {
           "ok": true,
           "label": "営業デモ準備RPC",
-          "prepared": true,
-          "target_date": "2026-07-13",
-          "order_count": 6,
-          "status_counts": {
-            "ready": 1,
-            "cooking": 1,
-            "received": 1,
-            "cancelled": 1,
-            "confirmed": 1,
-            "cooking_wait": 1
-          },
-          "channel_counts": {
-            "line": 3,
-            "phone": 2,
-            "counter": 1
-          }
+          "prepared": false,
+          "target_date": null,
+          "order_count": 0,
+          "status_counts": {},
+          "channel_counts": {}
         }
       },
       "warnings": [],
@@ -167,16 +156,16 @@
         "accepting_orders": true,
         "sales_demo_ready": true
       },
-      "time": "2026-08-23T03:25:08.844Z",
-      "elapsed_ms": 4142,
-      "request_id": "63a48986-5058-49a2-b41c-563c69a4320a"
+      "time": "2026-08-23T03:33:49.575Z",
+      "elapsed_ms": 1861,
+      "request_id": "d6991849-c250-4a9d-b1d0-4eaffa88b1d1"
     }
   },
   "publicUrls": {},
   "browser": [],
   "technicalTerms": {},
   "failures": [
-    "Error: HTTP 400: https://dpro-takeout-line-api.dpromstk2000.workers.dev/api/admin/demo-prepare?shop_code=takeout_demo&admin_key=1234 :: {\n  \"ok\": false,\n  \"error\": \"SUPABASE_REQUEST_FAILED\",\n  \"message\": \"duplicate key value violates unique constraint \\\"takeout_customers_shop_phone_unique\\\"\",\n  \"detail\": \"duplicate key value violates unique constraint \\\"takeout_customers_shop_phone_u\n    at fetchJson (file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:50:14)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async runApiTests (file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:126:18)\n    at async file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:267:3"
+    "Error: HTTP 201: https://dpro-takeout-line-api.dpromstk2000.workers.dev/api/admin/demo-prepare?shop_code=takeout_demo&admin_key=1234 :: {\n  \"ok\": true,\n  \"orders\": [\n    {\n      \"status\": \"received\",\n      \"demo_key\": \"takeout11:order:20260824:01\",\n      \"order_id\": \"15df28b5-2e19-4ceb-9095-7379988dd969\",\n      \"pickup_date\": \"2026-08-24\",\n      \"pickup_time\": \"11:00\",\n      \"order_n\n    at fetchJson (file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:50:14)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async runApiTests (file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:126:18)\n    at async file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:267:3"
   ],
-  "completedAt": "2026-08-23T03:26:14.149Z"
+  "completedAt": "2026-08-23T03:34:51.835Z"
 }
