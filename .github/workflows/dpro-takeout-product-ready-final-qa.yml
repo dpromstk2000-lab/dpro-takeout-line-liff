@@ -39,7 +39,7 @@ jobs:
         env:
           TAKEOUT_SOURCE_SHA: ${{ github.sha }}
         run: |
-          cat > /tmp/dpro-takeout-final-qa.mjs <<'DPRO_QA_JS'
+          cat > "$GITHUB_WORKSPACE/dpro-takeout-final-qa.mjs" <<'DPRO_QA_JS'
           import fs from "node:fs";
           import { chromium } from "playwright";
 
@@ -330,7 +330,7 @@ jobs:
           }
           DPRO_QA_JS
 
-          node /tmp/dpro-takeout-final-qa.mjs
+          node "$GITHUB_WORKSPACE/dpro-takeout-final-qa.mjs"
 
       - name: Upload QA evidence
         if: always()
