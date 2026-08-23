@@ -49,7 +49,7 @@ jobs:
           const SHA = process.env.TAKEOUT_SOURCE_SHA || "unknown";
 
           const EXPECTED = {
-            workerVersion: "TAKEOUT-PR2-WORKER-20260823",
+            workerVersion: "TAKEOUT-PR3-CORS-ALLOWLIST-20260823",
             databaseVersion: "TAKEOUT-DB-PR2-20260823",
             frontendVersion: "TAKEOUT-18-FINAL-SYSTEM-CHECK-20260722",
             adapterVersion: "TAKEOUT-PRODUCT-READY-ADAPTER-2.0",
@@ -113,6 +113,37 @@ jobs:
             assert(health.data?.database?.boundary === "worker_service_role_only", "DB boundary mismatch");
             assert(health.data?.production_guard === true, "production_guard != true");
             assert(health.data?.adminAuthMode === "demo_only", "adminAuthMode mismatch");
+            // DPRO fixed security baseline: explicit CORS allowlist, never wildcard.
+            const corsAllowed = await fetchJson(`${API}/api/health`, {
+              method: "OPTIONS",
+              headers: {
+                Origin: "https://dpromstk2000-lab.github.io",
+                "Access-Control-Request-Method": "GET",
+              },
+            }, [204]);
+            const allowedOrigin = corsAllowed.response.headers.get("access-control-allow-origin");
+            assert(
+              allowedOrigin === "https://dpromstk2000-lab.github.io",
+              `CORS allowed origin mismatch: ${allowedOrigin}`
+            );
+
+            const corsDenied = await fetchJson(`${API}/api/health`, {
+              method: "OPTIONS",
+              headers: {
+                Origin: "https://evil.example",
+                "Access-Control-Request-Method": "GET",
+              },
+            }, [204]);
+            const deniedOrigin = corsDenied.response.headers.get("access-control-allow-origin");
+            assert(deniedOrigin !== "*", "CORS wildcard is forbidden");
+            assert(deniedOrigin !== "https://evil.example", "Untrusted origin must not be allowed");
+            result.api.cors = {
+              ok: true,
+              allowedOrigin,
+              deniedOrigin,
+              wildcardForbidden: true,
+            };
+
             assert(health.data?.lineIdentityVerificationReady === true, "LINE verification not ready");
             assert(health.data?.lineIdentityMode === "server_verified_id_token", "LINE identity mode mismatch");
             assert(health.data?.lineCustomerBinding === "deferred_until_contract", "LINE binding contract changed");
