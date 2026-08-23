@@ -1,7 +1,7 @@
 {
   "ok": false,
-  "sourceSha": "00f770618d28997686af3141bd966ec53745f28c",
-  "startedAt": "2026-08-23T03:20:38.784Z",
+  "sourceSha": "e10bac233090a1ffddc8ae5500108c9cac0622bd",
+  "startedAt": "2026-08-23T03:25:03.124Z",
   "api": {
     "health": {
       "ok": true,
@@ -22,20 +22,161 @@
       "lineIdentityVerificationReady": true,
       "lineIdentityMode": "server_verified_id_token",
       "lineCustomerBinding": "deferred_until_contract",
-      "time": "2026-08-23T03:20:40.069Z",
-      "elapsed_ms": 1151,
-      "request_id": "12df7e77-ccb9-447c-9d2d-a1119aca459e"
+      "time": "2026-08-23T03:25:04.583Z",
+      "elapsed_ms": 1342,
+      "request_id": "99d9c04a-1b51-467d-81ae-c1d572102b48"
     },
     "production1234Guard": {
       "status": 503,
       "error": "ADMIN_AUTH_NOT_CONFIGURED"
+    },
+    "forgedLineGuard": {
+      "status": 401,
+      "error": "LINE_ID_TOKEN_REQUIRED"
+    },
+    "systemCheck": {
+      "ok": true,
+      "service": "DPRO Takeout LINE API",
+      "version": "TAKEOUT-PR2-WORKER-20260823",
+      "workerVersion": "TAKEOUT-PR2-WORKER-20260823",
+      "databaseVersion": "TAKEOUT-DB-PR2-20260823",
+      "frontendVersion": "TAKEOUT-18-FINAL-SYSTEM-CHECK-20260722",
+      "adapterVersion": "TAKEOUT-PRODUCT-READY-ADAPTER-2.0",
+      "shop_code": "takeout_demo",
+      "checks": {
+        "database": {
+          "ok": true,
+          "label": "API・Supabase接続",
+          "shop": {
+            "shop_code": "takeout_demo",
+            "shop_name": "DPRO テイクアウト デモ店",
+            "is_active": true
+          }
+        },
+        "settings": {
+          "ok": true,
+          "label": "店舗設定",
+          "settings": {
+            "shop_code": "takeout_demo",
+            "is_accepting_orders": true,
+            "max_reservation_days": 7,
+            "slot_minutes": 30,
+            "pickup_start_time": "11:00:00",
+            "pickup_end_time": "18:30:00",
+            "payment_method": "店頭支払い"
+          }
+        },
+        "products": {
+          "ok": true,
+          "label": "商品・商品写真",
+          "total": 4,
+          "visible": 4,
+          "sellable": 4,
+          "with_image": 4
+        },
+        "slots": {
+          "ok": true,
+          "label": "受取時間枠",
+          "total": 112,
+          "enabled": 96,
+          "slot_minutes": 30
+        },
+        "closed_dates": {
+          "ok": true,
+          "label": "定休日・臨時休業",
+          "total": 1,
+          "regular": 1,
+          "special": 0
+        },
+        "stock_rpc": {
+          "ok": true,
+          "label": "在庫・注文数RPC",
+          "rpc": "takeout_get_product_stock_summary",
+          "row_count": 0
+        },
+        "phone_normalize": {
+          "ok": true,
+          "label": "電話番号正規化",
+          "all_same": true,
+          "normalized": "09011112222",
+          "samples": [
+            {
+              "input": "090-1111-2222",
+              "normalized": "09011112222"
+            },
+            {
+              "input": "09011112222",
+              "normalized": "09011112222"
+            },
+            {
+              "input": "090 1111 2222",
+              "normalized": "09011112222"
+            },
+            {
+              "input": "０９０ー１１１１ー２２２２",
+              "normalized": "09011112222"
+            },
+            {
+              "input": "+81 90-1111-2222",
+              "normalized": "09011112222"
+            }
+          ]
+        },
+        "demo_rpc": {
+          "ok": true,
+          "label": "営業デモ準備RPC",
+          "prepared": true,
+          "target_date": "2026-07-13",
+          "order_count": 6,
+          "status_counts": {
+            "ready": 1,
+            "cooking": 1,
+            "received": 1,
+            "cancelled": 1,
+            "confirmed": 1,
+            "cooking_wait": 1
+          },
+          "channel_counts": {
+            "line": 3,
+            "phone": 2,
+            "counter": 1
+          }
+        }
+      },
+      "warnings": [],
+      "production_guard": {
+        "ok": true,
+        "demo_shop_only": true,
+        "allowed_shop_code": "takeout_demo",
+        "demo_delete_scope": "is_demo=true または demo_key=takeout11:* のみ"
+      },
+      "latest_steps": {
+        "customer": "STEP TAKEOUT-9-R4",
+        "member": "STEP TAKEOUT-6-R2",
+        "owner_pc": "STEP TAKEOUT-10-R1",
+        "owner_ipad": "STEP TAKEOUT-10-R1",
+        "owner_reception": "STEP TAKEOUT-10-R1",
+        "owner_products": "STEP TAKEOUT-9",
+        "owner_settings": "STEP TAKEOUT-9-R3",
+        "worker": "STEP TAKEOUT-11",
+        "system_check": "STEP TAKEOUT-11"
+      },
+      "summary": {
+        "automatic_check_count": 8,
+        "automatic_ok_count": 8,
+        "accepting_orders": true,
+        "sales_demo_ready": true
+      },
+      "time": "2026-08-23T03:25:08.844Z",
+      "elapsed_ms": 4142,
+      "request_id": "63a48986-5058-49a2-b41c-563c69a4320a"
     }
   },
   "publicUrls": {},
   "browser": [],
   "technicalTerms": {},
   "failures": [
-    "Error: HTTP 404: https://dpro-takeout-line-api.dpromstk2000.workers.dev/api/member/orders?shop_code=production_probe&line_user_id=U_FORGED_PR2_PROBE :: {\n  \"ok\": false,\n  \"error\": \"NOT_FOUND\",\n  \"message\": \"指定されたAPIが見つかりません。\",\n  \"path\": \"/api/member/orders\",\n  \"request_id\": \"9e14dadc-9ba6-4792-a2b3-174a4d1f136d\"\n}\n    at fetchJson (file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:50:14)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async runApiTests (file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:91:22)\n    at async file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:252:3"
+    "Error: HTTP 400: https://dpro-takeout-line-api.dpromstk2000.workers.dev/api/admin/demo-prepare?shop_code=takeout_demo&admin_key=1234 :: {\n  \"ok\": false,\n  \"error\": \"SUPABASE_REQUEST_FAILED\",\n  \"message\": \"duplicate key value violates unique constraint \\\"takeout_customers_shop_phone_unique\\\"\",\n  \"detail\": \"duplicate key value violates unique constraint \\\"takeout_customers_shop_phone_u\n    at fetchJson (file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:50:14)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async runApiTests (file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:126:18)\n    at async file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:267:3"
   ],
-  "completedAt": "2026-08-23T03:21:40.411Z"
+  "completedAt": "2026-08-23T03:26:14.149Z"
 }
