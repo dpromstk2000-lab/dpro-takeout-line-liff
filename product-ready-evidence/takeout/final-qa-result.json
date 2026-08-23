@@ -1,13 +1,19 @@
 {
   "ok": true,
-  "sourceSha": "39cb7379fb0097b4be089426990f13e86cdaf2d5",
-  "startedAt": "2026-08-23T03:37:22.275Z",
+  "sourceSha": "5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
+  "startedAt": "2026-08-23T04:07:35.429Z",
   "api": {
+    "cors": {
+      "ok": true,
+      "allowedOrigin": "https://dpromstk2000-lab.github.io",
+      "deniedOrigin": "https://dpromstk2000-lab.github.io",
+      "wildcardForbidden": true
+    },
     "health": {
       "ok": true,
       "service": "DPRO Takeout LINE API",
-      "version": "TAKEOUT-PR2-WORKER-20260823",
-      "workerVersion": "TAKEOUT-PR2-WORKER-20260823",
+      "version": "TAKEOUT-PR3-CORS-ALLOWLIST-20260823",
+      "workerVersion": "TAKEOUT-PR3-CORS-ALLOWLIST-20260823",
       "databaseVersion": "TAKEOUT-DB-PR2-20260823",
       "frontendVersion": "TAKEOUT-18-FINAL-SYSTEM-CHECK-20260722",
       "adapterVersion": "TAKEOUT-PRODUCT-READY-ADAPTER-2.0",
@@ -22,9 +28,9 @@
       "lineIdentityVerificationReady": true,
       "lineIdentityMode": "server_verified_id_token",
       "lineCustomerBinding": "deferred_until_contract",
-      "time": "2026-08-23T03:37:23.490Z",
-      "elapsed_ms": 1062,
-      "request_id": "e942f5dd-959b-46dd-b53a-4020832ffc66"
+      "time": "2026-08-23T04:07:36.618Z",
+      "elapsed_ms": 918,
+      "request_id": "f8dd86e8-495a-47de-b99a-bc13f6f0d283"
     },
     "production1234Guard": {
       "status": 503,
@@ -37,8 +43,8 @@
     "systemCheck": {
       "ok": true,
       "service": "DPRO Takeout LINE API",
-      "version": "TAKEOUT-PR2-WORKER-20260823",
-      "workerVersion": "TAKEOUT-PR2-WORKER-20260823",
+      "version": "TAKEOUT-PR3-CORS-ALLOWLIST-20260823",
+      "workerVersion": "TAKEOUT-PR3-CORS-ALLOWLIST-20260823",
       "databaseVersion": "TAKEOUT-DB-PR2-20260823",
       "frontendVersion": "TAKEOUT-18-FINAL-SYSTEM-CHECK-20260722",
       "adapterVersion": "TAKEOUT-PRODUCT-READY-ADAPTER-2.0",
@@ -125,22 +131,11 @@
         "demo_rpc": {
           "ok": true,
           "label": "営業デモ準備RPC",
-          "prepared": true,
-          "target_date": "2026-08-24",
-          "order_count": 6,
-          "status_counts": {
-            "ready": 1,
-            "cooking": 1,
-            "received": 1,
-            "cancelled": 1,
-            "confirmed": 1,
-            "cooking_wait": 1
-          },
-          "channel_counts": {
-            "line": 3,
-            "phone": 2,
-            "counter": 1
-          }
+          "prepared": false,
+          "target_date": null,
+          "order_count": 0,
+          "status_counts": {},
+          "channel_counts": {}
         }
       },
       "warnings": [],
@@ -167,9 +162,9 @@
         "accepting_orders": true,
         "sales_demo_ready": true
       },
-      "time": "2026-08-23T03:37:25.024Z",
-      "elapsed_ms": 1406,
-      "request_id": "8e4f4e83-3ad8-40ed-bf69-98842eee40eb"
+      "time": "2026-08-23T04:07:38.166Z",
+      "elapsed_ms": 1360,
+      "request_id": "74e4d37f-66b5-45d4-934f-2a50dbc9528d"
     },
     "demoPrepare": {
       "ok": true,
@@ -177,7 +172,7 @@
         {
           "status": "received",
           "demo_key": "takeout11:order:20260824:01",
-          "order_id": "6f16a367-06d1-499a-89a0-600aef0613ab",
+          "order_id": "0dc4294b-2ce5-450f-ba7a-ff752fe14cc6",
           "pickup_date": "2026-08-24",
           "pickup_time": "11:00",
           "order_number": "D-20260824-001",
@@ -188,7 +183,7 @@
         {
           "status": "confirmed",
           "demo_key": "takeout11:order:20260824:02",
-          "order_id": "21a81779-2c45-43f6-9d89-13f6da8f3e7a",
+          "order_id": "d424a740-b024-40ff-befc-72b5707e646a",
           "pickup_date": "2026-08-24",
           "pickup_time": "11:30",
           "order_number": "D-20260824-002",
@@ -199,7 +194,7 @@
         {
           "status": "cooking_wait",
           "demo_key": "takeout11:order:20260824:03",
-          "order_id": "76dc11ba-0b78-4b61-8707-cfda215cc97c",
+          "order_id": "95e5a5d5-d116-4178-a733-ac597b9b297b",
           "pickup_date": "2026-08-24",
           "pickup_time": "12:00",
           "order_number": "D-20260824-003",
@@ -210,7 +205,7 @@
         {
           "status": "cooking",
           "demo_key": "takeout11:order:20260824:04",
-          "order_id": "1c87df3c-f05b-40e3-ba26-8f7e8d9e4390",
+          "order_id": "1d7993e5-24f9-4f86-96b2-17d7899c931e",
           "pickup_date": "2026-08-24",
           "pickup_time": "12:30",
           "order_number": "D-20260824-004",
@@ -221,7 +216,7 @@
         {
           "status": "ready",
           "demo_key": "takeout11:order:20260824:05",
-          "order_id": "078a46a0-aac7-4141-939e-e56b6b88ce7e",
+          "order_id": "ff584ddf-5b60-4442-b718-ad2bfef010ea",
           "pickup_date": "2026-08-24",
           "pickup_time": "13:00",
           "order_number": "D-20260824-005",
@@ -232,7 +227,7 @@
         {
           "status": "cancelled",
           "demo_key": "takeout11:order:20260824:06",
-          "order_id": "88c3d7a0-c8dc-42ce-a6b3-58d3ece3fc96",
+          "order_id": "5a9bbb13-ba78-4816-b2cb-3a4fb7e06aa8",
           "pickup_date": "2026-08-24",
           "pickup_time": "13:30",
           "order_number": "D-20260824-006",
@@ -252,8 +247,8 @@
         "reset": true,
         "message": "STEP TAKEOUT-11 のデモデータを初期化しました。",
         "shop_code": "takeout_demo",
-        "deleted_order_count": 6,
-        "deleted_customer_count": 5
+        "deleted_order_count": 0,
+        "deleted_customer_count": 0
       },
       "status_counts": {
         "ready": 1,
@@ -269,8 +264,8 @@
         "counter": 1
       },
       "customer_count": 6,
-      "version": "TAKEOUT-PR2-WORKER-20260823",
-      "request_id": "6aebfb31-52e3-4a91-a49f-5c6825095dd9"
+      "version": "TAKEOUT-PR3-CORS-ALLOWLIST-20260823",
+      "request_id": "c76d2b27-1435-42b5-97de-14b092828eb5"
     },
     "demoReset": {
       "ok": true,
@@ -279,54 +274,54 @@
       "shop_code": "takeout_demo",
       "deleted_order_count": 6,
       "deleted_customer_count": 5,
-      "version": "TAKEOUT-PR2-WORKER-20260823",
-      "request_id": "8da02162-987c-41ce-94cf-269e49a55194"
+      "version": "TAKEOUT-PR3-CORS-ALLOWLIST-20260823",
+      "request_id": "825f38a6-6e1b-42de-bb01-a8eba5cc5391"
     }
   },
   "publicUrls": {
     "demo": {
       "status": 200,
-      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&v=pr2-final-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&v=pr2-final-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "bytes": 96947
     },
     "member": {
       "status": 200,
-      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&v=pr2-final-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&v=pr2-final-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "bytes": 70173
     },
     "owner": {
       "status": 200,
-      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner.html?preview=1&v=pr2-final-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner.html?preview=1&v=pr2-final-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "bytes": 56601
     },
     "ownerIpad": {
       "status": 200,
-      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&v=pr2-final-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&v=pr2-final-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "bytes": 68032
     },
     "systemCheck": {
       "status": 200,
-      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/system-check.html?preview=1&v=pr2-final-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/system-check.html?preview=1&v=pr2-final-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "bytes": 31660
     },
     "product": {
       "status": 200,
-      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-line-systems-site/systems/takeout.html?v=pr2-final-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-line-systems-site/systems/takeout.html?v=pr2-final-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "bytes": 34623
     },
     "lp": {
       "status": 200,
-      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-line-systems-site/lp-takeout.html?v=pr2-final-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-line-systems-site/lp-takeout.html?v=pr2-final-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "bytes": 131977
     },
     "a4Html": {
       "status": 200,
-      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-line-systems-site/flyer-takeout.html?v=pr2-final-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-line-systems-site/flyer-takeout.html?v=pr2-final-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "bytes": 73747
     },
     "a4Pdf": {
       "status": 200,
-      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-line-systems-site/flyer-takeout.pdf?v=pr2-final-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "finalUrl": "https://dpromstk2000-lab.github.io/dpro-line-systems-site/flyer-takeout.pdf?v=pr2-final-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "bytes": 2229709
     }
   },
@@ -334,7 +329,7 @@
     {
       "viewport": "pc",
       "page": "customer",
-      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&v=pr2-browser-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&v=pr2-browser-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "title": "DPRO テイクアウト・モバイルオーダー LINE",
       "horizontalOverflow": false,
       "pageErrors": [],
@@ -345,7 +340,7 @@
     {
       "viewport": "pc",
       "page": "member",
-      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&v=pr2-browser-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&v=pr2-browser-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "title": "DPRO テイクアウト マイページ",
       "horizontalOverflow": false,
       "pageErrors": [],
@@ -356,7 +351,7 @@
     {
       "viewport": "pc",
       "page": "owner",
-      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner.html?preview=1&v=pr2-browser-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner.html?preview=1&v=pr2-browser-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "title": "DPRO テイクアウト 店舗管理",
       "horizontalOverflow": false,
       "pageErrors": [],
@@ -367,7 +362,7 @@
     {
       "viewport": "mobile390",
       "page": "customer",
-      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&v=pr2-browser-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&v=pr2-browser-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "title": "DPRO テイクアウト・モバイルオーダー LINE",
       "horizontalOverflow": false,
       "pageErrors": [],
@@ -378,7 +373,7 @@
     {
       "viewport": "mobile390",
       "page": "member",
-      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&v=pr2-browser-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&v=pr2-browser-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "title": "DPRO テイクアウト マイページ",
       "horizontalOverflow": false,
       "pageErrors": [],
@@ -389,7 +384,7 @@
     {
       "viewport": "mobile320",
       "page": "customer",
-      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&v=pr2-browser-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&v=pr2-browser-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "title": "DPRO テイクアウト・モバイルオーダー LINE",
       "horizontalOverflow": false,
       "pageErrors": [],
@@ -400,7 +395,7 @@
     {
       "viewport": "mobile320",
       "page": "member",
-      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&v=pr2-browser-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&v=pr2-browser-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "title": "DPRO テイクアウト マイページ",
       "horizontalOverflow": false,
       "pageErrors": [],
@@ -411,7 +406,7 @@
     {
       "viewport": "ipad",
       "page": "customer",
-      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&v=pr2-browser-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&v=pr2-browser-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "title": "DPRO テイクアウト・モバイルオーダー LINE",
       "horizontalOverflow": false,
       "pageErrors": [],
@@ -422,7 +417,7 @@
     {
       "viewport": "ipad",
       "page": "member",
-      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&v=pr2-browser-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&v=pr2-browser-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "title": "DPRO テイクアウト マイページ",
       "horizontalOverflow": false,
       "pageErrors": [],
@@ -433,7 +428,7 @@
     {
       "viewport": "ipad",
       "page": "ownerIpad",
-      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&v=pr2-browser-39cb7379fb0097b4be089426990f13e86cdaf2d5",
+      "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&v=pr2-browser-5d7057b5ddf2b48d3ce322b72d7e6f5ca986818e",
       "title": "DPRO テイクアウト 厨房・レジボード",
       "horizontalOverflow": false,
       "pageErrors": [],
@@ -444,5 +439,5 @@
   ],
   "technicalTerms": {},
   "failures": [],
-  "completedAt": "2026-08-23T03:37:46.664Z"
+  "completedAt": "2026-08-23T04:07:58.518Z"
 }
