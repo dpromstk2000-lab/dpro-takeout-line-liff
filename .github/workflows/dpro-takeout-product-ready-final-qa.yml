@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: dpro-takeout-product-ready-final-qa
@@ -330,7 +330,36 @@ jobs:
           }
           DPRO_QA_JS
 
+          set +e
           node "$GITHUB_WORKSPACE/dpro-takeout-final-qa.mjs"
+          QA_EXIT=$?
+          set -e
+
+          mkdir -p qa-artifacts
+
+          if [ ! -f qa-artifacts/final-qa-result.json ]; then
+            cat > qa-artifacts/final-qa-result.json <<EOF
+          {
+            "ok": false,
+            "sourceSha": "${GITHUB_SHA}",
+            "failures": [
+              "QA process exited before result creation. exit_code=${QA_EXIT}"
+            ]
+          }
+          EOF
+          fi
+
+          if [ ! -f qa-artifacts/final-qa-summary.md ]; then
+            {
+              echo "# DPRO TAKEOUT Product Ready Final QA"
+              echo
+              echo "- Result: **FAIL**"
+              echo "- Source SHA: \`${GITHUB_SHA}\`"
+              echo "- QA process exit code: \`${QA_EXIT}\`"
+            } > qa-artifacts/final-qa-summary.md
+          fi
+
+          echo "${QA_EXIT}" > qa-artifacts/qa-exit-code.txt
 
       - name: Upload QA evidence
         if: always()
@@ -340,3 +369,46 @@ jobs:
           path: qa-artifacts/
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish QA evidence to repository
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p product-ready-evidence/takeout
+          cp qa-artifacts/final-qa-result.json product-ready-evidence/takeout/final-qa-result.json
+          cp qa-artifacts/final-qa-summary.md product-ready-evidence/takeout/final-qa-summary.md
+          cp qa-artifacts/qa-exit-code.txt product-ready-evidence/takeout/qa-exit-code.txt
+
+          git config user.name "DPRO Product Ready QA"
+          git config user.email "actions@users.noreply.github.com"
+
+          git add product-ready-evidence/takeout/
+
+          if git diff --cached --quiet; then
+            echo "QA evidence already current."
+          else
+            git commit -m "TAKEOUT Product Ready: publish final QA evidence"
+            git push origin HEAD:main
+          fi
+
+      - name: Enforce final QA result
+        if: always()
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs = require("fs");
+          const path = "qa-artifacts/final-qa-result.json";
+          if (!fs.existsSync(path)) {
+            console.error("Final QA result file is missing.");
+            process.exit(1);
+          }
+          const result = JSON.parse(fs.readFileSync(path, "utf8"));
+          if (result.ok !== true) {
+            console.error("DPRO TAKEOUT Product Ready Final QA = FAIL");
+            console.error(JSON.stringify(result.failures || [], null, 2));
+            process.exit(1);
+          }
+          console.log("DPRO TAKEOUT Product Ready Final QA = PASS");
+          NODE
