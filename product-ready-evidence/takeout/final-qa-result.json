@@ -1,0 +1,41 @@
+{
+  "ok": false,
+  "sourceSha": "00f770618d28997686af3141bd966ec53745f28c",
+  "startedAt": "2026-08-23T03:20:38.784Z",
+  "api": {
+    "health": {
+      "ok": true,
+      "service": "DPRO Takeout LINE API",
+      "version": "TAKEOUT-PR2-WORKER-20260823",
+      "workerVersion": "TAKEOUT-PR2-WORKER-20260823",
+      "databaseVersion": "TAKEOUT-DB-PR2-20260823",
+      "frontendVersion": "TAKEOUT-18-FINAL-SYSTEM-CHECK-20260722",
+      "adapterVersion": "TAKEOUT-PRODUCT-READY-ADAPTER-2.0",
+      "database": {
+        "ok": true,
+        "shop_count": 1,
+        "databaseVersion": "TAKEOUT-DB-PR2-20260823",
+        "boundary": "worker_service_role_only"
+      },
+      "production_guard": true,
+      "adminAuthMode": "demo_only",
+      "lineIdentityVerificationReady": true,
+      "lineIdentityMode": "server_verified_id_token",
+      "lineCustomerBinding": "deferred_until_contract",
+      "time": "2026-08-23T03:20:40.069Z",
+      "elapsed_ms": 1151,
+      "request_id": "12df7e77-ccb9-447c-9d2d-a1119aca459e"
+    },
+    "production1234Guard": {
+      "status": 503,
+      "error": "ADMIN_AUTH_NOT_CONFIGURED"
+    }
+  },
+  "publicUrls": {},
+  "browser": [],
+  "technicalTerms": {},
+  "failures": [
+    "Error: HTTP 404: https://dpro-takeout-line-api.dpromstk2000.workers.dev/api/member/orders?shop_code=production_probe&line_user_id=U_FORGED_PR2_PROBE :: {\n  \"ok\": false,\n  \"error\": \"NOT_FOUND\",\n  \"message\": \"指定されたAPIが見つかりません。\",\n  \"path\": \"/api/member/orders\",\n  \"request_id\": \"9e14dadc-9ba6-4792-a2b3-174a4d1f136d\"\n}\n    at fetchJson (file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:50:14)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async runApiTests (file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:91:22)\n    at async file:///home/runner/work/dpro-takeout-line-liff/dpro-takeout-line-liff/dpro-takeout-final-qa.mjs:252:3"
+  ],
+  "completedAt": "2026-08-23T03:21:40.411Z"
+}
