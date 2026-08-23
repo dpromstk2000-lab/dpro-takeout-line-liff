@@ -172,7 +172,7 @@ jobs:
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ shop_code: "takeout_demo" }),
                 },
-                [200]
+                [200, 201]
               );
               assert(prep.data?.ok === true, "demo_prepare failed");
               prepared = true;
