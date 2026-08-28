@@ -1,0 +1,333 @@
+name: TAKEOUT Tutorial R3 LIVE QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/takeout-r3-live-qa.yml"
+      - "config.js"
+      - "dpro-tutorial-takeout.js"
+      - "dpro-tutorial-takeout.css"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: takeout-tutorial-r3-live-qa
+  cancel-in-progress: false
+
+jobs:
+  r3-live-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      BASE_URL: https://dpromstk2000-lab.github.io/dpro-takeout-line-liff
+      WORKFLOW_PATH: .github/workflows/takeout-r3-live-qa.yml
+      EVIDENCE_PATH: tutorial-r3-evidence/takeout-r3-live-qa.json
+    steps:
+      - name: Checkout newest main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify R3 source files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s config.js
+          test -s dpro-tutorial-takeout.js
+          test -s dpro-tutorial-takeout.css
+          grep -q 'TAKEOUT-TUTORIAL-R3-V1.1-20260828' dpro-tutorial-takeout.js
+          grep -q 'dpro_tutorial_takeout_v1_1' dpro-tutorial-takeout.js
+          grep -q 'first10Count:steps.length' dpro-tutorial-takeout.js
+          grep -q 'dpro-tutorial-takeout.js' config.js
+          test "$(grep -o 'id:\"TAKEOUT-FIRST10-[0-9][0-9]\"' dpro-tutorial-takeout.js | wc -l)" -eq 10
+
+      - name: Wait for GitHub Pages to publish R3 runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 36); do
+            if curl -fsSL "$BASE_URL/dpro-tutorial-takeout.js?v=$GITHUB_SHA" | grep -q 'TAKEOUT-TUTORIAL-R3-V1.1-20260828'; then
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "R3 runtime did not appear on GitHub Pages." >&2
+          exit 1
+
+      - name: Setup Playwright
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Run exact-width R3 LIVE QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p tutorial-r3-evidence
+          cat > /tmp/takeout-r3-qa.mjs <<'NODE'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+
+          const BASE = process.env.BASE_URL;
+          const OUT = process.env.EVIDENCE_PATH;
+          const viewports = [
+            {name:'1440', width:1440, height:1000, input:'mouse'},
+            {name:'1024', width:1024, height:768, input:'pointer'},
+            {name:'390', width:390, height:844, input:'touch'},
+            {name:'320', width:320, height:720, input:'touch'}
+          ];
+          const result = {
+            schema:'DPRO_TUTORIAL_TAKEOUT_R3_LIVE_QA_V1.0',
+            sourceSha:process.env.GITHUB_SHA,
+            baseUrl:BASE,
+            first10Expected:10,
+            viewports:[],
+            keyboardOnly:null,
+            skipReplay:null,
+            safeFallback:null,
+            unsafeWriteAttempts:[],
+            failures:[],
+            businessMutation:0
+          };
+          const browser = await chromium.launch({headless:true});
+
+          const approx = (a,b,t=3) => Math.abs(a-b) <= t;
+          const visibleInViewport = r => r && r.width > 0 && r.height > 0 && r.left >= -1 && r.top >= -1 && r.right <= r.viewportW + 1 && r.bottom <= r.viewportH + 1;
+
+          async function openClean(page, context) {
+            await page.goto(`${BASE}/index.html?preview=1&qa=clean-${Date.now()}`, {waitUntil:'domcontentloaded'});
+            await page.evaluate(() => localStorage.removeItem('dpro_tutorial_takeout_v1_1'));
+            await page.goto(`${BASE}/index.html?preview=1&tutorial=1&qa=${Date.now()}`, {waitUntil:'domcontentloaded'});
+            await page.waitForFunction(() => window.DPRO_TAKEOUT_TUTORIAL?.first10Count === 10, null, {timeout:15000});
+            await page.waitForSelector('.dpro-tut-card[data-open="1"]', {state:'visible', timeout:15000});
+          }
+
+          async function snapshot(page, expectedIndex) {
+            await page.waitForFunction(i => window.DPRO_TAKEOUT_TUTORIAL?.getState()?.step === i, expectedIndex, {timeout:15000});
+            await page.waitForSelector('.dpro-tut-card[data-open="1"]', {state:'visible', timeout:15000});
+            await page.waitForTimeout(180);
+            return await page.evaluate(() => {
+              const api = window.DPRO_TAKEOUT_TUTORIAL;
+              const card = document.querySelector('.dpro-tut-card');
+              const high = document.querySelector('.dpro-tut-highlight');
+              const note = document.querySelector('#dpro-tut-note');
+              const active = document.activeElement;
+              const cr = card?.getBoundingClientRect();
+              const hr = high?.getBoundingClientRect();
+              const ar = active?.getBoundingClientRect?.();
+              return {
+                url:location.href,
+                state:api?.getState(),
+                first10Count:api?.first10Count,
+                innerWidth:window.innerWidth,
+                documentScrollWidth:document.documentElement.scrollWidth,
+                bodyScrollWidth:document.body.scrollWidth,
+                card:cr ? {left:cr.left,top:cr.top,right:cr.right,bottom:cr.bottom,width:cr.width,height:cr.height,viewportW:innerWidth,viewportH:innerHeight}:null,
+                highlight:hr ? {left:hr.left,top:hr.top,right:hr.right,bottom:hr.bottom,width:hr.width,height:hr.height,display:getComputedStyle(high).display}:null,
+                focus:{tag:active?.tagName||'', act:active?.getAttribute?.('data-act')||'', className:active?.className||'', rect:ar?{left:ar.left,top:ar.top,right:ar.right,bottom:ar.bottom,width:ar.width,height:ar.height,viewportW:innerWidth,viewportH:innerHeight}:null},
+                targetNote:note?.textContent||'',
+                fallback:note?.dataset?.fallback||'0'
+              };
+            });
+          }
+
+          async function dragQA(page, inputMode) {
+            const before = await page.locator('.dpro-tut-card').boundingBox();
+            const h = await page.locator('[data-drag-handle]').boundingBox();
+            if (!before || !h) throw new Error('drag handle/card missing');
+            if (inputMode === 'mouse') {
+              await page.mouse.move(h.x+h.width/2,h.y+h.height/2);
+              await page.mouse.down();
+              await page.mouse.move(h.x+h.width/2-80,h.y+h.height/2-60,{steps:5});
+              await page.mouse.up();
+            } else {
+              const pointerType = inputMode === 'touch' ? 'touch' : 'pen';
+              await page.dispatchEvent('[data-drag-handle]','pointerdown',{pointerId:9,pointerType,clientX:h.x+h.width/2,clientY:h.y+h.height/2,button:0,isPrimary:true});
+              await page.dispatchEvent('[data-drag-handle]','pointermove',{pointerId:9,pointerType,clientX:h.x+h.width/2-80,clientY:h.y+h.height/2-60,button:0,isPrimary:true});
+              await page.dispatchEvent('[data-drag-handle]','pointerup',{pointerId:9,pointerType,clientX:h.x+h.width/2-80,clientY:h.y+h.height/2-60,button:0,isPrimary:true});
+            }
+            const moved = await page.locator('.dpro-tut-card').boundingBox();
+            const movedOk = moved && (!approx(moved.x,before.x,5) || !approx(moved.y,before.y,5));
+
+            const body = await page.locator('.dpro-tut-body').boundingBox();
+            const stableBefore = await page.locator('.dpro-tut-card').boundingBox();
+            if (body) {
+              await page.dispatchEvent('.dpro-tut-body','pointerdown',{pointerId:11,pointerType:'touch',clientX:body.x+20,clientY:body.y+20,button:0,isPrimary:true});
+              await page.dispatchEvent('.dpro-tut-body','pointermove',{pointerId:11,pointerType:'touch',clientX:body.x+90,clientY:body.y+90,button:0,isPrimary:true});
+              await page.dispatchEvent('.dpro-tut-body','pointerup',{pointerId:11,pointerType:'touch',clientX:body.x+90,clientY:body.y+90,button:0,isPrimary:true});
+            }
+            const stableAfter = await page.locator('.dpro-tut-card').boundingBox();
+            const dedicatedOnly = stableBefore && stableAfter && approx(stableBefore.x,stableAfter.x,2) && approx(stableBefore.y,stableAfter.y,2);
+
+            const hh = await page.locator('[data-drag-handle]').boundingBox();
+            await page.dispatchEvent('[data-drag-handle]','pointerdown',{pointerId:12,pointerType:'touch',clientX:hh.x+10,clientY:hh.y+10,button:0,isPrimary:true});
+            await page.dispatchEvent('[data-drag-handle]','pointermove',{pointerId:12,pointerType:'touch',clientX:-800,clientY:-800,button:0,isPrimary:true});
+            await page.dispatchEvent('[data-drag-handle]','pointerup',{pointerId:12,pointerType:'touch',clientX:-800,clientY:-800,button:0,isPrimary:true});
+            const clampA = await page.locator('.dpro-tut-card').boundingBox();
+            const hh2 = await page.locator('[data-drag-handle]').boundingBox();
+            await page.dispatchEvent('[data-drag-handle]','pointerdown',{pointerId:13,pointerType:'touch',clientX:hh2.x+10,clientY:hh2.y+10,button:0,isPrimary:true});
+            await page.dispatchEvent('[data-drag-handle]','pointermove',{pointerId:13,pointerType:'touch',clientX:9999,clientY:9999,button:0,isPrimary:true});
+            await page.dispatchEvent('[data-drag-handle]','pointerup',{pointerId:13,pointerType:'touch',clientX:9999,clientY:9999,button:0,isPrimary:true});
+            const clampB = await page.locator('.dpro-tut-card').boundingBox();
+            const vp = page.viewportSize();
+            const clampOk = clampA && clampB && clampA.x >= 0 && clampA.y >= 0 && clampB.x + clampB.width <= vp.width + 1 && clampB.y + clampB.height <= vp.height + 1;
+            return {movedOk,dedicatedOnly,clampOk,before,moved,clampA,clampB};
+          }
+
+          for (const vp of viewports) {
+            const context = await browser.newContext({viewport:{width:vp.width,height:vp.height},hasTouch:vp.input==='touch'});
+            const unsafe=[]; const pageErrors=[]; const consoleErrors=[];
+            await context.route('**/*', async route => {
+              const method=route.request().method();
+              if (['POST','PUT','PATCH','DELETE'].includes(method)) {
+                const rec={viewport:vp.name,method,url:route.request().url()};
+                unsafe.push(rec); result.unsafeWriteAttempts.push(rec);
+                return route.abort('blockedbyclient');
+              }
+              return route.continue();
+            });
+            const page=await context.newPage();
+            page.on('pageerror',e=>pageErrors.push(String(e)));
+            page.on('console',m=>{if(m.type()==='error')consoleErrors.push({text:m.text(),location:m.location()})});
+            await openClean(page,context);
+
+            const journey=[];
+            journey.push(await snapshot(page,0));
+            const drag=await dragQA(page,vp.input);
+            if(!drag.movedOk) result.failures.push(`${vp.name}: drag did not move card`);
+            if(!drag.dedicatedOnly) result.failures.push(`${vp.name}: non-handle drag moved card`);
+            if(!drag.clampOk) result.failures.push(`${vp.name}: viewport clamp failed`);
+
+            await page.locator('[data-act="next"]').click();
+            journey.push(await snapshot(page,1));
+            await page.locator('[data-act="back"]').click();
+            const backSnap=await snapshot(page,0);
+            await page.locator('[data-act="next"]').click();
+            await snapshot(page,1);
+
+            await page.keyboard.press('Escape');
+            await page.waitForSelector('.dpro-tut-launcher[data-show="1"]',{state:'visible'});
+            await page.locator('.dpro-tut-launcher').click();
+            const resumeSnap=await snapshot(page,1);
+
+            await page.locator('[data-act="next"]').click();
+            journey.push(await snapshot(page,2));
+            await page.reload({waitUntil:'domcontentloaded'});
+            const reloadResume=await snapshot(page,2);
+
+            for(let i=3;i<10;i++){
+              await page.locator('[data-act="next"]').click();
+              journey.push(await snapshot(page,i));
+            }
+            const crossPageUrls=journey.map(x=>x.url);
+            await page.locator('[data-act="next"]').click();
+            await page.waitForFunction(()=>window.DPRO_TAKEOUT_TUTORIAL?.getState()?.state==='complete');
+            const completeState=await page.evaluate(()=>window.DPRO_TAKEOUT_TUTORIAL.getState());
+            await page.locator('[data-act="next"]').click();
+            await page.waitForFunction(()=>window.DPRO_TAKEOUT_TUTORIAL?.getState()?.step===0);
+            const replayState=await snapshot(page,0);
+
+            const mobileOverflowOk = vp.width > 390 || journey.every(s => s.documentScrollWidth <= s.innerWidth && s.bodyScrollWidth <= s.innerWidth);
+            const focusOk = journey.every(s => s.focus?.rect && visibleInViewport(s.focus.rect));
+            const highlightOk = journey.every(s => s.highlight?.display !== 'none' && s.highlight?.width > 0 && s.highlight?.height > 0);
+            const countOk = journey.every(s => s.first10Count===10) && journey.length===10;
+            const safeQueriesOk = journey.every(s => {
+              const u=new URL(s.url); return u.searchParams.get('tutorial')==='1' && (u.searchParams.get('preview')==='1'||u.searchParams.get('embed_demo')==='1');
+            });
+            const tutorialConsoleErrors=consoleErrors.filter(e=>String(e.location?.url||'').includes('dpro-tutorial-takeout'));
+            if(!mobileOverflowOk) result.failures.push(`${vp.name}: mobile overflow`);
+            if(!focusOk) result.failures.push(`${vp.name}: focus visibility/recovery`);
+            if(!highlightOk) result.failures.push(`${vp.name}: highlight geometry`);
+            if(!countOk) result.failures.push(`${vp.name}: First10 count`);
+            if(!safeQueriesOk) result.failures.push(`${vp.name}: safe query lost`);
+            if(pageErrors.length) result.failures.push(`${vp.name}: pageerror ${pageErrors.join(' | ')}`);
+            if(tutorialConsoleErrors.length) result.failures.push(`${vp.name}: tutorial console error`);
+            if(unsafe.length) result.failures.push(`${vp.name}: unsafe write attempts ${unsafe.length}`);
+
+            result.viewports.push({viewport:vp,widths:journey.map(s=>({step:s.state.step+1,innerWidth:s.innerWidth,documentScrollWidth:s.documentScrollWidth,bodyScrollWidth:s.bodyScrollWidth})),journey,drag,backSnap,resumeSnap,reloadResume,completeState,replayState,crossPageUrls,pageErrors,consoleErrors,unsafe,mobileOverflowOk,focusOk,highlightOk,countOk,safeQueriesOk});
+            await context.close();
+          }
+
+          // Keyboard-only 1 -> 10, including real cross-page Resume.
+          {
+            const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true});
+            await context.route('**/*', async route=>['POST','PUT','PATCH','DELETE'].includes(route.request().method())?route.abort('blockedbyclient'):route.continue());
+            const page=await context.newPage();
+            await openClean(page,context);
+            const seen=[];
+            for(let i=0;i<10;i++){
+              const s=await snapshot(page,i); seen.push({step:i+1,url:s.url,focus:s.focus});
+              if(i<9) await page.keyboard.press('Enter');
+            }
+            await page.keyboard.press('Enter');
+            await page.waitForFunction(()=>window.DPRO_TAKEOUT_TUTORIAL?.getState()?.state==='complete');
+            result.keyboardOnly={ok:seen.length===10,seen,complete:await page.evaluate(()=>window.DPRO_TAKEOUT_TUTORIAL.getState())};
+            if(!result.keyboardOnly.ok) result.failures.push('keyboard-only journey failed');
+            await context.close();
+          }
+
+          // Skip -> Replay.
+          {
+            const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true});
+            const page=await context.newPage(); await openClean(page,context);
+            await page.locator('[data-act="skip"]').click();
+            await page.waitForFunction(()=>window.DPRO_TAKEOUT_TUTORIAL?.getState()?.state==='skipped');
+            const skipped=await page.evaluate(()=>window.DPRO_TAKEOUT_TUTORIAL.getState());
+            await page.locator('[data-act="next"]').click();
+            await page.waitForFunction(()=>window.DPRO_TAKEOUT_TUTORIAL?.getState()?.step===0);
+            const replay=await page.evaluate(()=>window.DPRO_TAKEOUT_TUTORIAL.getState());
+            result.skipReplay={ok:skipped.state==='skipped'&&replay.step===0,skipped,replay};
+            if(!result.skipReplay.ok) result.failures.push('Skip -> Replay failed');
+            await context.close();
+          }
+
+          // Hidden primary target -> safe fallback.
+          {
+            const context=await browser.newContext({viewport:{width:1024,height:768}});
+            const page=await context.newPage(); await openClean(page,context);
+            await page.evaluate(()=>{const n=document.querySelector('#operationCard'); if(n)n.style.display='none'; window.DPRO_TAKEOUT_TUTORIAL.replay();});
+            await page.waitForFunction(()=>document.querySelector('#dpro-tut-note')?.dataset?.fallback==='1');
+            const note=await page.locator('#dpro-tut-note').textContent();
+            result.safeFallback={ok:true,note};
+            await context.close();
+          }
+
+          await browser.close();
+          if(result.unsafeWriteAttempts.length) result.businessMutation='BLOCKED_UNSAFE_ATTEMPT_PRESENT';
+          result.pass=result.failures.length===0 && result.unsafeWriteAttempts.length===0 && result.businessMutation===0;
+          fs.mkdirSync('tutorial-r3-evidence',{recursive:true});
+          fs.writeFileSync(OUT,JSON.stringify(result,null,2));
+          console.log(JSON.stringify({pass:result.pass,failures:result.failures,unsafe:result.unsafeWriteAttempts.length},null,2));
+          if(!result.pass) process.exit(1);
+          NODE
+          node /tmp/takeout-r3-qa.mjs
+
+      - name: Publish PASS evidence and self-remove QA workflow
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$EVIDENCE_PATH"
+          git rm "$WORKFLOW_PATH"
+          git commit -m "TAKEOUT Tutorial R3 LIVE QA PASS [skip ci]"
+          git push origin HEAD:main
+
+      - name: Upload QA evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: takeout-r3-live-qa-evidence
+          path: tutorial-r3-evidence/takeout-r3-live-qa.json
+          if-no-files-found: warn
