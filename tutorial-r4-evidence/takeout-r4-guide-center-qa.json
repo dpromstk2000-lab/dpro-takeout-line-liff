@@ -1,0 +1,783 @@
+{
+  "schema": "DPRO_TUTORIAL_TAKEOUT_R4_GUIDE_CENTER_QA_V1.0",
+  "sourceSha": "8b2a3144cced26998fc84ef9b0f50a1ebfe34a78",
+  "baseUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff",
+  "first10Expected": 10,
+  "viewports": [
+    {
+      "viewport": {
+        "name": "1440",
+        "width": 1440,
+        "height": 1000
+      },
+      "start": {
+        "version": "TAKEOUT-GUIDE-CENTER-R4-V1.0-20260829",
+        "first10Count": 10,
+        "innerWidth": 1440,
+        "documentScrollWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "cards": [
+          {
+            "step": "1",
+            "route": "/index.html?preview=1",
+            "target": "#operationCard"
+          },
+          {
+            "step": "2",
+            "route": "/index.html?preview=1",
+            "target": "#pickupSection"
+          },
+          {
+            "step": "3",
+            "route": "/index.html?preview=1",
+            "target": "#catalogToolbar"
+          },
+          {
+            "step": "4",
+            "route": "/index.html?preview=1",
+            "target": "#productList [data-product-card]"
+          },
+          {
+            "step": "5",
+            "route": "/member.html?preview=1",
+            "target": "#profile"
+          },
+          {
+            "step": "6",
+            "route": "/member.html?preview=1",
+            "target": "#tabs [data-view=\"history\"]"
+          },
+          {
+            "step": "7",
+            "route": "/owner-ipad.html?preview=1",
+            "target": "#metrics"
+          },
+          {
+            "step": "8",
+            "route": "/owner-ipad.html?preview=1",
+            "target": "#board .board-column"
+          },
+          {
+            "step": "9",
+            "route": "/owner-products.html?preview=1",
+            "target": "#summaryGrid"
+          },
+          {
+            "step": "10",
+            "route": "/owner-settings.html?embed_demo=1",
+            "target": "#section-rules .panel-head"
+          }
+        ],
+        "action": {
+          "mode": "start",
+          "label": "Start — First10を開始",
+          "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+        },
+        "extra": [
+          "./demo-guide.html",
+          "./system-check.html?preview=1"
+        ],
+        "focus": {
+          "id": "",
+          "tag": "BODY",
+          "rect": {
+            "left": 0,
+            "top": 0,
+            "right": 1440,
+            "bottom": 2039.265625,
+            "width": 1440,
+            "height": 2039.265625
+          }
+        }
+      },
+      "overflowOk": true,
+      "focusVisible": true,
+      "pageErrors": [],
+      "consoleErrors": [],
+      "unsafe": [],
+      "routeOk": true,
+      "extraOk": true
+    },
+    {
+      "viewport": {
+        "name": "1024",
+        "width": 1024,
+        "height": 768
+      },
+      "start": {
+        "version": "TAKEOUT-GUIDE-CENTER-R4-V1.0-20260829",
+        "first10Count": 10,
+        "innerWidth": 1024,
+        "documentScrollWidth": 1024,
+        "bodyScrollWidth": 1024,
+        "cards": [
+          {
+            "step": "1",
+            "route": "/index.html?preview=1",
+            "target": "#operationCard"
+          },
+          {
+            "step": "2",
+            "route": "/index.html?preview=1",
+            "target": "#pickupSection"
+          },
+          {
+            "step": "3",
+            "route": "/index.html?preview=1",
+            "target": "#catalogToolbar"
+          },
+          {
+            "step": "4",
+            "route": "/index.html?preview=1",
+            "target": "#productList [data-product-card]"
+          },
+          {
+            "step": "5",
+            "route": "/member.html?preview=1",
+            "target": "#profile"
+          },
+          {
+            "step": "6",
+            "route": "/member.html?preview=1",
+            "target": "#tabs [data-view=\"history\"]"
+          },
+          {
+            "step": "7",
+            "route": "/owner-ipad.html?preview=1",
+            "target": "#metrics"
+          },
+          {
+            "step": "8",
+            "route": "/owner-ipad.html?preview=1",
+            "target": "#board .board-column"
+          },
+          {
+            "step": "9",
+            "route": "/owner-products.html?preview=1",
+            "target": "#summaryGrid"
+          },
+          {
+            "step": "10",
+            "route": "/owner-settings.html?embed_demo=1",
+            "target": "#section-rules .panel-head"
+          }
+        ],
+        "action": {
+          "mode": "start",
+          "label": "Start — First10を開始",
+          "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+        },
+        "extra": [
+          "./demo-guide.html",
+          "./system-check.html?preview=1"
+        ],
+        "focus": {
+          "id": "",
+          "tag": "BODY",
+          "rect": {
+            "left": 0,
+            "top": 0,
+            "right": 1024,
+            "bottom": 2039.265625,
+            "width": 1024,
+            "height": 2039.265625
+          }
+        }
+      },
+      "overflowOk": true,
+      "focusVisible": true,
+      "pageErrors": [],
+      "consoleErrors": [],
+      "unsafe": [],
+      "routeOk": true,
+      "extraOk": true
+    },
+    {
+      "viewport": {
+        "name": "390",
+        "width": 390,
+        "height": 844
+      },
+      "start": {
+        "version": "TAKEOUT-GUIDE-CENTER-R4-V1.0-20260829",
+        "first10Count": 10,
+        "innerWidth": 390,
+        "documentScrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "cards": [
+          {
+            "step": "1",
+            "route": "/index.html?preview=1",
+            "target": "#operationCard"
+          },
+          {
+            "step": "2",
+            "route": "/index.html?preview=1",
+            "target": "#pickupSection"
+          },
+          {
+            "step": "3",
+            "route": "/index.html?preview=1",
+            "target": "#catalogToolbar"
+          },
+          {
+            "step": "4",
+            "route": "/index.html?preview=1",
+            "target": "#productList [data-product-card]"
+          },
+          {
+            "step": "5",
+            "route": "/member.html?preview=1",
+            "target": "#profile"
+          },
+          {
+            "step": "6",
+            "route": "/member.html?preview=1",
+            "target": "#tabs [data-view=\"history\"]"
+          },
+          {
+            "step": "7",
+            "route": "/owner-ipad.html?preview=1",
+            "target": "#metrics"
+          },
+          {
+            "step": "8",
+            "route": "/owner-ipad.html?preview=1",
+            "target": "#board .board-column"
+          },
+          {
+            "step": "9",
+            "route": "/owner-products.html?preview=1",
+            "target": "#summaryGrid"
+          },
+          {
+            "step": "10",
+            "route": "/owner-settings.html?embed_demo=1",
+            "target": "#section-rules .panel-head"
+          }
+        ],
+        "action": {
+          "mode": "start",
+          "label": "Start — First10を開始",
+          "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+        },
+        "extra": [
+          "./demo-guide.html",
+          "./system-check.html?preview=1"
+        ],
+        "focus": {
+          "id": "",
+          "tag": "BODY",
+          "rect": {
+            "left": 0,
+            "top": 0,
+            "right": 390,
+            "bottom": 3336.875,
+            "width": 390,
+            "height": 3336.875
+          }
+        }
+      },
+      "overflowOk": true,
+      "focusVisible": true,
+      "pageErrors": [],
+      "consoleErrors": [],
+      "unsafe": [],
+      "routeOk": true,
+      "extraOk": true
+    },
+    {
+      "viewport": {
+        "name": "320",
+        "width": 320,
+        "height": 720
+      },
+      "start": {
+        "version": "TAKEOUT-GUIDE-CENTER-R4-V1.0-20260829",
+        "first10Count": 10,
+        "innerWidth": 320,
+        "documentScrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "cards": [
+          {
+            "step": "1",
+            "route": "/index.html?preview=1",
+            "target": "#operationCard"
+          },
+          {
+            "step": "2",
+            "route": "/index.html?preview=1",
+            "target": "#pickupSection"
+          },
+          {
+            "step": "3",
+            "route": "/index.html?preview=1",
+            "target": "#catalogToolbar"
+          },
+          {
+            "step": "4",
+            "route": "/index.html?preview=1",
+            "target": "#productList [data-product-card]"
+          },
+          {
+            "step": "5",
+            "route": "/member.html?preview=1",
+            "target": "#profile"
+          },
+          {
+            "step": "6",
+            "route": "/member.html?preview=1",
+            "target": "#tabs [data-view=\"history\"]"
+          },
+          {
+            "step": "7",
+            "route": "/owner-ipad.html?preview=1",
+            "target": "#metrics"
+          },
+          {
+            "step": "8",
+            "route": "/owner-ipad.html?preview=1",
+            "target": "#board .board-column"
+          },
+          {
+            "step": "9",
+            "route": "/owner-products.html?preview=1",
+            "target": "#summaryGrid"
+          },
+          {
+            "step": "10",
+            "route": "/owner-settings.html?embed_demo=1",
+            "target": "#section-rules .panel-head"
+          }
+        ],
+        "action": {
+          "mode": "start",
+          "label": "Start — First10を開始",
+          "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+        },
+        "extra": [
+          "./demo-guide.html",
+          "./system-check.html?preview=1"
+        ],
+        "focus": {
+          "id": "",
+          "tag": "BODY",
+          "rect": {
+            "left": 0,
+            "top": 0,
+            "right": 320,
+            "bottom": 3450.703125,
+            "width": 320,
+            "height": 3450.703125
+          }
+        }
+      },
+      "overflowOk": true,
+      "focusVisible": true,
+      "pageErrors": [],
+      "consoleErrors": [],
+      "unsafe": [],
+      "routeOk": true,
+      "extraOk": true
+    }
+  ],
+  "stateAlignment": [
+    {
+      "viewport": "1440",
+      "state": {
+        "step": 0,
+        "state": "active",
+        "path": "/index.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 1 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1440",
+      "state": {
+        "step": 4,
+        "state": "active",
+        "path": "/member.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 5 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1440",
+      "state": {
+        "step": 6,
+        "state": "active",
+        "path": "/owner-ipad.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 7 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1440",
+      "state": {
+        "step": 8,
+        "state": "active",
+        "path": "/owner-products.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 9 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1440",
+      "state": {
+        "step": 9,
+        "state": "active",
+        "path": "/owner-settings.html",
+        "flag": "embed_demo"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 10 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1440",
+      "state": "complete",
+      "action": {
+        "mode": "replay",
+        "label": "Replay — STEP 1から再確認",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1440",
+      "state": "skipped",
+      "action": {
+        "mode": "replay",
+        "label": "Replay — STEP 1から再確認",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1024",
+      "state": {
+        "step": 0,
+        "state": "active",
+        "path": "/index.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 1 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1024",
+      "state": {
+        "step": 4,
+        "state": "active",
+        "path": "/member.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 5 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1024",
+      "state": {
+        "step": 6,
+        "state": "active",
+        "path": "/owner-ipad.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 7 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1024",
+      "state": {
+        "step": 8,
+        "state": "active",
+        "path": "/owner-products.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 9 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1024",
+      "state": {
+        "step": 9,
+        "state": "active",
+        "path": "/owner-settings.html",
+        "flag": "embed_demo"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 10 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1024",
+      "state": "complete",
+      "action": {
+        "mode": "replay",
+        "label": "Replay — STEP 1から再確認",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "1024",
+      "state": "skipped",
+      "action": {
+        "mode": "replay",
+        "label": "Replay — STEP 1から再確認",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "390",
+      "state": {
+        "step": 0,
+        "state": "active",
+        "path": "/index.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 1 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "390",
+      "state": {
+        "step": 4,
+        "state": "active",
+        "path": "/member.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 5 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "390",
+      "state": {
+        "step": 6,
+        "state": "active",
+        "path": "/owner-ipad.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 7 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "390",
+      "state": {
+        "step": 8,
+        "state": "active",
+        "path": "/owner-products.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 9 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "390",
+      "state": {
+        "step": 9,
+        "state": "active",
+        "path": "/owner-settings.html",
+        "flag": "embed_demo"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 10 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "390",
+      "state": "complete",
+      "action": {
+        "mode": "replay",
+        "label": "Replay — STEP 1から再確認",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "390",
+      "state": "skipped",
+      "action": {
+        "mode": "replay",
+        "label": "Replay — STEP 1から再確認",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "390",
+      "state": "replay-click",
+      "action": {
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "storage": {
+        "step": 0,
+        "state": "new",
+        "position": null
+      },
+      "ok": true
+    },
+    {
+      "viewport": "320",
+      "state": {
+        "step": 0,
+        "state": "active",
+        "path": "/index.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 1 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "320",
+      "state": {
+        "step": 4,
+        "state": "active",
+        "path": "/member.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 5 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "320",
+      "state": {
+        "step": 6,
+        "state": "active",
+        "path": "/owner-ipad.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 7 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "320",
+      "state": {
+        "step": 8,
+        "state": "active",
+        "path": "/owner-products.html",
+        "flag": "preview"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 9 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "320",
+      "state": {
+        "step": 9,
+        "state": "active",
+        "path": "/owner-settings.html",
+        "flag": "embed_demo"
+      },
+      "action": {
+        "mode": "resume",
+        "label": "Resume — STEP 10 / 10",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "320",
+      "state": "complete",
+      "action": {
+        "mode": "replay",
+        "label": "Replay — STEP 1から再確認",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    },
+    {
+      "viewport": "320",
+      "state": "skipped",
+      "action": {
+        "mode": "replay",
+        "label": "Replay — STEP 1から再確認",
+        "href": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1"
+      },
+      "ok": true
+    }
+  ],
+  "unsafeWriteAttempts": [],
+  "failures": [],
+  "businessMutation": 0,
+  "pass": true
+}
