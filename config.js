@@ -15,3 +15,29 @@ window.DPRO_TAKEOUT_CONFIG = Object.freeze({
   SLOT_MINUTES: 30,
   PRODUCT_IMAGE_MAX_BYTES: 1048576,
 });
+
+/* DPRO TUTORIAL TAKEOUT R3 / STANDARD V1.1
+ * Loaded only for explicit preview/embed_demo/tutorial routes.
+ * Production business screens remain unchanged when these flags are absent.
+ */
+(() => {
+  const q = new URLSearchParams(location.search);
+  const tutorialSafeMode =
+    q.get("preview") === "1" ||
+    q.get("embed_demo") === "1" ||
+    q.get("tutorial") === "1";
+  if (!tutorialSafeMode) return;
+  if (document.querySelector('script[data-dpro-tutorial-takeout]')) return;
+
+  const css = document.createElement("link");
+  css.rel = "stylesheet";
+  css.href = "./dpro-tutorial-takeout.css?v=r3-v1.1-20260828";
+  css.dataset.dproTutorialTakeout = "style";
+  document.head.appendChild(css);
+
+  const js = document.createElement("script");
+  js.src = "./dpro-tutorial-takeout.js?v=r3-v1.1-20260828";
+  js.defer = true;
+  js.dataset.dproTutorialTakeout = "runtime";
+  document.head.appendChild(js);
+})();
