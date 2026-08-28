@@ -74,7 +74,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p tutorial-r3-evidence
-          cat > /tmp/takeout-r3-qa.mjs <<'NODE'
+          cat > takeout-r3-qa.mjs <<'NODE'
           import { chromium } from 'playwright';
           import fs from 'node:fs';
 
@@ -310,7 +310,7 @@ jobs:
           console.log(JSON.stringify({pass:result.pass,failures:result.failures,unsafe:result.unsafeWriteAttempts.length},null,2));
           if(!result.pass) process.exit(1);
           NODE
-          node /tmp/takeout-r3-qa.mjs
+          node ./takeout-r3-qa.mjs
 
       - name: Publish PASS evidence and self-remove QA workflow
         if: success()
