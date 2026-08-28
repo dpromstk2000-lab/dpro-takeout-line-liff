@@ -1,0 +1,3577 @@
+{
+  "schema": "DPRO_TUTORIAL_TAKEOUT_R3_LIVE_QA_V1.0",
+  "sourceSha": "fa2513f6f051124e0d9c68c3bbc89628a620a80c",
+  "baseUrl": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff",
+  "first10Expected": 10,
+  "viewports": [
+    {
+      "viewport": {
+        "name": "1440",
+        "width": 1440,
+        "height": 1000,
+        "input": "mouse"
+      },
+      "widths": [
+        {
+          "step": 1,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440
+        },
+        {
+          "step": 2,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440
+        },
+        {
+          "step": 3,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440
+        },
+        {
+          "step": 4,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440
+        },
+        {
+          "step": 5,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440
+        },
+        {
+          "step": 6,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440
+        },
+        {
+          "step": 7,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440
+        },
+        {
+          "step": 8,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440
+        },
+        {
+          "step": 9,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440
+        },
+        {
+          "step": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440
+        }
+      ],
+      "journey": [
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+          "state": {
+            "step": 0,
+            "state": "active",
+            "position": null
+          },
+          "first10Count": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "card": {
+            "left": 1034,
+            "top": 704.8125,
+            "right": 1424,
+            "bottom": 984,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1440,
+            "viewportH": 1000
+          },
+          "highlight": {
+            "left": 240,
+            "top": 291.375,
+            "right": 1200,
+            "bottom": 408.25,
+            "width": 960,
+            "height": 116.875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 1363,
+              "top": 930,
+              "right": 1411,
+              "bottom": 972,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1440,
+              "viewportH": 1000
+            }
+          },
+          "targetNote": "案内対象：#operationCard",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+          "state": {
+            "step": 1,
+            "state": "active",
+            "position": {
+              "x": 1042,
+              "y": 712.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "card": {
+            "left": 1042,
+            "top": 712.8125,
+            "right": 1432,
+            "bottom": 992,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1440,
+            "viewportH": 1000
+          },
+          "highlight": {
+            "left": 224,
+            "top": 378.9375,
+            "right": 1216,
+            "bottom": 744.15625,
+            "width": 992,
+            "height": 365.21875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 1371,
+              "top": 938,
+              "right": 1419,
+              "bottom": 980,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1440,
+              "viewportH": 1000
+            }
+          },
+          "targetNote": "案内対象：#pickupSection",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+          "state": {
+            "step": 2,
+            "state": "active",
+            "position": {
+              "x": 1042,
+              "y": 712.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "card": {
+            "left": 1042,
+            "top": 712.8125,
+            "right": 1432,
+            "bottom": 992,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1440,
+            "viewportH": 1000
+          },
+          "highlight": {
+            "left": 224,
+            "top": 511.765625,
+            "right": 1216,
+            "bottom": 651.15625,
+            "width": 992,
+            "height": 139.390625,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 1371,
+              "top": 938,
+              "right": 1419,
+              "bottom": 980,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1440,
+              "viewportH": 1000
+            }
+          },
+          "targetNote": "案内対象：#catalogToolbar",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+          "state": {
+            "step": 3,
+            "state": "active",
+            "position": {
+              "x": 1042,
+              "y": 712.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "card": {
+            "left": 1042,
+            "top": 712.8125,
+            "right": 1432,
+            "bottom": 992,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1440,
+            "viewportH": 1000
+          },
+          "highlight": {
+            "left": 240,
+            "top": 666.3125,
+            "right": 558.65625,
+            "bottom": 1090.265625,
+            "width": 318.65625,
+            "height": 423.953125,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 1371,
+              "top": 938,
+              "right": 1419,
+              "bottom": 980,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1440,
+              "viewportH": 1000
+            }
+          },
+          "targetNote": "案内対象：#productList [data-product-card]",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+          "state": {
+            "step": 4,
+            "state": "active",
+            "position": {
+              "x": 1042,
+              "y": 712.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "card": {
+            "left": 1042,
+            "top": 690.71875,
+            "right": 1432,
+            "bottom": 992,
+            "width": 390,
+            "height": 301.28125,
+            "viewportW": 1440,
+            "viewportH": 1000
+          },
+          "highlight": {
+            "left": 206,
+            "top": 260.46875,
+            "right": 1234,
+            "bottom": 350.765625,
+            "width": 1028,
+            "height": 90.296875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 1371,
+              "top": 938,
+              "right": 1419,
+              "bottom": 980,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1440,
+              "viewportH": 1000
+            }
+          },
+          "targetNote": "案内対象：#profile",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+          "state": {
+            "step": 5,
+            "state": "active",
+            "position": {
+              "x": 1042,
+              "y": 712.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "card": {
+            "left": 1042,
+            "top": 690.71875,
+            "right": 1432,
+            "bottom": 992,
+            "width": 390,
+            "height": 301.28125,
+            "viewportW": 1440,
+            "viewportH": 1000
+          },
+          "highlight": {
+            "left": 313.015625,
+            "top": 439.953125,
+            "right": 413.03125,
+            "bottom": 493.953125,
+            "width": 100.015625,
+            "height": 54,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 1371,
+              "top": 938,
+              "right": 1419,
+              "bottom": 980,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1440,
+              "viewportH": 1000
+            }
+          },
+          "targetNote": "案内対象：#tabs [data-view=\"history\"]",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+          "state": {
+            "step": 6,
+            "state": "active",
+            "position": {
+              "x": 1042,
+              "y": 712.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "card": {
+            "left": 1042,
+            "top": 712.8125,
+            "right": 1432,
+            "bottom": 992,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1440,
+            "viewportH": 1000
+          },
+          "highlight": {
+            "left": 6,
+            "top": 255.671875,
+            "right": 1434,
+            "bottom": 361.015625,
+            "width": 1428,
+            "height": 105.34375,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 1371,
+              "top": 938,
+              "right": 1419,
+              "bottom": 980,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1440,
+              "viewportH": 1000
+            }
+          },
+          "targetNote": "案内対象：#metrics",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+          "state": {
+            "step": 7,
+            "state": "active",
+            "position": {
+              "x": 1042,
+              "y": 712.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "card": {
+            "left": 1042,
+            "top": 712.8125,
+            "right": 1432,
+            "bottom": 992,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1440,
+            "viewportH": 1000
+          },
+          "highlight": {
+            "left": 6,
+            "top": 325.609375,
+            "right": 364.5,
+            "bottom": 1082.375,
+            "width": 358.5,
+            "height": 756.765625,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 1371,
+              "top": 938,
+              "right": 1419,
+              "bottom": 980,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1440,
+              "viewportH": 1000
+            }
+          },
+          "targetNote": "案内対象：#board .board-column",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1",
+          "state": {
+            "step": 8,
+            "state": "active",
+            "position": {
+              "x": 1042,
+              "y": 712.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "card": {
+            "left": 1042,
+            "top": 712.8125,
+            "right": 1432,
+            "bottom": 992,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1440,
+            "viewportH": 1000
+          },
+          "highlight": {
+            "left": 7,
+            "top": 436.71875,
+            "right": 539.5625,
+            "bottom": 612.515625,
+            "width": 532.5625,
+            "height": 175.796875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 1373,
+              "top": 938,
+              "right": 1419,
+              "bottom": 980,
+              "width": 46,
+              "height": 42,
+              "viewportW": 1440,
+              "viewportH": 1000
+            }
+          },
+          "targetNote": "対象が非表示のため安全な代替位置を案内中：#productList",
+          "fallback": "1"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1",
+          "state": {
+            "step": 9,
+            "state": "active",
+            "position": {
+              "x": 1042,
+              "y": 712.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1440,
+          "documentScrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "card": {
+            "left": 1042,
+            "top": 690.71875,
+            "right": 1432,
+            "bottom": 992,
+            "width": 390,
+            "height": 301.28125,
+            "viewportW": 1440,
+            "viewportH": 1000
+          },
+          "highlight": {
+            "left": 13,
+            "top": 879.90625,
+            "right": 1053,
+            "bottom": 968.90625,
+            "width": 1040,
+            "height": 89,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 1371,
+              "top": 938,
+              "right": 1419,
+              "bottom": 980,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1440,
+              "viewportH": 1000
+            }
+          },
+          "targetNote": "案内対象：#section-rules .panel-head",
+          "fallback": "0"
+        }
+      ],
+      "drag": {
+        "movedOk": true,
+        "dedicatedOnly": true,
+        "clampOk": true,
+        "before": {
+          "x": 1034,
+          "y": 704.8125,
+          "width": 390,
+          "height": 279.1875
+        },
+        "moved": {
+          "x": 954,
+          "y": 644.8125,
+          "width": 390,
+          "height": 279.1875
+        },
+        "clampA": {
+          "x": 8,
+          "y": 8,
+          "width": 390,
+          "height": 279.1875
+        },
+        "clampB": {
+          "x": 1042,
+          "y": 712.8125,
+          "width": 390,
+          "height": 279.1875
+        }
+      },
+      "backSnap": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+        "state": {
+          "step": 0,
+          "state": "active",
+          "position": {
+            "x": 1042,
+            "y": 712.8125
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 1440,
+        "documentScrollWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "card": {
+          "left": 1042,
+          "top": 712.8125,
+          "right": 1432,
+          "bottom": 992,
+          "width": 390,
+          "height": 279.1875,
+          "viewportW": 1440,
+          "viewportH": 1000
+        },
+        "highlight": {
+          "left": 240,
+          "top": 239.859375,
+          "right": 1200,
+          "bottom": 356.734375,
+          "width": 960,
+          "height": 116.875,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 1371,
+            "top": 938,
+            "right": 1419,
+            "bottom": 980,
+            "width": 48,
+            "height": 42,
+            "viewportW": 1440,
+            "viewportH": 1000
+          }
+        },
+        "targetNote": "案内対象：#operationCard",
+        "fallback": "0"
+      },
+      "resumeSnap": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+        "state": {
+          "step": 1,
+          "state": "active",
+          "position": {
+            "x": 1042,
+            "y": 712.8125
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 1440,
+        "documentScrollWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "card": {
+          "left": 1042,
+          "top": 712.8125,
+          "right": 1432,
+          "bottom": 992,
+          "width": 390,
+          "height": 279.1875,
+          "viewportW": 1440,
+          "viewportH": 1000
+        },
+        "highlight": {
+          "left": 224,
+          "top": 317.25,
+          "right": 1216,
+          "bottom": 682.46875,
+          "width": 992,
+          "height": 365.21875,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 1371,
+            "top": 938,
+            "right": 1419,
+            "bottom": 980,
+            "width": 48,
+            "height": 42,
+            "viewportW": 1440,
+            "viewportH": 1000
+          }
+        },
+        "targetNote": "案内対象：#pickupSection",
+        "fallback": "0"
+      },
+      "reloadResume": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+        "state": {
+          "step": 2,
+          "state": "active",
+          "position": {
+            "x": 1042,
+            "y": 712.8125
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 1440,
+        "documentScrollWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "card": {
+          "left": 1042,
+          "top": 712.8125,
+          "right": 1432,
+          "bottom": 992,
+          "width": 390,
+          "height": 279.1875,
+          "viewportW": 1440,
+          "viewportH": 1000
+        },
+        "highlight": {
+          "left": 224,
+          "top": 515.46875,
+          "right": 1216,
+          "bottom": 637.890625,
+          "width": 992,
+          "height": 122.421875,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 1371,
+            "top": 938,
+            "right": 1419,
+            "bottom": 980,
+            "width": 48,
+            "height": 42,
+            "viewportW": 1440,
+            "viewportH": 1000
+          }
+        },
+        "targetNote": "案内対象：#catalogToolbar",
+        "fallback": "0"
+      },
+      "completeState": {
+        "step": 9,
+        "state": "complete",
+        "position": {
+          "x": 1042,
+          "y": 712.8125
+        }
+      },
+      "replayState": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1",
+        "state": {
+          "step": 0,
+          "state": "active",
+          "position": null
+        },
+        "first10Count": 10,
+        "innerWidth": 1440,
+        "documentScrollWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "card": {
+          "left": 1034,
+          "top": 704.8125,
+          "right": 1424,
+          "bottom": 984,
+          "width": 390,
+          "height": 279.1875,
+          "viewportW": 1440,
+          "viewportH": 1000
+        },
+        "highlight": {
+          "left": 240,
+          "top": 291.375,
+          "right": 1200,
+          "bottom": 408.25,
+          "width": 960,
+          "height": 116.875,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 1363,
+            "top": 930,
+            "right": 1411,
+            "bottom": 972,
+            "width": 48,
+            "height": 42,
+            "viewportW": 1440,
+            "viewportH": 1000
+          }
+        },
+        "targetNote": "案内対象：#operationCard",
+        "fallback": "0"
+      },
+      "crossPageUrls": [
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959561388",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1"
+      ],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "unsafe": [],
+      "mobileOverflowOk": true,
+      "focusOk": true,
+      "highlightOk": true,
+      "countOk": true,
+      "safeQueriesOk": true
+    },
+    {
+      "viewport": {
+        "name": "1024",
+        "width": 1024,
+        "height": 768,
+        "input": "pointer"
+      },
+      "widths": [
+        {
+          "step": 1,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024
+        },
+        {
+          "step": 2,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024
+        },
+        {
+          "step": 3,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024
+        },
+        {
+          "step": 4,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024
+        },
+        {
+          "step": 5,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024
+        },
+        {
+          "step": 6,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024
+        },
+        {
+          "step": 7,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024
+        },
+        {
+          "step": 8,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024
+        },
+        {
+          "step": 9,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024
+        },
+        {
+          "step": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024
+        }
+      ],
+      "journey": [
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+          "state": {
+            "step": 0,
+            "state": "active",
+            "position": null
+          },
+          "first10Count": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "card": {
+            "left": 618,
+            "top": 472.8125,
+            "right": 1008,
+            "bottom": 752,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1024,
+            "viewportH": 768
+          },
+          "highlight": {
+            "left": 32,
+            "top": 291.375,
+            "right": 992,
+            "bottom": 408.25,
+            "width": 960,
+            "height": 116.875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 947,
+              "top": 698,
+              "right": 995,
+              "bottom": 740,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1024,
+              "viewportH": 768
+            }
+          },
+          "targetNote": "案内対象：#operationCard",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+          "state": {
+            "step": 1,
+            "state": "active",
+            "position": {
+              "x": 626,
+              "y": 480.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "card": {
+            "left": 626,
+            "top": 480.8125,
+            "right": 1016,
+            "bottom": 760,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1024,
+            "viewportH": 768
+          },
+          "highlight": {
+            "left": 16,
+            "top": 379.9375,
+            "right": 1008,
+            "bottom": 745.15625,
+            "width": 992,
+            "height": 365.21875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 955,
+              "top": 706,
+              "right": 1003,
+              "bottom": 748,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1024,
+              "viewportH": 768
+            }
+          },
+          "targetNote": "案内対象：#pickupSection",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+          "state": {
+            "step": 2,
+            "state": "active",
+            "position": {
+              "x": 626,
+              "y": 480.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "card": {
+            "left": 626,
+            "top": 480.8125,
+            "right": 1016,
+            "bottom": 760,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1024,
+            "viewportH": 768
+          },
+          "highlight": {
+            "left": 16,
+            "top": 395.59375,
+            "right": 1008,
+            "bottom": 534.984375,
+            "width": 992,
+            "height": 139.390625,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 955,
+              "top": 706,
+              "right": 1003,
+              "bottom": 748,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1024,
+              "viewportH": 768
+            }
+          },
+          "targetNote": "案内対象：#catalogToolbar",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+          "state": {
+            "step": 3,
+            "state": "active",
+            "position": {
+              "x": 626,
+              "y": 480.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "card": {
+            "left": 626,
+            "top": 480.8125,
+            "right": 1016,
+            "bottom": 760,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1024,
+            "viewportH": 768
+          },
+          "highlight": {
+            "left": 32,
+            "top": 517.71875,
+            "right": 350.65625,
+            "bottom": 941.671875,
+            "width": 318.65625,
+            "height": 423.953125,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 955,
+              "top": 706,
+              "right": 1003,
+              "bottom": 748,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1024,
+              "viewportH": 768
+            }
+          },
+          "targetNote": "案内対象：#productList [data-product-card]",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+          "state": {
+            "step": 4,
+            "state": "active",
+            "position": {
+              "x": 626,
+              "y": 480.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "card": {
+            "left": 626,
+            "top": 458.71875,
+            "right": 1016,
+            "bottom": 760,
+            "width": 390,
+            "height": 301.28125,
+            "viewportW": 1024,
+            "viewportH": 768
+          },
+          "highlight": {
+            "left": 6,
+            "top": 260.46875,
+            "right": 1018,
+            "bottom": 350.765625,
+            "width": 1012,
+            "height": 90.296875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 955,
+              "top": 706,
+              "right": 1003,
+              "bottom": 748,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1024,
+              "viewportH": 768
+            }
+          },
+          "targetNote": "案内対象：#profile",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+          "state": {
+            "step": 5,
+            "state": "active",
+            "position": {
+              "x": 626,
+              "y": 480.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "card": {
+            "left": 626,
+            "top": 458.71875,
+            "right": 1016,
+            "bottom": 760,
+            "width": 390,
+            "height": 301.28125,
+            "viewportW": 1024,
+            "viewportH": 768
+          },
+          "highlight": {
+            "left": 113.015625,
+            "top": 396.359375,
+            "right": 213.03125,
+            "bottom": 450.359375,
+            "width": 100.015625,
+            "height": 54,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 955,
+              "top": 706,
+              "right": 1003,
+              "bottom": 748,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1024,
+              "viewportH": 768
+            }
+          },
+          "targetNote": "案内対象：#tabs [data-view=\"history\"]",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+          "state": {
+            "step": 6,
+            "state": "active",
+            "position": {
+              "x": 626,
+              "y": 480.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "card": {
+            "left": 626,
+            "top": 480.8125,
+            "right": 1016,
+            "bottom": 760,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1024,
+            "viewportH": 768
+          },
+          "highlight": {
+            "left": 6,
+            "top": 280.203125,
+            "right": 1018,
+            "bottom": 487.890625,
+            "width": 1012,
+            "height": 207.6875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 955,
+              "top": 706,
+              "right": 1003,
+              "bottom": 748,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1024,
+              "viewportH": 768
+            }
+          },
+          "targetNote": "案内対象：#metrics",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+          "state": {
+            "step": 7,
+            "state": "active",
+            "position": {
+              "x": 626,
+              "y": 480.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "card": {
+            "left": 626,
+            "top": 480.8125,
+            "right": 1016,
+            "bottom": 760,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1024,
+            "viewportH": 768
+          },
+          "highlight": {
+            "left": 6,
+            "top": 434.09375,
+            "right": 323,
+            "bottom": 1190.859375,
+            "width": 317,
+            "height": 756.765625,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 955,
+              "top": 706,
+              "right": 1003,
+              "bottom": 748,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1024,
+              "viewportH": 768
+            }
+          },
+          "targetNote": "案内対象：#board .board-column",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1",
+          "state": {
+            "step": 8,
+            "state": "active",
+            "position": {
+              "x": 626,
+              "y": 480.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "card": {
+            "left": 626,
+            "top": 480.8125,
+            "right": 1016,
+            "bottom": 760,
+            "width": 390,
+            "height": 279.1875,
+            "viewportW": 1024,
+            "viewportH": 768
+          },
+          "highlight": {
+            "left": 7,
+            "top": 341.765625,
+            "right": 1017,
+            "bottom": 517.5625,
+            "width": 1010,
+            "height": 175.796875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 957,
+              "top": 706,
+              "right": 1003,
+              "bottom": 748,
+              "width": 46,
+              "height": 42,
+              "viewportW": 1024,
+              "viewportH": 768
+            }
+          },
+          "targetNote": "対象が非表示のため安全な代替位置を案内中：#productList",
+          "fallback": "1"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1",
+          "state": {
+            "step": 9,
+            "state": "active",
+            "position": {
+              "x": 626,
+              "y": 480.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 1024,
+          "documentScrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "card": {
+            "left": 626,
+            "top": 458.71875,
+            "right": 1016,
+            "bottom": 760,
+            "width": 390,
+            "height": 301.28125,
+            "viewportW": 1024,
+            "viewportH": 768
+          },
+          "highlight": {
+            "left": 13,
+            "top": 1008.109375,
+            "right": 1011,
+            "bottom": 1097.109375,
+            "width": 998,
+            "height": 89,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 955,
+              "top": 706,
+              "right": 1003,
+              "bottom": 748,
+              "width": 48,
+              "height": 42,
+              "viewportW": 1024,
+              "viewportH": 768
+            }
+          },
+          "targetNote": "案内対象：#section-rules .panel-head",
+          "fallback": "0"
+        }
+      ],
+      "drag": {
+        "movedOk": true,
+        "dedicatedOnly": true,
+        "clampOk": true,
+        "before": {
+          "x": 618,
+          "y": 472.8125,
+          "width": 390,
+          "height": 279.1875
+        },
+        "moved": {
+          "x": 538,
+          "y": 412.8125,
+          "width": 390,
+          "height": 279.1875
+        },
+        "clampA": {
+          "x": 8,
+          "y": 8,
+          "width": 390,
+          "height": 279.1875
+        },
+        "clampB": {
+          "x": 626,
+          "y": 480.8125,
+          "width": 390,
+          "height": 279.1875
+        }
+      },
+      "backSnap": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+        "state": {
+          "step": 0,
+          "state": "active",
+          "position": {
+            "x": 626,
+            "y": 480.8125
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 1024,
+        "documentScrollWidth": 1024,
+        "bodyScrollWidth": 1024,
+        "card": {
+          "left": 626,
+          "top": 480.8125,
+          "right": 1016,
+          "bottom": 760,
+          "width": 390,
+          "height": 279.1875,
+          "viewportW": 1024,
+          "viewportH": 768
+        },
+        "highlight": {
+          "left": 32,
+          "top": 171.1875,
+          "right": 992,
+          "bottom": 288.0625,
+          "width": 960,
+          "height": 116.875,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 955,
+            "top": 706,
+            "right": 1003,
+            "bottom": 748,
+            "width": 48,
+            "height": 42,
+            "viewportW": 1024,
+            "viewportH": 768
+          }
+        },
+        "targetNote": "案内対象：#operationCard",
+        "fallback": "0"
+      },
+      "resumeSnap": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+        "state": {
+          "step": 1,
+          "state": "active",
+          "position": {
+            "x": 626,
+            "y": 480.8125
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 1024,
+        "documentScrollWidth": 1024,
+        "bodyScrollWidth": 1024,
+        "card": {
+          "left": 626,
+          "top": 480.8125,
+          "right": 1016,
+          "bottom": 760,
+          "width": 390,
+          "height": 279.1875,
+          "viewportW": 1024,
+          "viewportH": 768
+        },
+        "highlight": {
+          "left": 16,
+          "top": 201.921875,
+          "right": 1008,
+          "bottom": 567.140625,
+          "width": 992,
+          "height": 365.21875,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 955,
+            "top": 706,
+            "right": 1003,
+            "bottom": 748,
+            "width": 48,
+            "height": 42,
+            "viewportW": 1024,
+            "viewportH": 768
+          }
+        },
+        "targetNote": "案内対象：#pickupSection",
+        "fallback": "0"
+      },
+      "reloadResume": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+        "state": {
+          "step": 2,
+          "state": "active",
+          "position": {
+            "x": 626,
+            "y": 480.8125
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 1024,
+        "documentScrollWidth": 1024,
+        "bodyScrollWidth": 1024,
+        "card": {
+          "left": 626,
+          "top": 480.8125,
+          "right": 1016,
+          "bottom": 760,
+          "width": 390,
+          "height": 279.1875,
+          "viewportW": 1024,
+          "viewportH": 768
+        },
+        "highlight": {
+          "left": 16,
+          "top": 393.46875,
+          "right": 1008,
+          "bottom": 506.734375,
+          "width": 992,
+          "height": 113.265625,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 955,
+            "top": 706,
+            "right": 1003,
+            "bottom": 748,
+            "width": 48,
+            "height": 42,
+            "viewportW": 1024,
+            "viewportH": 768
+          }
+        },
+        "targetNote": "案内対象：#catalogToolbar",
+        "fallback": "0"
+      },
+      "completeState": {
+        "step": 9,
+        "state": "complete",
+        "position": {
+          "x": 626,
+          "y": 480.8125
+        }
+      },
+      "replayState": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1",
+        "state": {
+          "step": 0,
+          "state": "active",
+          "position": null
+        },
+        "first10Count": 10,
+        "innerWidth": 1024,
+        "documentScrollWidth": 1024,
+        "bodyScrollWidth": 1024,
+        "card": {
+          "left": 618,
+          "top": 472.8125,
+          "right": 1008,
+          "bottom": 752,
+          "width": 390,
+          "height": 279.1875,
+          "viewportW": 1024,
+          "viewportH": 768
+        },
+        "highlight": {
+          "left": 32,
+          "top": 291.375,
+          "right": 992,
+          "bottom": 408.25,
+          "width": 960,
+          "height": 116.875,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 947,
+            "top": 698,
+            "right": 995,
+            "bottom": 740,
+            "width": 48,
+            "height": 42,
+            "viewportW": 1024,
+            "viewportH": 768
+          }
+        },
+        "targetNote": "案内対象：#operationCard",
+        "fallback": "0"
+      },
+      "crossPageUrls": [
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959567653",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1"
+      ],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "unsafe": [],
+      "mobileOverflowOk": true,
+      "focusOk": true,
+      "highlightOk": true,
+      "countOk": true,
+      "safeQueriesOk": true
+    },
+    {
+      "viewport": {
+        "name": "390",
+        "width": 390,
+        "height": 844,
+        "input": "touch"
+      },
+      "widths": [
+        {
+          "step": 1,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        {
+          "step": 2,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        {
+          "step": 3,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        {
+          "step": 4,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        {
+          "step": 5,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        {
+          "step": 6,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        {
+          "step": 7,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        {
+          "step": 8,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        {
+          "step": 9,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        {
+          "step": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        }
+      ],
+      "journey": [
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+          "state": {
+            "step": 0,
+            "state": "active",
+            "position": null
+          },
+          "first10Count": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "card": {
+            "left": 8,
+            "top": 450.8125,
+            "right": 382,
+            "bottom": 828,
+            "width": 374,
+            "height": 377.1875,
+            "viewportW": 390,
+            "viewportH": 844
+          },
+          "highlight": {
+            "left": 7,
+            "top": 332.0625,
+            "right": 383,
+            "bottom": 511.984375,
+            "width": 376,
+            "height": 179.921875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 774,
+              "right": 369,
+              "bottom": 816,
+              "width": 348,
+              "height": 42,
+              "viewportW": 390,
+              "viewportH": 844
+            }
+          },
+          "targetNote": "案内対象：#operationCard",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+          "state": {
+            "step": 1,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 458.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "card": {
+            "left": 8,
+            "top": 458.8125,
+            "right": 382,
+            "bottom": 836,
+            "width": 374,
+            "height": 377.1875,
+            "viewportW": 390,
+            "viewportH": 844
+          },
+          "highlight": {
+            "left": 2,
+            "top": 468.34375,
+            "right": 388,
+            "bottom": 996.328125,
+            "width": 386,
+            "height": 527.984375,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 782,
+              "right": 369,
+              "bottom": 824,
+              "width": 348,
+              "height": 42,
+              "viewportW": 390,
+              "viewportH": 844
+            }
+          },
+          "targetNote": "案内対象：#pickupSection",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+          "state": {
+            "step": 2,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 458.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "card": {
+            "left": 8,
+            "top": 458.8125,
+            "right": 382,
+            "bottom": 836,
+            "width": 374,
+            "height": 377.1875,
+            "viewportW": 390,
+            "viewportH": 844
+          },
+          "highlight": {
+            "left": 2,
+            "top": 465.203125,
+            "right": 388,
+            "bottom": 604.59375,
+            "width": 386,
+            "height": 139.390625,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 782,
+              "right": 369,
+              "bottom": 824,
+              "width": 348,
+              "height": 42,
+              "viewportW": 390,
+              "viewportH": 844
+            }
+          },
+          "targetNote": "案内対象：#catalogToolbar",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+          "state": {
+            "step": 3,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 458.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "card": {
+            "left": 8,
+            "top": 458.8125,
+            "right": 382,
+            "bottom": 836,
+            "width": 374,
+            "height": 377.1875,
+            "viewportW": 390,
+            "viewportH": 844
+          },
+          "highlight": {
+            "left": 7,
+            "top": 548.53125,
+            "right": 196,
+            "bottom": 869.859375,
+            "width": 189,
+            "height": 321.328125,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 782,
+              "right": 369,
+              "bottom": 824,
+              "width": 348,
+              "height": 42,
+              "viewportW": 390,
+              "viewportH": 844
+            }
+          },
+          "targetNote": "案内対象：#productList [data-product-card]",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+          "state": {
+            "step": 4,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 458.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "card": {
+            "left": 8,
+            "top": 436.71875,
+            "right": 382,
+            "bottom": 836,
+            "width": 374,
+            "height": 399.28125,
+            "viewportW": 390,
+            "viewportH": 844
+          },
+          "highlight": {
+            "left": 2,
+            "top": 321.609375,
+            "right": 388,
+            "bottom": 522.375,
+            "width": 386,
+            "height": 200.765625,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 782,
+              "right": 369,
+              "bottom": 824,
+              "width": 348,
+              "height": 42,
+              "viewportW": 390,
+              "viewportH": 844
+            }
+          },
+          "targetNote": "案内対象：#profile",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+          "state": {
+            "step": 5,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 458.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "card": {
+            "left": 8,
+            "top": 436.71875,
+            "right": 382,
+            "bottom": 836,
+            "width": 374,
+            "height": 399.28125,
+            "viewportW": 390,
+            "viewportH": 844
+          },
+          "highlight": {
+            "left": 108.015625,
+            "top": 686.84375,
+            "right": 208.03125,
+            "bottom": 740.84375,
+            "width": 100.015625,
+            "height": 54,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 782,
+              "right": 369,
+              "bottom": 824,
+              "width": 348,
+              "height": 42,
+              "viewportW": 390,
+              "viewportH": 844
+            }
+          },
+          "targetNote": "案内対象：#tabs [data-view=\"history\"]",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+          "state": {
+            "step": 6,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 458.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "card": {
+            "left": 8,
+            "top": 458.8125,
+            "right": 382,
+            "bottom": 836,
+            "width": 374,
+            "height": 377.1875,
+            "viewportW": 390,
+            "viewportH": 844
+          },
+          "highlight": {
+            "left": 2,
+            "top": 384.671875,
+            "right": 388,
+            "bottom": 681.484375,
+            "width": 386,
+            "height": 296.8125,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 782,
+              "right": 369,
+              "bottom": 824,
+              "width": 348,
+              "height": 42,
+              "viewportW": 390,
+              "viewportH": 844
+            }
+          },
+          "targetNote": "案内対象：#metrics",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+          "state": {
+            "step": 7,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 458.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "card": {
+            "left": 8,
+            "top": 436.71875,
+            "right": 382,
+            "bottom": 836,
+            "width": 374,
+            "height": 399.28125,
+            "viewportW": 390,
+            "viewportH": 844
+          },
+          "highlight": {
+            "left": 2,
+            "top": 582.640625,
+            "right": 304,
+            "bottom": 1422.640625,
+            "width": 302,
+            "height": 840,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 782,
+              "right": 369,
+              "bottom": 824,
+              "width": 348,
+              "height": 42,
+              "viewportW": 390,
+              "viewportH": 844
+            }
+          },
+          "targetNote": "案内対象：#board .board-column",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1",
+          "state": {
+            "step": 8,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 458.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "card": {
+            "left": 8,
+            "top": 458.8125,
+            "right": 382,
+            "bottom": 836,
+            "width": 374,
+            "height": 377.1875,
+            "viewportW": 390,
+            "viewportH": 844
+          },
+          "highlight": {
+            "left": 2,
+            "top": 495.484375,
+            "right": 388,
+            "bottom": 671.28125,
+            "width": 386,
+            "height": 175.796875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 782,
+              "right": 369,
+              "bottom": 824,
+              "width": 348,
+              "height": 42,
+              "viewportW": 390,
+              "viewportH": 844
+            }
+          },
+          "targetNote": "対象が非表示のため安全な代替位置を案内中：#productList",
+          "fallback": "1"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1",
+          "state": {
+            "step": 9,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 458.8125
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "card": {
+            "left": 8,
+            "top": 436.71875,
+            "right": 382,
+            "bottom": 836,
+            "width": 374,
+            "height": 399.28125,
+            "viewportW": 390,
+            "viewportH": 844
+          },
+          "highlight": {
+            "left": 4,
+            "top": 1252.875,
+            "right": 386,
+            "bottom": 1341.875,
+            "width": 382,
+            "height": 89,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 782,
+              "right": 369,
+              "bottom": 824,
+              "width": 348,
+              "height": 42,
+              "viewportW": 390,
+              "viewportH": 844
+            }
+          },
+          "targetNote": "案内対象：#section-rules .panel-head",
+          "fallback": "0"
+        }
+      ],
+      "drag": {
+        "movedOk": true,
+        "dedicatedOnly": true,
+        "clampOk": true,
+        "before": {
+          "x": 8,
+          "y": 450.8125,
+          "width": 374,
+          "height": 377.1875
+        },
+        "moved": {
+          "x": 8,
+          "y": 390.8125,
+          "width": 374,
+          "height": 377.1875
+        },
+        "clampA": {
+          "x": 8,
+          "y": 8,
+          "width": 374,
+          "height": 377.1875
+        },
+        "clampB": {
+          "x": 8,
+          "y": 458.8125,
+          "width": 374,
+          "height": 377.1875
+        }
+      },
+      "backSnap": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+        "state": {
+          "step": 0,
+          "state": "active",
+          "position": {
+            "x": 8,
+            "y": 458.8125
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 390,
+        "documentScrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "card": {
+          "left": 8,
+          "top": 458.8125,
+          "right": 382,
+          "bottom": 836,
+          "width": 374,
+          "height": 377.1875,
+          "viewportW": 390,
+          "viewportH": 844
+        },
+        "highlight": {
+          "left": 7,
+          "top": 128.78125,
+          "right": 383,
+          "bottom": 308.703125,
+          "width": 376,
+          "height": 179.921875,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 782,
+            "right": 369,
+            "bottom": 824,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        },
+        "targetNote": "案内対象：#operationCard",
+        "fallback": "0"
+      },
+      "resumeSnap": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+        "state": {
+          "step": 1,
+          "state": "active",
+          "position": {
+            "x": 8,
+            "y": 458.8125
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 390,
+        "documentScrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "card": {
+          "left": 8,
+          "top": 458.8125,
+          "right": 382,
+          "bottom": 836,
+          "width": 374,
+          "height": 377.1875,
+          "viewportW": 390,
+          "viewportH": 844
+        },
+        "highlight": {
+          "left": 2,
+          "top": 175.421875,
+          "right": 388,
+          "bottom": 703.40625,
+          "width": 386,
+          "height": 527.984375,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 782,
+            "right": 369,
+            "bottom": 824,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        },
+        "targetNote": "案内対象：#pickupSection",
+        "fallback": "0"
+      },
+      "reloadResume": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+        "state": {
+          "step": 2,
+          "state": "active",
+          "position": {
+            "x": 8,
+            "y": 458.8125
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 390,
+        "documentScrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "card": {
+          "left": 8,
+          "top": 458.8125,
+          "right": 382,
+          "bottom": 836,
+          "width": 374,
+          "height": 377.1875,
+          "viewportW": 390,
+          "viewportH": 844
+        },
+        "highlight": {
+          "left": 2,
+          "top": 424.21875,
+          "right": 388,
+          "bottom": 537.421875,
+          "width": 386,
+          "height": 113.203125,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 782,
+            "right": 369,
+            "bottom": 824,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        },
+        "targetNote": "案内対象：#catalogToolbar",
+        "fallback": "0"
+      },
+      "completeState": {
+        "step": 9,
+        "state": "complete",
+        "position": {
+          "x": 8,
+          "y": 458.8125
+        }
+      },
+      "replayState": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1",
+        "state": {
+          "step": 0,
+          "state": "active",
+          "position": null
+        },
+        "first10Count": 10,
+        "innerWidth": 390,
+        "documentScrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "card": {
+          "left": 8,
+          "top": 450.8125,
+          "right": 382,
+          "bottom": 828,
+          "width": 374,
+          "height": 377.1875,
+          "viewportW": 390,
+          "viewportH": 844
+        },
+        "highlight": {
+          "left": 7,
+          "top": 332.0625,
+          "right": 383,
+          "bottom": 511.984375,
+          "width": 376,
+          "height": 179.921875,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        },
+        "targetNote": "案内対象：#operationCard",
+        "fallback": "0"
+      },
+      "crossPageUrls": [
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959573363",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1"
+      ],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "unsafe": [],
+      "mobileOverflowOk": true,
+      "focusOk": true,
+      "highlightOk": true,
+      "countOk": true,
+      "safeQueriesOk": true
+    },
+    {
+      "viewport": {
+        "name": "320",
+        "width": 320,
+        "height": 720,
+        "input": "touch"
+      },
+      "widths": [
+        {
+          "step": 1,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320
+        },
+        {
+          "step": 2,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320
+        },
+        {
+          "step": 3,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320
+        },
+        {
+          "step": 4,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320
+        },
+        {
+          "step": 5,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320
+        },
+        {
+          "step": 6,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320
+        },
+        {
+          "step": 7,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320
+        },
+        {
+          "step": 8,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320
+        },
+        {
+          "step": 9,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320
+        },
+        {
+          "step": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320
+        }
+      ],
+      "journey": [
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+          "state": {
+            "step": 0,
+            "state": "active",
+            "position": null
+          },
+          "first10Count": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320,
+          "card": {
+            "left": 8,
+            "top": 304.71875,
+            "right": 312,
+            "bottom": 704,
+            "width": 304,
+            "height": 399.28125,
+            "viewportW": 320,
+            "viewportH": 720
+          },
+          "highlight": {
+            "left": 7,
+            "top": 387.890625,
+            "right": 313,
+            "bottom": 567.953125,
+            "width": 306,
+            "height": 180.0625,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 650,
+              "right": 299,
+              "bottom": 692,
+              "width": 278,
+              "height": 42,
+              "viewportW": 320,
+              "viewportH": 720
+            }
+          },
+          "targetNote": "案内対象：#operationCard",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+          "state": {
+            "step": 1,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 312.71875
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320,
+          "card": {
+            "left": 8,
+            "top": 312.71875,
+            "right": 312,
+            "bottom": 712,
+            "width": 304,
+            "height": 399.28125,
+            "viewportW": 320,
+            "viewportH": 720
+          },
+          "highlight": {
+            "left": 2,
+            "top": 424.90625,
+            "right": 318,
+            "bottom": 952.890625,
+            "width": 316,
+            "height": 527.984375,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 658,
+              "right": 299,
+              "bottom": 700,
+              "width": 278,
+              "height": 42,
+              "viewportW": 320,
+              "viewportH": 720
+            }
+          },
+          "targetNote": "案内対象：#pickupSection",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+          "state": {
+            "step": 2,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 312.71875
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320,
+          "card": {
+            "left": 8,
+            "top": 312.71875,
+            "right": 312,
+            "bottom": 689.90625,
+            "width": 304,
+            "height": 377.1875,
+            "viewportW": 320,
+            "viewportH": 720
+          },
+          "highlight": {
+            "left": 2,
+            "top": 443.484375,
+            "right": 318,
+            "bottom": 582.875,
+            "width": 316,
+            "height": 139.390625,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 635.90625,
+              "right": 299,
+              "bottom": 677.90625,
+              "width": 278,
+              "height": 42,
+              "viewportW": 320,
+              "viewportH": 720
+            }
+          },
+          "targetNote": "案内対象：#catalogToolbar",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+          "state": {
+            "step": 3,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 312.71875
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320,
+          "card": {
+            "left": 8,
+            "top": 312.71875,
+            "right": 312,
+            "bottom": 712,
+            "width": 304,
+            "height": 399.28125,
+            "viewportW": 320,
+            "viewportH": 720
+          },
+          "highlight": {
+            "left": 7,
+            "top": 464.921875,
+            "right": 313,
+            "bottom": 874,
+            "width": 306,
+            "height": 409.078125,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 658,
+              "right": 299,
+              "bottom": 700,
+              "width": 278,
+              "height": 42,
+              "viewportW": 320,
+              "viewportH": 720
+            }
+          },
+          "targetNote": "案内対象：#productList [data-product-card]",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+          "state": {
+            "step": 4,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 312.71875
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320,
+          "card": {
+            "left": 8,
+            "top": 290.625,
+            "right": 312,
+            "bottom": 712,
+            "width": 304,
+            "height": 421.375,
+            "viewportW": 320,
+            "viewportH": 720
+          },
+          "highlight": {
+            "left": 2,
+            "top": 263.796875,
+            "right": 318,
+            "bottom": 464.5625,
+            "width": 316,
+            "height": 200.765625,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 658,
+              "right": 299,
+              "bottom": 700,
+              "width": 278,
+              "height": 42,
+              "viewportW": 320,
+              "viewportH": 720
+            }
+          },
+          "targetNote": "案内対象：#profile",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+          "state": {
+            "step": 5,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 312.71875
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320,
+          "card": {
+            "left": 8,
+            "top": 312.71875,
+            "right": 312,
+            "bottom": 712,
+            "width": 304,
+            "height": 399.28125,
+            "viewportW": 320,
+            "viewportH": 720
+          },
+          "highlight": {
+            "left": 108.015625,
+            "top": 664.875,
+            "right": 208.03125,
+            "bottom": 718.875,
+            "width": 100.015625,
+            "height": 54,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 658,
+              "right": 299,
+              "bottom": 700,
+              "width": 278,
+              "height": 42,
+              "viewportW": 320,
+              "viewportH": 720
+            }
+          },
+          "targetNote": "案内対象：#tabs [data-view=\"history\"]",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+          "state": {
+            "step": 6,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 312.71875
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320,
+          "card": {
+            "left": 8,
+            "top": 312.71875,
+            "right": 312,
+            "bottom": 712,
+            "width": 304,
+            "height": 399.28125,
+            "viewportW": 320,
+            "viewportH": 720
+          },
+          "highlight": {
+            "left": 2,
+            "top": 508.8125,
+            "right": 318,
+            "bottom": 805.625,
+            "width": 316,
+            "height": 296.8125,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 658,
+              "right": 299,
+              "bottom": 700,
+              "width": 278,
+              "height": 42,
+              "viewportW": 320,
+              "viewportH": 720
+            }
+          },
+          "targetNote": "案内対象：#metrics",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+          "state": {
+            "step": 7,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 312.71875
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320,
+          "card": {
+            "left": 8,
+            "top": 312.71875,
+            "right": 312,
+            "bottom": 712,
+            "width": 304,
+            "height": 399.28125,
+            "viewportW": 320,
+            "viewportH": 720
+          },
+          "highlight": {
+            "left": 2,
+            "top": 580.28125,
+            "right": 304,
+            "bottom": 1296.28125,
+            "width": 302,
+            "height": 716,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 658,
+              "right": 299,
+              "bottom": 700,
+              "width": 278,
+              "height": 42,
+              "viewportW": 320,
+              "viewportH": 720
+            }
+          },
+          "targetNote": "案内対象：#board .board-column",
+          "fallback": "0"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1",
+          "state": {
+            "step": 8,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 312.71875
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320,
+          "card": {
+            "left": 8,
+            "top": 274.71875,
+            "right": 312,
+            "bottom": 712,
+            "width": 304,
+            "height": 437.28125,
+            "viewportW": 320,
+            "viewportH": 720
+          },
+          "highlight": {
+            "left": 2,
+            "top": 527.140625,
+            "right": 318,
+            "bottom": 702.9375,
+            "width": 316,
+            "height": 175.796875,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 658,
+              "right": 299,
+              "bottom": 700,
+              "width": 278,
+              "height": 42,
+              "viewportW": 320,
+              "viewportH": 720
+            }
+          },
+          "targetNote": "対象が非表示のため安全な代替位置を案内中：#productList",
+          "fallback": "1"
+        },
+        {
+          "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1",
+          "state": {
+            "step": 9,
+            "state": "active",
+            "position": {
+              "x": 8,
+              "y": 312.71875
+            }
+          },
+          "first10Count": 10,
+          "innerWidth": 320,
+          "documentScrollWidth": 320,
+          "bodyScrollWidth": 320,
+          "card": {
+            "left": 8,
+            "top": 290.625,
+            "right": 312,
+            "bottom": 712,
+            "width": 304,
+            "height": 421.375,
+            "viewportW": 320,
+            "viewportH": 720
+          },
+          "highlight": {
+            "left": 4,
+            "top": 1337.78125,
+            "right": 316,
+            "bottom": 1469.78125,
+            "width": 312,
+            "height": 132,
+            "display": "block"
+          },
+          "focus": {
+            "tag": "BUTTON",
+            "act": "next",
+            "className": "dpro-tut-btn primary",
+            "rect": {
+              "left": 21,
+              "top": 658,
+              "right": 299,
+              "bottom": 700,
+              "width": 278,
+              "height": 42,
+              "viewportW": 320,
+              "viewportH": 720
+            }
+          },
+          "targetNote": "案内対象：#section-rules .panel-head",
+          "fallback": "0"
+        }
+      ],
+      "drag": {
+        "movedOk": true,
+        "dedicatedOnly": true,
+        "clampOk": true,
+        "before": {
+          "x": 8,
+          "y": 304.71875,
+          "width": 304,
+          "height": 399.28125
+        },
+        "moved": {
+          "x": 8,
+          "y": 244.71875,
+          "width": 304,
+          "height": 399.28125
+        },
+        "clampA": {
+          "x": 8,
+          "y": 8,
+          "width": 304,
+          "height": 399.28125
+        },
+        "clampB": {
+          "x": 8,
+          "y": 312.71875,
+          "width": 304,
+          "height": 399.28125
+        }
+      },
+      "backSnap": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+        "state": {
+          "step": 0,
+          "state": "active",
+          "position": {
+            "x": 8,
+            "y": 312.71875
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 320,
+        "documentScrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "card": {
+          "left": 8,
+          "top": 312.71875,
+          "right": 312,
+          "bottom": 712,
+          "width": 304,
+          "height": 399.28125,
+          "viewportW": 320,
+          "viewportH": 720
+        },
+        "highlight": {
+          "left": 7,
+          "top": 37.203125,
+          "right": 313,
+          "bottom": 217.125,
+          "width": 306,
+          "height": 179.921875,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 658,
+            "right": 299,
+            "bottom": 700,
+            "width": 278,
+            "height": 42,
+            "viewportW": 320,
+            "viewportH": 720
+          }
+        },
+        "targetNote": "案内対象：#operationCard",
+        "fallback": "0"
+      },
+      "resumeSnap": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+        "state": {
+          "step": 1,
+          "state": "active",
+          "position": {
+            "x": 8,
+            "y": 312.71875
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 320,
+        "documentScrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "card": {
+          "left": 8,
+          "top": 312.71875,
+          "right": 312,
+          "bottom": 712,
+          "width": 304,
+          "height": 399.28125,
+          "viewportW": 320,
+          "viewportH": 720
+        },
+        "highlight": {
+          "left": 2,
+          "top": 123.015625,
+          "right": 318,
+          "bottom": 651,
+          "width": 316,
+          "height": 527.984375,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 658,
+            "right": 299,
+            "bottom": 700,
+            "width": 278,
+            "height": 42,
+            "viewportW": 320,
+            "viewportH": 720
+          }
+        },
+        "targetNote": "案内対象：#pickupSection",
+        "fallback": "0"
+      },
+      "reloadResume": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+        "state": {
+          "step": 2,
+          "state": "active",
+          "position": {
+            "x": 8,
+            "y": 312.71875
+          }
+        },
+        "first10Count": 10,
+        "innerWidth": 320,
+        "documentScrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "card": {
+          "left": 8,
+          "top": 312.71875,
+          "right": 312,
+          "bottom": 689.90625,
+          "width": 304,
+          "height": 377.1875,
+          "viewportW": 320,
+          "viewportH": 720
+        },
+        "highlight": {
+          "left": 2,
+          "top": 342.1875,
+          "right": 318,
+          "bottom": 446.046875,
+          "width": 316,
+          "height": 103.859375,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 635.90625,
+            "right": 299,
+            "bottom": 677.90625,
+            "width": 278,
+            "height": 42,
+            "viewportW": 320,
+            "viewportH": 720
+          }
+        },
+        "targetNote": "案内対象：#catalogToolbar",
+        "fallback": "0"
+      },
+      "completeState": {
+        "step": 9,
+        "state": "complete",
+        "position": {
+          "x": 8,
+          "y": 312.71875
+        }
+      },
+      "replayState": {
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1",
+        "state": {
+          "step": 0,
+          "state": "active",
+          "position": null
+        },
+        "first10Count": 10,
+        "innerWidth": 320,
+        "documentScrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "card": {
+          "left": 8,
+          "top": 304.71875,
+          "right": 312,
+          "bottom": 704,
+          "width": 304,
+          "height": 399.28125,
+          "viewportW": 320,
+          "viewportH": 720
+        },
+        "highlight": {
+          "left": 7,
+          "top": 387.9375,
+          "right": 313,
+          "bottom": 568.5,
+          "width": 306,
+          "height": 180.5625,
+          "display": "block"
+        },
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 650,
+            "right": 299,
+            "bottom": 692,
+            "width": 278,
+            "height": 42,
+            "viewportW": 320,
+            "viewportH": 720
+          }
+        },
+        "targetNote": "案内対象：#operationCard",
+        "fallback": "0"
+      },
+      "crossPageUrls": [
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959578932",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1",
+        "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1"
+      ],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "unsafe": [],
+      "mobileOverflowOk": true,
+      "focusOk": true,
+      "highlightOk": true,
+      "countOk": true,
+      "safeQueriesOk": true
+    }
+  ],
+  "keyboardOnly": {
+    "ok": true,
+    "seen": [
+      {
+        "step": 1,
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959584454",
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        }
+      },
+      {
+        "step": 2,
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959584454",
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        }
+      },
+      {
+        "step": 3,
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959584454",
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        }
+      },
+      {
+        "step": 4,
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1&qa=1787959584454",
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        }
+      },
+      {
+        "step": 5,
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        }
+      },
+      {
+        "step": 6,
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/member.html?preview=1&tutorial=1",
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        }
+      },
+      {
+        "step": 7,
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        }
+      },
+      {
+        "step": 8,
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-ipad.html?preview=1&tutorial=1",
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        }
+      },
+      {
+        "step": 9,
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-products.html?preview=1&tutorial=1",
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        }
+      },
+      {
+        "step": 10,
+        "url": "https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/owner-settings.html?embed_demo=1&tutorial=1",
+        "focus": {
+          "tag": "BUTTON",
+          "act": "next",
+          "className": "dpro-tut-btn primary",
+          "rect": {
+            "left": 21,
+            "top": 774,
+            "right": 369,
+            "bottom": 816,
+            "width": 348,
+            "height": 42,
+            "viewportW": 390,
+            "viewportH": 844
+          }
+        }
+      }
+    ],
+    "complete": {
+      "step": 9,
+      "state": "complete",
+      "position": null
+    }
+  },
+  "skipReplay": {
+    "ok": true,
+    "skipped": {
+      "step": 9,
+      "state": "skipped",
+      "position": null
+    },
+    "replay": {
+      "step": 0,
+      "state": "active",
+      "position": null
+    }
+  },
+  "safeFallback": {
+    "ok": true,
+    "note": "対象が非表示のため安全な代替位置を案内中：#shopName"
+  },
+  "unsafeWriteAttempts": [],
+  "failures": [],
+  "businessMutation": 0,
+  "pass": true
+}
