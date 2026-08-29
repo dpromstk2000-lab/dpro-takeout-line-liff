@@ -1,0 +1,308 @@
+name: TAKEOUT Tutorial R5 Manual Build QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/takeout-r5-manual-build.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: takeout-tutorial-r5-manual-build
+  cancel-in-progress: false
+
+jobs:
+  r5-manual-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      BASE_URL: https://dpromstk2000-lab.github.io/dpro-takeout-line-liff
+      WORKFLOW_PATH: .github/workflows/takeout-r5-manual-build.yml
+      TUTORIAL_URL: https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/index.html?preview=1&tutorial=1
+      GUIDE_URL: https://dpromstk2000-lab.github.io/dpro-takeout-line-liff/guide-center.html
+    steps:
+      - name: Checkout newest main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify accepted R4 lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s guide-center.html
+          test -s tutorial-r4-evidence/takeout-r4-guide-center-qa.json
+          grep -q '"pass": true' tutorial-r4-evidence/takeout-r4-guide-center-qa.json
+          grep -q '"businessMutation": 0' tutorial-r4-evidence/takeout-r4-guide-center-qa.json
+          test "$(grep -o 'id:\"TAKEOUT-FIRST10-[0-9][0-9]\"' guide-center.html | wc -l)" -eq 10
+          git rev-parse HEAD
+          git rev-parse HEAD^{tree}
+
+      - name: Wait for current LIVE pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 36); do
+            if curl -fsSL "$BASE_URL/guide-center.html?v=$GITHUB_SHA" | grep -q 'TAKEOUT-GUIDE-CENTER-R4-V1.0-20260829'; then
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Current Guide Center not available on GitHub Pages" >&2
+          exit 1
+
+      - name: Setup Node and browser
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save playwright@1.55.0 qrcode@1.5.4
+          npx playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils zbar-tools
+
+      - name: Capture safe LIVE screens and build manuals
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf r5-build
+          mkdir -p r5-build/screens r5-build/renders/quick r5-build/renders/detailed
+          cat > r5-build/build.mjs <<'NODE'
+          import { chromium } from 'playwright';
+          import QRCode from 'qrcode';
+          import fs from 'node:fs';
+          import path from 'node:path';
+
+          const BASE=process.env.BASE_URL;
+          const TUTORIAL=process.env.TUTORIAL_URL;
+          const GUIDE=process.env.GUIDE_URL;
+          const root='r5-build';
+          const screens=path.join(root,'screens');
+          const unsafe=[];
+          const pageErrors=[];
+          const browser=await chromium.launch({headless:true});
+
+          async function safeContext(viewport={width:1280,height:900}){
+            const context=await browser.newContext({viewport});
+            await context.route('**/*', async route=>{
+              const method=route.request().method();
+              if(['POST','PUT','PATCH','DELETE'].includes(method)){
+                unsafe.push({method,url:route.request().url()});
+                return route.abort('blockedbyclient');
+              }
+              return route.continue();
+            });
+            return context;
+          }
+
+          async function shot(name, rel, selector, opts={}){
+            const context=await safeContext(opts.viewport||{width:1280,height:900});
+            const page=await context.newPage();
+            page.on('pageerror', e=>pageErrors.push({name,error:String(e)}));
+            await page.goto(BASE+rel,{waitUntil:'domcontentloaded',timeout:45000});
+            await page.waitForTimeout(800);
+            const loc=page.locator(selector).first();
+            await loc.waitFor({state:'visible',timeout:30000});
+            await loc.screenshot({path:path.join(screens,name),animations:'disabled'});
+            await context.close();
+          }
+
+          await shot('guide-hero.png','/guide-center.html?manual=1','.hero');
+          await shot('guide-first10.png','/guide-center.html?manual=1','#first10Grid');
+          await shot('index-operation.png','/index.html?preview=1','#operationCard');
+          await shot('index-pickup.png','/index.html?preview=1','#pickupSection');
+          await shot('index-catalog.png','/index.html?preview=1','#catalogSection');
+          await shot('member-tabs.png','/member.html?preview=1','#tabs');
+          await shot('kitchen-metrics.png','/owner-ipad.html?preview=1','#metrics');
+          await shot('kitchen-board.png','/owner-ipad.html?preview=1','#boardWrap');
+          await shot('products-summary.png','/owner-products.html?preview=1','#summaryGrid');
+          await shot('settings-rules.png','/owner-settings.html?embed_demo=1','#section-rules');
+
+          const asData=(f)=>`data:image/png;base64,${fs.readFileSync(path.join(screens,f)).toString('base64')}`;
+          const qrTutorial=await QRCode.toDataURL(TUTORIAL,{width:360,margin:2,errorCorrectionLevel:'M'});
+          const qrGuide=await QRCode.toDataURL(GUIDE,{width:360,margin:2,errorCorrectionLevel:'M'});
+
+          const commonStyle=`
+            @page{size:A4 portrait;margin:0}
+            *{box-sizing:border-box}
+            body{margin:0;font-family:"Noto Sans JP","IPA Gothic","Yu Gothic",Meiryo,sans-serif;color:#2b211c;background:#fff}
+            .page{width:210mm;height:297mm;padding:13mm 14mm 12mm;page-break-after:always;position:relative;overflow:hidden;background:#fff}
+            .page:last-child{page-break-after:auto}
+            .eyebrow{font-size:9pt;font-weight:800;letter-spacing:.12em;color:#c94d2b}
+            h1{font-size:24pt;line-height:1.2;margin:3mm 0 2mm} h2{font-size:17pt;margin:0 0 3mm} h3{font-size:12.5pt;margin:0 0 1.5mm}
+            p,li{font-size:9.6pt;line-height:1.6} .muted{color:#6f655e}.small{font-size:8pt}.tiny{font-size:7pt}
+            .hero{padding:6mm;border-radius:5mm;background:#39261d;color:white;margin-bottom:5mm}
+            .grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}
+            .card{border:1px solid #e5d7ca;border-radius:4mm;padding:4mm;background:#fffaf6}.soft{background:#fff3eb}.safe{background:#edf7f1;border-color:#b8dbc7}
+            .shot{width:100%;max-height:78mm;object-fit:contain;border:1px solid #eadfd5;border-radius:3mm;background:#fff}
+            .shotSm{width:100%;max-height:48mm;object-fit:contain;border:1px solid #eadfd5;border-radius:3mm;background:#fff}
+            .qr{width:29mm;height:29mm}.qrRow{display:grid;grid-template-columns:1fr 32mm;gap:4mm;align-items:center}
+            .step{display:grid;grid-template-columns:11mm 1fr;gap:2mm;margin:2mm 0}.num{width:9mm;height:9mm;border-radius:50%;display:grid;place-items:center;background:#c94d2b;color:#fff;font-weight:800;font-size:8pt}
+            .footer{position:absolute;left:14mm;right:14mm;bottom:7mm;border-top:1px solid #eee1d7;padding-top:2mm;color:#81756d;font-size:7pt;display:flex;justify-content:space-between}
+            .key{display:inline-block;border:1px solid #cfc2b8;border-bottom-width:2px;border-radius:2mm;padding:.3mm 1.8mm;background:#fff;font-weight:800;font-size:8pt}
+            ul{margin:2mm 0 0;padding-left:5mm}
+          `;
+
+          const quick=`<!doctype html><html lang="ja"><head><meta charset="utf-8"><style>${commonStyle}</style></head><body>
+          <section class="page">
+            <div class="hero"><div class="eyebrow" style="color:#ffb69c">DPRO TUTORIAL / TAKEOUT / QUICK START</div><h1>テイクアウト Tutorial<br>クイックスタート</h1><p style="margin:0;color:#f5ddd3">First10 exactly 10 / Guide Center / 安全なデモ操作</p></div>
+            <div class="grid2">
+              <div><img class="shot" src="${asData('guide-hero.png')}"><p class="tiny muted">現在LIVEのGuide Center（2026-08-29取得）</p></div>
+              <div class="card soft qrRow"><div><h2 style="font-size:15pt">1. Tutorialを開く</h2><p>右のQRを読み取り、STEP 1から開始します。</p><p class="small"><b>Start</b>：最初から開始<br><b>Resume</b>：保存したSTEPから再開<br><b>Replay</b>：完了後にSTEP 1へ戻して再確認</p></div><img class="qr" src="${qrTutorial}"></div>
+            </div>
+            <div class="grid2" style="margin-top:4mm">
+              <div class="card"><h3>基本操作</h3><ul><li>カード上部の専用ハンドルでドラッグ</li><li><b>次へ / 戻る / スキップ / 閉じる</b>を使用</li><li><span class="key">Esc</span> で閉じる。キーボードでも移動可能</li><li>画面をまたいでも進捗をResume</li></ul></div>
+              <div class="card safe"><h3>安全境界</h3><ul><li>注文確定・決済を自動実行しない</li><li>カート追加・厨房ステータス変更を自動実行しない</li><li>商品・価格・在庫・受取枠・営業時間・設定を変更しない</li><li>顧客・注文レコードを変更しない</li></ul></div>
+            </div>
+            <div class="card" style="margin-top:4mm"><h3>First10の流れ</h3><div class="grid2 small"><div>1 受付状況<br>2 受取日時<br>3 商品検索<br>4 商品カード<br>5 注文状況</div><div>6 履歴タブ<br>7 厨房・レジ全体<br>8 4列進行ボード<br>9 商品管理<br>10 注文受付ルール</div></div></div>
+            <div class="footer"><span>DPRO TUTORIAL TAKEOUT - QUICK START V1.0</span><span>R5 / STANDARD V1.1</span></div>
+          </section></body></html>`;
+
+          const detailed=`<!doctype html><html lang="ja"><head><meta charset="utf-8"><style>${commonStyle}</style></head><body>
+          <section class="page"><div class="hero"><div class="eyebrow" style="color:#ffb69c">DPRO TUTORIAL / TAKEOUT / DETAILED MANUAL</div><h1>テイクアウト Tutorial<br>詳細操作マニュアル</h1><p style="margin:0;color:#f5ddd3">受理済みFirst10 exactly 10を現在LIVE画面で確認</p></div>
+            <div class="grid2"><div><img class="shot" src="${asData('guide-first10.png')}"><p class="tiny muted">Guide CenterのFirst10一覧（現在LIVE）</p></div><div class="card soft qrRow"><div><h2 style="font-size:15pt">Guide Center</h2><p>現在の進捗を確認し、Start / Resume / ReplayからTutorialへ入ります。</p><p class="small">First10の順序・対象画面・対象要素はGuide Centerを正本とします。</p></div><img class="qr" src="${qrGuide}"></div></div>
+            <div class="card safe" style="margin-top:4mm"><h3>利用前の安全確認</h3><p>このTutorialは説明用です。業務ボタンの自動クリック、注文送信、決済、注文ステータス変更、商品・価格・在庫・設定・顧客データの変更を行いません。</p></div>
+            <div class="footer"><span>DPRO TUTORIAL TAKEOUT - DETAILED MANUAL V1.0</span><span>1 / 4</span></div>
+          </section>
+          <section class="page"><div class="eyebrow">FIRST10 / STEPS 1-4</div><h2>お客様画面：受付・受取日時・商品</h2>
+            <div class="grid3"><div><img class="shotSm" src="${asData('index-operation.png')}"><p class="tiny">受付状況</p></div><div><img class="shotSm" src="${asData('index-pickup.png')}"><p class="tiny">受取日時</p></div><div><img class="shotSm" src="${asData('index-catalog.png')}"><p class="tiny">商品エリア</p></div></div>
+            <div class="step"><div class="num">1</div><div><h3>受付状況を確認する</h3><p>注文受付が可能か、画面上部の受付情報を確認します。</p></div></div>
+            <div class="step"><div class="num">2</div><div><h3>受取日時の考え方を確認する</h3><p>受取日・受取枠の表示位置と、選択の流れを確認します。</p></div></div>
+            <div class="step"><div class="num">3</div><div><h3>商品を探す場所を確認する</h3><p>商品検索・カテゴリなど、商品を絞り込む場所を確認します。</p></div></div>
+            <div class="step"><div class="num">4</div><div><h3>商品カードを確認する</h3><p>商品カードの構成を確認します。Tutorialはカート追加を自動実行しません。</p></div></div>
+            <div class="footer"><span>DPRO TUTORIAL TAKEOUT - DETAILED MANUAL V1.0</span><span>2 / 4</span></div>
+          </section>
+          <section class="page"><div class="eyebrow">FIRST10 / STEPS 5-8</div><h2>会員画面・厨房画面</h2>
+            <div class="grid2"><div><img class="shotSm" src="${asData('member-tabs.png')}"><p class="tiny">会員画面のタブ領域（個人情報を含まない範囲）</p></div><div><img class="shotSm" src="${asData('kitchen-metrics.png')}"><p class="tiny">厨房・レジ全体状況</p></div></div>
+            <div style="margin-top:3mm"><img class="shot" style="max-height:54mm" src="${asData('kitchen-board.png')}"><p class="tiny">4列進行ボード</p></div>
+            <div class="grid2">
+              <div><div class="step"><div class="num">5</div><div><h3>注文状況の見方</h3><p>会員画面のプロフィール／注文状況エリアの位置を確認します。</p></div></div><div class="step"><div class="num">6</div><div><h3>履歴タブ</h3><p>履歴タブへ移る場所を確認します。</p></div></div></div>
+              <div><div class="step"><div class="num">7</div><div><h3>厨房・レジ全体</h3><p>メトリクスで全体状況を確認します。</p></div></div><div class="step"><div class="num">8</div><div><h3>4列進行ボード</h3><p>進行中注文の列構成を確認します。Tutorialは状態変更を自動実行しません。</p></div></div></div>
+            </div>
+            <div class="footer"><span>DPRO TUTORIAL TAKEOUT - DETAILED MANUAL V1.0</span><span>3 / 4</span></div>
+          </section>
+          <section class="page"><div class="eyebrow">FIRST10 / STEPS 9-10 + RESUME</div><h2>商品管理・注文受付ルール</h2>
+            <div class="grid2"><div><img class="shotSm" src="${asData('products-summary.png')}"><p class="tiny">商品管理サマリー</p></div><div><img class="shotSm" src="${asData('settings-rules.png')}"><p class="tiny">注文受付ルール</p></div></div>
+            <div class="grid2" style="margin-top:3mm"><div><div class="step"><div class="num">9</div><div><h3>商品管理の確認ポイント</h3><p>商品管理サマリーの見方を確認します。価格・在庫・商品情報を自動編集しません。</p></div></div><div class="step"><div class="num">10</div><div><h3>注文受付ルール</h3><p>受付ルールの表示位置を確認します。営業時間・受取枠・設定を自動変更しません。</p></div></div></div><div class="card"><h3>Start / Resume / Replay</h3><ul><li><b>Start</b>：新規状態からSTEP 1</li><li><b>Resume</b>：保存済みSTEPの安全な画面へ</li><li><b>Replay</b>：Tutorial専用進捗をSTEP 1へリセット</li></ul><h3 style="margin-top:3mm">困ったとき</h3><ul><li>対象が見つからない場合は安全なfallback表示</li><li><span class="key">Esc</span> で閉じて再開可能</li><li>Guide Centerから現在STEPを確認</li></ul></div></div>
+            <div class="card safe" style="margin-top:3mm"><p style="margin:0"><b>注意：</b>実運用データを使った操作確認は行わず、preview / embed_demo / tutorialの安全な公開経路で確認してください。</p></div>
+            <div class="footer"><span>DPRO TUTORIAL TAKEOUT - DETAILED MANUAL V1.0</span><span>4 / 4</span></div>
+          </section></body></html>`;
+
+          async function makePdf(html,out){
+            const context=await safeContext({width:1240,height:1754});
+            const page=await context.newPage();
+            page.on('pageerror',e=>pageErrors.push({name:out,error:String(e)}));
+            await page.setContent(html,{waitUntil:'load'});
+            await page.pdf({path:out,format:'A4',printBackground:true,margin:{top:'0',right:'0',bottom:'0',left:'0'}});
+            await context.close();
+          }
+
+          await makePdf(quick,path.join(root,'DPRO_TUTORIAL_TAKEOUT_QUICK_START_V1.0.pdf'));
+          await makePdf(detailed,path.join(root,'DPRO_TUTORIAL_TAKEOUT_DETAILED_MANUAL_V1.0.pdf'));
+          await browser.close();
+
+          fs.writeFileSync(path.join(root,'capture-qa.json'),JSON.stringify({sourceSha:process.env.GITHUB_SHA,unsafeWriteAttempts:unsafe,pageErrors,first10Expected:10,tutorialUrl:TUTORIAL,guideUrl:GUIDE},null,2));
+          if(unsafe.length||pageErrors.length){
+            console.error(JSON.stringify({unsafe,pageErrors},null,2));
+            process.exit(1);
+          }
+          NODE
+          node r5-build/build.mjs
+
+      - name: Render every PDF page and decode QR from renders
+        shell: bash
+        run: |
+          set -euo pipefail
+          QUICK="r5-build/DPRO_TUTORIAL_TAKEOUT_QUICK_START_V1.0.pdf"
+          DETAIL="r5-build/DPRO_TUTORIAL_TAKEOUT_DETAILED_MANUAL_V1.0.pdf"
+          pdfinfo "$QUICK" | tee r5-build/quick-pdfinfo.txt
+          pdfinfo "$DETAIL" | tee r5-build/detailed-pdfinfo.txt
+          test "$(pdfinfo "$QUICK" | awk '/^Pages:/ {print $2}')" = "1"
+          test "$(pdfinfo "$DETAIL" | awk '/^Pages:/ {print $2}')" = "4"
+          pdftoppm -png -r 180 "$QUICK" r5-build/renders/quick/page
+          pdftoppm -png -r 180 "$DETAIL" r5-build/renders/detailed/page
+          cp r5-build/renders/quick/page-1.png r5-build/DPRO_TUTORIAL_TAKEOUT_QUICK_START_V1.0.png
+          i=1
+          for f in r5-build/renders/detailed/page-*.png; do
+            printf -v num "%02d" "$i"
+            cp "$f" "r5-build/DPRO_TUTORIAL_TAKEOUT_DETAILED_MANUAL_V1.0_PAGE_${num}.png"
+            i=$((i+1))
+          done
+          : > r5-build/qr-decode.txt
+          for f in r5-build/renders/quick/*.png r5-build/renders/detailed/*.png; do
+            echo "FILE=$f" >> r5-build/qr-decode.txt
+            zbarimg --quiet --raw "$f" >> r5-build/qr-decode.txt 2>/dev/null || true
+          done
+          cat r5-build/qr-decode.txt
+          grep -Fqx "$TUTORIAL_URL" r5-build/qr-decode.txt
+          grep -Fqx "$GUIDE_URL" r5-build/qr-decode.txt
+
+      - name: Create R5 automated evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, pathlib, subprocess, hashlib
+          r=pathlib.Path('r5-build')
+          capture=json.loads((r/'capture-qa.json').read_text())
+          quick_pages=int(subprocess.check_output("pdfinfo r5-build/DPRO_TUTORIAL_TAKEOUT_QUICK_START_V1.0.pdf | awk '/^Pages:/ {print $2}'",shell=True,text=True).strip())
+          detail_pages=int(subprocess.check_output("pdfinfo r5-build/DPRO_TUTORIAL_TAKEOUT_DETAILED_MANUAL_V1.0.pdf | awk '/^Pages:/ {print $2}'",shell=True,text=True).strip())
+          qr=(r/'qr-decode.txt').read_text()
+          evidence={
+            'schema':'DPRO_TUTORIAL_TAKEOUT_R5_MANUAL_BUILD_QA_V1.0',
+            'sourceSha':capture['sourceSha'],
+            'first10Expected':10,
+            'quickPages':quick_pages,
+            'detailedPages':detail_pages,
+            'renderedPages':1+4,
+            'tutorialQrExact':capture['tutorialUrl'] in qr.splitlines(),
+            'guideQrExact':capture['guideUrl'] in qr.splitlines(),
+            'unsafeWriteAttempts':capture['unsafeWriteAttempts'],
+            'pageErrors':capture['pageErrors'],
+            'businessMutation':0,
+            'visualQa':'PENDING_ASSISTANT_INSPECTION',
+            'files':{}
+          }
+          for p in sorted(r.glob('DPRO_TUTORIAL_TAKEOUT_*')):
+            evidence['files'][p.name]=hashlib.sha256(p.read_bytes()).hexdigest()
+          evidence['automatedPass']=quick_pages==1 and detail_pages==4 and evidence['tutorialQrExact'] and evidence['guideQrExact'] and not evidence['unsafeWriteAttempts'] and not evidence['pageErrors']
+          (r/'R5_AUTOMATED_QA_EVIDENCE.json').write_text(json.dumps(evidence,ensure_ascii=False,indent=2))
+          print(json.dumps(evidence,ensure_ascii=False,indent=2))
+          if not evidence['automatedPass']:
+            raise SystemExit(1)
+          PY
+
+      - name: Upload R5 build and rendered-page evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: takeout-r5-manual-build-evidence
+          path: |
+            r5-build/DPRO_TUTORIAL_TAKEOUT_QUICK_START_V1.0.pdf
+            r5-build/DPRO_TUTORIAL_TAKEOUT_QUICK_START_V1.0.png
+            r5-build/DPRO_TUTORIAL_TAKEOUT_DETAILED_MANUAL_V1.0.pdf
+            r5-build/DPRO_TUTORIAL_TAKEOUT_DETAILED_MANUAL_V1.0_PAGE_*.png
+            r5-build/screens/*.png
+            r5-build/renders/quick/*.png
+            r5-build/renders/detailed/*.png
+            r5-build/R5_AUTOMATED_QA_EVIDENCE.json
+            r5-build/qr-decode.txt
+            r5-build/quick-pdfinfo.txt
+            r5-build/detailed-pdfinfo.txt
+          if-no-files-found: error
+
+      - name: Self-remove temporary R5 build workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm "$WORKFLOW_PATH"
+          git commit -m "TAKEOUT Tutorial R5 build workflow cleanup [skip ci]"
+          git push origin HEAD:main
